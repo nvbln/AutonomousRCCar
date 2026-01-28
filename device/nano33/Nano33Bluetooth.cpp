@@ -5,14 +5,13 @@
 
 #include "IBluetooth.h"
 #include "Nano33Bluetooth.h"
+#include "Nano33GattService.h"
 #include "Nano33GattCharacteristic.h"
-
 
 bool Nano33Bluetooth::start() {
     BLE.setLocalName(mName.c_str());
-    for (int i = 0; i < mNumCharacteristics; i++) {
-        std::shared_ptr<Nano33GattCharacteristic> nanoCharacteristic = std::static_pointer_cast<Nano33GattCharacteristic>(mCharacteristics[i]);
-        BLEService service = *(nanoCharacteristic->service());
+    for (int i = 0; i < mNumServices; i++) {
+        BLEService service = *(std::static_pointer_cast<Nano33GattService>(mServices[i])->service());
         BLE.addService(service);
         BLE.setAdvertisedService(service);
     }
@@ -28,9 +27,9 @@ void Nano33Bluetooth::update() {
         Serial.print("Connected to central: ");
         Serial.println(central.address());
 
-        // Check for every characteristic if their value changed.
-        for (int i = 0; i < mNumCharacteristics; i++) {
-            mCharacteristics[i]->update();
+        // Check for every service if there are changes.
+        for (int i = 0; i < mNumServices; i++) {
+            mServices[i]->update();
         }
     }
 }
@@ -45,13 +44,19 @@ std::shared_ptr<IGattCharacteristic> Nano33Bluetooth::createCharacteristic(const
     return characteristic;
 }
 
-bool Nano33Bluetooth::addCharacteristic(std::shared_ptr<IGattCharacteristic> characteristic) {
-    if (mNumCharacteristics >= mMaxNumCharacteristics) {
+std::shared_ptr<IGattService> Nano33Bluetooth::createService(const std::string uuid) const {
+    std::shared_ptr<Nano33GattService> service 
+        = std::make_shared<Nano33GattService>(uuid);
+    return service;
+}
+
+bool Nano33Bluetooth::addService(std::shared_ptr<IGattService> service) {
+    if (mNumServices >= mMaxNumServices) {
         return false;
     }
     
-    mCharacteristics[mNumCharacteristics] = characteristic;
-    mNumCharacteristics++;
+    mServices[mNumServices] = service;
+    mNumServices++;
 
     return true;
 }

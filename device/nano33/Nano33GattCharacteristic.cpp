@@ -6,8 +6,8 @@ std::string Nano33GattCharacteristic::uuid() const {
     return mUuid;
 }
 
-BLEService* Nano33GattCharacteristic::service() {
-    return &mService;
+BLEByteCharacteristic* Nano33GattCharacteristic::characteristic() {
+    return &mCharacteristic;
 }
 
 Result<ValueBuffer> Nano33GattCharacteristic::read() {

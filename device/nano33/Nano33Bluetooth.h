@@ -14,13 +14,14 @@ public:
     bool start() override;
     void update();
     bool stop() override;
+    std::shared_ptr<IGattService> createService(const std::string uuid) const override;
     std::shared_ptr<IGattCharacteristic> createCharacteristic(const std::string uuid, const int valueLength) const override;
-    bool addCharacteristic(std::shared_ptr<IGattCharacteristic> characteristic) override;
+    bool addService(std::shared_ptr<IGattService> service) override;
 
 private:
     std::string mName;
-    static const int mMaxNumCharacteristics = 5;
-    std::shared_ptr<IGattCharacteristic> mCharacteristics[mMaxNumCharacteristics];
-    int mNumCharacteristics = 0;
+    static const int mMaxNumServices = 5;
+    std::shared_ptr<IGattService> mServices[mMaxNumServices];
+    int mNumServices = 0;
 };
 #endif;

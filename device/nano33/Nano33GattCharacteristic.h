@@ -9,13 +9,12 @@ class Nano33GattCharacteristic : public IGattCharacteristic {
 public:
     Nano33GattCharacteristic(const std::string uuid, const int valueLength) : 
         mCharacteristic(uuid.c_str(), BLERead | BLEWrite),
-        mService(uuid.c_str()), mUuid(uuid), mValueLength(valueLength) {
-        mService.addCharacteristic(mCharacteristic); 
+        mUuid(uuid), mValueLength(valueLength) {
         mCharacteristic.writeValue(0);
     };
 
     std::string uuid() const override;
-    BLEService* service();
+    BLEByteCharacteristic* characteristic();
 
     Result<ValueBuffer> read() override;
     bool write(const ValueBuffer& valueBuffer) override;
@@ -24,8 +23,6 @@ public:
     void update();
 
 private:
-    // TODO: Make a separate service class
-    BLEService mService;
     // TODO: Make it type independent
     BLEByteCharacteristic mCharacteristic;
     std::string mUuid;
