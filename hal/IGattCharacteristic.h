@@ -17,7 +17,8 @@ struct Result {
 
 class IGattCharacteristic {
 public:
-    using Callback = std::function<void(Result<ValueBuffer>)>;
+    using Callback = std::function<void(ValueBuffer)>;
+
     virtual ~IGattCharacteristic() = default;
 
     virtual std::string uuid() const = 0;

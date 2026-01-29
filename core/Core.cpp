@@ -14,8 +14,8 @@ Core::Core(std::shared_ptr<IBluetooth> bluetooth, std::shared_ptr<ILed> led) :
     ledService->addCharacteristic(ledChar);
 
     std::shared_ptr<LedController> ledController = std::make_shared<LedController>(mLed);
-    ledChar->addCallback([ledController](Result<ValueBuffer> result) {
-        ledController->handle(result);
+    ledChar->addCallback([ledController](ValueBuffer buffer) {
+        ledController->handle(buffer);
     });
 
     mBluetooth->addService(ledService);

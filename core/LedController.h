@@ -9,7 +9,9 @@
 class LedController {
 public:
     LedController(std::shared_ptr<ILed> led) : mLed(led) {};
-    void handle(Result<ValueBuffer> result);
+
+    void handle(ValueBuffer buffer);
+
 private:
     std::shared_ptr<ILed> mLed;
 };
