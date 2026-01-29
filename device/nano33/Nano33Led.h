@@ -10,7 +10,7 @@ public:
     void turn() override;
     void turnOn() override;
     void turnOff() override;
-    uint8_t pin() const override;
+
 private:
     bool mOn = false;
     uint8_t mPin;

@@ -26,7 +26,3 @@ void Nano33Led::turnOff() {
     digitalWrite(mPin, LOW);
     mOn = false;
 }
-
-uint8_t Nano33Led::pin() const {
-    return mPin;
-}
