@@ -1,3 +1,4 @@
+#include <Arduino.h>
 #include <ArduinoBLE.h>
 
 #include "Nano33GattCharacteristic.h"
@@ -42,8 +43,13 @@ void Nano33GattCharacteristic::update() {
     if (mCharacteristic.written()) {
         Result<ValueBuffer> result = read();
         
-        for (int i = 0; i < mNumCallbacks; i++) {
-            mCallbacks[i](result);
+        // Only send callbacks if the reading was actually successful.
+        if (result.success) {
+            for (int i = 0; i < mNumCallbacks; i++) {
+                mCallbacks[i](result.data);
+            }
+        } else {
+            Serial.println("There was a problem reading the input value");
         }
     }
 }
