@@ -7,13 +7,41 @@
 
 #include "IGattService.h"
 
+/**
+ * @class Nano33GattService
+ * @brief IGattService implementation for Nano 33 BLE Sense
+ */
 class Nano33GattService : public IGattService {
 public:
+    /**
+     * @brief Creates a GATT Service for grouping Characteristics
+     *
+     * @param uuid The ID that the service is identified by.
+     */
     Nano33GattService(const std::string uuid) : mService(uuid.c_str()), mUuid(uuid) {};
 
+    /**
+     * @see IGattService::uuid()
+     */
     std::string uuid() const override;
+
+    /**
+     * @brief returns the Service from the ArduinoBLE library.
+     *
+     * For some operations, the BLEService and BLECharacteristic need
+     * access to one another.
+     * @return the BLEService underlying the Service.
+     */
     BLEService* service();
+
+    /**
+     * @see IGattService::addCharacteristic()
+     */
     bool addCharacteristic(std::shared_ptr<IGattCharacteristic> characteristic) override;
+
+    /**
+     * @see IGattService::update()
+     */
     void update() override;
 private:
     std::string mUuid;
