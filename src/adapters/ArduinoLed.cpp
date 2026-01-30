@@ -1,15 +1,15 @@
 #include <Arduino.h>
 
-#include "Nano33Led.h"
+#include "ArduinoLed.h"
 
-Nano33Led::Nano33Led(uint8_t pin) : mPin(pin) {
+ArduinoLed::ArduinoLed(uint8_t pin) : mPin(pin) {
     pinMode(pin, OUTPUT);
 
     // Always turn the led off at the start.
     turnOff();
 }
 
-void Nano33Led::turn() {
+void ArduinoLed::turn() {
     if (mOn) {
         turnOff();
     } else {
@@ -17,12 +17,12 @@ void Nano33Led::turn() {
     }
 }
 
-void Nano33Led::turnOn() {
+void ArduinoLed::turnOn() {
     digitalWrite(mPin, HIGH);
     mOn = true;
 }
 
-void Nano33Led::turnOff() {
+void ArduinoLed::turnOff() {
     digitalWrite(mPin, LOW);
     mOn = false;
 }
