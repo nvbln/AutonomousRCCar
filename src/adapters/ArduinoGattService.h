@@ -1,5 +1,5 @@
-#ifndef NANO33GATTSERVICE_H
-#define NANO33GATTSERVICE_H
+#ifndef ARDUINOGATTSERVICE_H
+#define ARDUINOGATTSERVICE_H
 
 #include <memory>
 #include <string>

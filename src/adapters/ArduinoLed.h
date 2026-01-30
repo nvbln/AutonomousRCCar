@@ -1,5 +1,5 @@
-#ifndef NANO33LED_H
-#define NANO33LED_H
+#ifndef ARDUINOLED_H
+#define ARDUINOLED_H
 
 #include "ILed.h"
 

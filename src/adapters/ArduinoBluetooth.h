@@ -1,5 +1,5 @@
-#ifndef NANO33BLUETOOTH_H
-#define NANO33BLUETOOTH_H
+#ifndef ARDUINOBLUETOOTH_H
+#define ARDUINOBLUETOOTH_H
 
 #include <string>
 #include <memory>
