@@ -1,17 +1,17 @@
 #include <Arduino.h>
 #include <ArduinoBLE.h>
 
-#include "Nano33GattCharacteristic.h"
+#include "ArduinoGattCharacteristic.h"
 
-std::string Nano33GattCharacteristic::uuid() const {
+std::string ArduinoGattCharacteristic::uuid() const {
     return mUuid;
 }
 
-BLEByteCharacteristic* Nano33GattCharacteristic::characteristic() {
+BLEByteCharacteristic* ArduinoGattCharacteristic::characteristic() {
     return &mCharacteristic;
 }
 
-Result<ValueBuffer> Nano33GattCharacteristic::read() {
+Result<ValueBuffer> ArduinoGattCharacteristic::read() {
     ValueBuffer buffer{};
     buffer.data[0] = mCharacteristic.value();
     buffer.length = 1;
@@ -19,7 +19,7 @@ Result<ValueBuffer> Nano33GattCharacteristic::read() {
     return Result<ValueBuffer>{true, buffer};
 }
 
-bool Nano33GattCharacteristic::write(const ValueBuffer& buffer) {
+bool ArduinoGattCharacteristic::write(const ValueBuffer& buffer) {
     if (buffer.length == 0) {
         return false;
     }
@@ -28,7 +28,7 @@ bool Nano33GattCharacteristic::write(const ValueBuffer& buffer) {
     return true;
 }
 
-bool Nano33GattCharacteristic::addCallback(Callback callback) {
+bool ArduinoGattCharacteristic::addCallback(Callback callback) {
     if (mNumCallbacks >= mMaxNumCallbacks) {
         return false;
     }
@@ -39,7 +39,7 @@ bool Nano33GattCharacteristic::addCallback(Callback callback) {
     return true;
 }
 
-void Nano33GattCharacteristic::update() {
+void ArduinoGattCharacteristic::update() {
     if (mCharacteristic.written()) {
         Result<ValueBuffer> result = read();
         

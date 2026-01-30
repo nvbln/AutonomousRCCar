@@ -6,10 +6,10 @@
 #include "IGattCharacteristic.h"
 
 /**
- * @class Nano33GattCharacteristic
+ * @class ArduinoGattCharacteristic
  * @brief IGattCharacteristic implementation for Nano 33 BLE Sense
  */
-class Nano33GattCharacteristic : public IGattCharacteristic {
+class ArduinoGattCharacteristic : public IGattCharacteristic {
 public:
     /**
      * @brief Creates a GATT Characteristic for sending/receiving data over Bluetooth
@@ -17,7 +17,7 @@ public:
      * @param uuid The UUID that the Characteristic is identified by.
      * @param valueLength not implemented yet.
      */
-    Nano33GattCharacteristic(const std::string uuid, const int valueLength) : 
+    ArduinoGattCharacteristic(const std::string uuid, const int valueLength) : 
         mCharacteristic(uuid.c_str(), BLERead | BLEWrite),
         mUuid(uuid), mValueLength(valueLength) {
         mCharacteristic.writeValue(0);

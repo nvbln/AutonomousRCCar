@@ -8,17 +8,17 @@
 #include "IGattCharacteristic.h"
 
 /**
- * @class Nano33Bluetooth
+ * @class ArduinoBluetooth
  * @brief IBluetooth implementation for Nano 33 BLE Sense
  */
-class Nano33Bluetooth : public IBluetooth {
+class ArduinoBluetooth : public IBluetooth {
 public:
     /**
      * @brief Creates an instance representing the Bluetooth component.
      *
      * @param name The name that it uses to advertise itself on Bluetooth.
      */
-    Nano33Bluetooth(std::string name) : mName(name) {};
+    ArduinoBluetooth(std::string name) : mName(name) {};
 
     /**
      * @brief Starts broadcasting the services and characteristics over Bluetooth.

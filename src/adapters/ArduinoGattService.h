@@ -8,17 +8,17 @@
 #include "IGattService.h"
 
 /**
- * @class Nano33GattService
+ * @class ArduinoGattService
  * @brief IGattService implementation for Nano 33 BLE Sense
  */
-class Nano33GattService : public IGattService {
+class ArduinoGattService : public IGattService {
 public:
     /**
      * @brief Creates a GATT Service for grouping Characteristics
      *
      * @param uuid The ID that the service is identified by.
      */
-    Nano33GattService(const std::string uuid) : mService(uuid.c_str()), mUuid(uuid) {};
+    ArduinoGattService(const std::string uuid) : mService(uuid.c_str()), mUuid(uuid) {};
 
     /**
      * @see IGattService::uuid()

@@ -4,17 +4,17 @@
 #include "ILed.h"
 
 /**
- * @class Nano33LED
+ * @class ArduinoLED
  * @brief ILed implementation for Nano 33 BLE Sense
  */
-class Nano33Led : public ILed {
+class ArduinoLed : public ILed {
 public:
     /**
      * @brief creates an object representing the LED at the given pin.
      *
      * @param pin The pin that the LED is corresponds to.
      */
-    Nano33Led(uint8_t pin);
+    ArduinoLed(uint8_t pin);
 
     /**
      * @see ILED:turn()
