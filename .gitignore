@@ -2,3 +2,6 @@
 *.swp
 *.swo
 *.swm
+
+# Ignore the build directory
+build/

@@ -1,6 +1,7 @@
 #ifndef CORE_H
 #define CORE_H
 
+#include "ISerial.h"
 #include "IBluetooth.h"
 #include "ILed.h"
 
@@ -25,7 +26,9 @@ public:
      * @param bluetooth Instance of the Bluetooth provided by the device.
      * @param led       Instance of the LED provided by the device.
      */
-    Core(std::shared_ptr<IBluetooth> bluetooth, std::shared_ptr<ILed> led);
+    Core(std::shared_ptr<ISerial>,
+         std::shared_ptr<IBluetooth> bluetooth,
+         std::shared_ptr<ILed> led);
 
     /**
      * @brief Updates the state of the application logic.
@@ -36,6 +39,7 @@ public:
     void update();
 
 private:
+    std::shared_ptr<ISerial> mSerial;
     std::shared_ptr<IBluetooth> mBluetooth;
     std::shared_ptr<ILed> mLed;
 };
