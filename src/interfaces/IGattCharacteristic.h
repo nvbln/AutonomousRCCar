@@ -1,6 +1,7 @@
 #ifndef IGATTCHARACTERISTIC_H
 #define IGATTCHARACTERISTIC_H
 
+#include <stdint.h>
 #include <string>
 #include <functional>
 
