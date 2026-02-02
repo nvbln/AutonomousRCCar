@@ -9,7 +9,7 @@
 
 /**
  * @class ArduinoBluetooth
- * @brief IBluetooth implementation for Nano 33 BLE Sense
+ * @brief IBluetooth implementation for Arduino
  */
 class ArduinoBluetooth : public IBluetooth {
 public:
