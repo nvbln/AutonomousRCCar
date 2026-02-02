@@ -5,7 +5,7 @@
 
 /**
  * @class ArduinoLED
- * @brief ILed implementation for Nano 33 BLE Sense
+ * @brief ILed implementation for Arduino
  */
 class ArduinoLed : public ILed {
 public:

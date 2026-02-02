@@ -7,7 +7,7 @@
 
 /**
  * @class ArduinoGattCharacteristic
- * @brief IGattCharacteristic implementation for Nano 33 BLE Sense
+ * @brief IGattCharacteristic implementation for Arduino
  */
 class ArduinoGattCharacteristic : public IGattCharacteristic {
 public:

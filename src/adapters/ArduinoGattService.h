@@ -9,7 +9,7 @@
 
 /**
  * @class ArduinoGattService
- * @brief IGattService implementation for Nano 33 BLE Sense
+ * @brief IGattService implementation for Arduino
  */
 class ArduinoGattService : public IGattService {
 public:
