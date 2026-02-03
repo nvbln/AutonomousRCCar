@@ -3,6 +3,7 @@
 
 #include <ArduinoBLE.h>
 
+#include "ISerial.h"
 #include "IGattCharacteristic.h"
 
 /**
@@ -14,10 +15,14 @@ public:
     /**
      * @brief Creates a GATT Characteristic for sending/receiving data over Bluetooth
      *
+     * @param serial The Arduino Serial interface for printing messages.
      * @param uuid The UUID that the Characteristic is identified by.
      * @param valueLength not implemented yet.
      */
-    ArduinoGattCharacteristic(const std::string uuid, const int valueLength) : 
+    ArduinoGattCharacteristic(const std::shared_ptr<ISerial> serial,
+                              const std::string uuid,
+                              const int valueLength) : 
+        mSerial(serial),
         mCharacteristic(uuid.c_str(), BLERead | BLEWrite),
         mUuid(uuid), mValueLength(valueLength) {
         mCharacteristic.writeValue(0);
@@ -58,6 +63,8 @@ public:
     void update();
 
 private:
+    const std::shared_ptr<ISerial> mSerial;
+
     // TODO: Make it type independent
     BLEByteCharacteristic mCharacteristic;
     std::string mUuid;

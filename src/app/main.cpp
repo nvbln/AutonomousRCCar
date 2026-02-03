@@ -13,18 +13,18 @@ std::shared_ptr<ArduinoBluetooth> bluetooth;
 std::shared_ptr<ArduinoLed> led;
 
 void setup() {
-    Serial.begin(9600);
-    while (!Serial);
-    Serial.println("Start");
-
     serial = std::make_shared<ArduinoSerial>();
+
+    serial->begin(9600);
+    while (!serial->ready());
+    serial->println("Start");
 
     led = std::make_shared<ArduinoLed>(LED_BUILTIN);
 
     if (!BLE.begin()) {
-        Serial.println("Starting Bluetooth BLE failed!");
+        serial->println("Starting Bluetooth BLE failed!");
     } else {
-        bluetooth = std::make_shared<ArduinoBluetooth>("LED");
+        bluetooth = std::make_shared<ArduinoBluetooth>(serial, "LED");
         core = std::make_shared<Core>(serial, bluetooth, led);
     }
 }

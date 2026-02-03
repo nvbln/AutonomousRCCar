@@ -5,6 +5,7 @@
 #include <string>
 #include <ArduinoBLE.h>
 
+#include "ISerial.h"
 #include "IGattService.h"
 
 /**
@@ -16,9 +17,11 @@ public:
     /**
      * @brief Creates a GATT Service for grouping Characteristics
      *
+     * @param serial The Arduino Serial interface for printing messages.
      * @param uuid The ID that the service is identified by.
      */
-    ArduinoGattService(const std::string uuid) : mService(uuid.c_str()), mUuid(uuid) {};
+    ArduinoGattService(const std::shared_ptr<ISerial> serial, const std::string uuid) : 
+        mSerial(serial), mService(uuid.c_str()), mUuid(uuid) {};
 
     /**
      * @see IGattService::uuid()
@@ -43,7 +46,9 @@ public:
      * @see IGattService::update()
      */
     void update() override;
+
 private:
+    const std::shared_ptr<ISerial> mSerial;
     std::string mUuid;
     BLEService mService;
     static const int mMaxNumCharacteristics = 5;

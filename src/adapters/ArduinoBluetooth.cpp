@@ -3,6 +3,7 @@
 
 #include <ArduinoBLE.h>
 
+#include "ISerial.h"
 #include "IBluetooth.h"
 #include "ArduinoBluetooth.h"
 #include "ArduinoGattService.h"
@@ -24,8 +25,8 @@ bool ArduinoBluetooth::start() {
 void ArduinoBluetooth::update() {
     BLEDevice central = BLE.central();
     if (central) {
-        Serial.print("Connected to central: ");
-        Serial.println(central.address());
+        mSerial->print("Connected to central: ");
+        mSerial->println(central.address().c_str());
 
         // Check for every service if there are changes.
         for (int i = 0; i < mNumServices; i++) {
@@ -40,13 +41,13 @@ bool ArduinoBluetooth::stop() {
 
 std::shared_ptr<IGattCharacteristic> ArduinoBluetooth::createCharacteristic(const std::string uuid, const int valueLength) const {
     std::shared_ptr<ArduinoGattCharacteristic> characteristic 
-        = std::make_shared<ArduinoGattCharacteristic>(uuid, valueLength);
+        = std::make_shared<ArduinoGattCharacteristic>(mSerial, uuid, valueLength);
     return characteristic;
 }
 
 std::shared_ptr<IGattService> ArduinoBluetooth::createService(const std::string uuid) const {
     std::shared_ptr<ArduinoGattService> service 
-        = std::make_shared<ArduinoGattService>(uuid);
+        = std::make_shared<ArduinoGattService>(mSerial, uuid);
     return service;
 }
 
