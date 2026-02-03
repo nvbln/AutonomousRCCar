@@ -1,4 +1,3 @@
-#include <Arduino.h>
 #include <ArduinoBLE.h>
 
 #include "ArduinoGattCharacteristic.h"
@@ -49,7 +48,7 @@ void ArduinoGattCharacteristic::update() {
                 mCallbacks[i](result.data);
             }
         } else {
-            Serial.println("There was a problem reading the input value");
+            mSerial->println("There was a problem reading the input value");
         }
     }
 }
