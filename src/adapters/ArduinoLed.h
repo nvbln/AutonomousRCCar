@@ -1,6 +1,9 @@
 #ifndef ARDUINOLED_H
 #define ARDUINOLED_H
 
+#include <memory>
+
+#include "IPinIO.h"
 #include "ILed.h"
 
 /**
@@ -14,7 +17,7 @@ public:
      *
      * @param pin The pin that the LED is corresponds to.
      */
-    ArduinoLed(uint8_t pin);
+    ArduinoLed(std::shared_ptr<IPinIO> pinIO, uint8_t pin);
 
     /**
      * @see ILED:turn()
@@ -32,6 +35,7 @@ public:
     void turnOff() override;
 
 private:
+    std::shared_ptr<IPinIO> mPinIO;
     bool mOn = false;
     uint8_t mPin;
 };

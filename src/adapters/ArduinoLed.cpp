@@ -1,9 +1,10 @@
-#include <Arduino.h>
+#include <memory>
 
+#include "IPinIO.h"
 #include "ArduinoLed.h"
 
-ArduinoLed::ArduinoLed(uint8_t pin) : mPin(pin) {
-    pinMode(pin, OUTPUT);
+ArduinoLed::ArduinoLed(std::shared_ptr<IPinIO> pinIO, uint8_t pin) : mPinIO(pinIO), mPin(pin) {
+    mPinIO->pinMode(pin, PinIOMode::Output);
 
     // Always turn the led off at the start.
     turnOff();
@@ -18,11 +19,11 @@ void ArduinoLed::turn() {
 }
 
 void ArduinoLed::turnOn() {
-    digitalWrite(mPin, HIGH);
+    mPinIO->digitalWrite(mPin, PinIOValue::High);
     mOn = true;
 }
 
 void ArduinoLed::turnOff() {
-    digitalWrite(mPin, LOW);
+    mPinIO->digitalWrite(mPin, PinIOValue::Low);
     mOn = false;
 }
