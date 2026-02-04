@@ -21,7 +21,18 @@ class IPinIO {
 public:
     virtual ~IPinIO() = default;
 
+    /**
+     * @brief Configures the behaviour of the specified pin.
+     *
+     * @see the Arduino.h API
+     */
     virtual void pinMode(uint8_t pin, PinIOMode mode) const = 0;
+
+    /**
+     * @brief Sets the voltage of the pin.
+     *
+     * @see the Arduino.h API
+     */
     virtual void digitalWrite(uint8_t pin, PinIOValue value) const = 0;
 };
 #endif
