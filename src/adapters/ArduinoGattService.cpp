@@ -1,5 +1,7 @@
 #include "IGattCharacteristic.h"
 
+#include "IBLEDevice.h"
+
 #include "ArduinoGattService.h"
 #include "ArduinoGattCharacteristic.h"
 
@@ -7,8 +9,12 @@ std::string ArduinoGattService::uuid() const {
     return mUuid;
 }
 
-BLEService* ArduinoGattService::service() {
-    return &mService; 
+void ArduinoGattService::addServiceToBLEDevice(std::shared_ptr<IBLEDevice> device) {
+    device->addService(mService);
+}
+
+void ArduinoGattService::advertiseServiceOnBLEDevice(std::shared_ptr<IBLEDevice> device) {
+    device->setAdvertisedService(mService);
 }
 
 bool ArduinoGattService::addCharacteristic(std::shared_ptr<IGattCharacteristic> characteristic) {
@@ -19,8 +25,8 @@ bool ArduinoGattService::addCharacteristic(std::shared_ptr<IGattCharacteristic> 
     mCharacteristics[mNumCharacteristics] = characteristic;
     mNumCharacteristics++;
 
-    BLEByteCharacteristic nanoChar = *(std::static_pointer_cast<ArduinoGattCharacteristic>(characteristic)->characteristic());
-    mService.addCharacteristic(nanoChar);
+    auto nanoChar = std::static_pointer_cast<ArduinoGattCharacteristic>(characteristic);
+    nanoChar->addCharacteristicToService(mService);
 
     return true;
 }

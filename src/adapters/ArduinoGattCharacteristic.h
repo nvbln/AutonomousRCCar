@@ -4,6 +4,7 @@
 #include <ArduinoBLE.h>
 
 #include "ISerial.h"
+#include "IGattService.h"
 #include "IGattCharacteristic.h"
 
 /**
@@ -34,13 +35,11 @@ public:
     std::string uuid() const override;
 
     /**
-     * @brief returns the Characteristic from the ArduinoBLE library.
+     * @brief adds the characteristic to the service.
      *
-     * For some operations, the BLECharacteristic and BLEService need
-     * access to one another.
-     * @return the BLEByteCharacteristic underlying the Characteristic.
+     * @param service the BLEService to add the characteristic to.
      */
-    BLEByteCharacteristic* characteristic();
+    void addCharacteristicToService(BLEService& service);
 
     /**
      * @see IGattCharacteristic::read()

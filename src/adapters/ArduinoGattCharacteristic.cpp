@@ -6,8 +6,8 @@ std::string ArduinoGattCharacteristic::uuid() const {
     return mUuid;
 }
 
-BLEByteCharacteristic* ArduinoGattCharacteristic::characteristic() {
-    return &mCharacteristic;
+void ArduinoGattCharacteristic::addCharacteristicToService(BLEService& service) {
+    service.addCharacteristic(mCharacteristic);
 }
 
 Result<ValueBuffer> ArduinoGattCharacteristic::read() {

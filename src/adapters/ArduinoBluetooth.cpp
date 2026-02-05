@@ -12,9 +12,9 @@
 bool ArduinoBluetooth::start() {
     mBLEDevice->setLocalName(mName.c_str());
     for (int i = 0; i < mNumServices; i++) {
-        BLEService service = *(std::static_pointer_cast<ArduinoGattService>(mServices[i])->service());
-        mBLEDevice->addService(service);
-        mBLEDevice->setAdvertisedService(service);
+        auto service = std::static_pointer_cast<ArduinoGattService>(mServices[i]);
+        service->addServiceToBLEDevice(mBLEDevice);
+        service->advertiseServiceOnBLEDevice(mBLEDevice);
     }
 
     BLE.advertise();
