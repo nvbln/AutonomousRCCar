@@ -1,8 +1,8 @@
 #include <memory>
 #include <string>
 
-#include <ArduinoBLE.h>
-
+#include "IBLEDevice.h"
+#include "IBLECentral.h"
 #include "ISerial.h"
 #include "IBluetooth.h"
 #include "ArduinoBluetooth.h"
@@ -10,11 +10,11 @@
 #include "ArduinoGattCharacteristic.h"
 
 bool ArduinoBluetooth::start() {
-    BLE.setLocalName(mName.c_str());
+    mBLEDevice->setLocalName(mName.c_str());
     for (int i = 0; i < mNumServices; i++) {
         BLEService service = *(std::static_pointer_cast<ArduinoGattService>(mServices[i])->service());
-        BLE.addService(service);
-        BLE.setAdvertisedService(service);
+        mBLEDevice->addService(service);
+        mBLEDevice->setAdvertisedService(service);
     }
 
     BLE.advertise();
@@ -23,10 +23,10 @@ bool ArduinoBluetooth::start() {
 }
 
 void ArduinoBluetooth::update() {
-    BLEDevice central = BLE.central();
-    if (central) {
+    std::shared_ptr<IBLECentral> central = mBLEDevice->central();
+    if (central->connected()) {
         mSerial->print("Connected to central: ");
-        mSerial->println(central.address().c_str());
+        mSerial->println(central->address());
 
         // Check for every service if there are changes.
         for (int i = 0; i < mNumServices; i++) {
@@ -36,7 +36,7 @@ void ArduinoBluetooth::update() {
 }
 
 bool ArduinoBluetooth::stop() {
-    BLE.end();
+    mBLEDevice->end();
 }
 
 std::shared_ptr<IGattCharacteristic> ArduinoBluetooth::createCharacteristic(const std::string uuid, const int valueLength) const {
