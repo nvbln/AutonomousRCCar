@@ -5,6 +5,7 @@
 #include <string>
 #include <ArduinoBLE.h>
 
+#include "IBLEDevice.h"
 #include "ISerial.h"
 #include "IGattService.h"
 
@@ -29,13 +30,21 @@ public:
     std::string uuid() const override;
 
     /**
-     * @brief returns the Service from the ArduinoBLE library.
+     * @brief adds the service to the BLE device.
      *
-     * For some operations, the BLEService and BLECharacteristic need
-     * access to one another.
-     * @return the BLEService underlying the Service.
+     * Adding the service to the BLEDevice makes it available
+     * to central devices that connect to the peripheral.
+     *
+     * @param device The BLE peripheral device.
      */
-    BLEService* service();
+    void addServiceToBLEDevice(std::shared_ptr<IBLEDevice> device);
+
+    /**
+     * @brief Makes the service discoverable by central devices.
+     *
+     * @param device the BLE peripheral device.
+     */
+    void advertiseServiceOnBLEDevice(std::shared_ptr<IBLEDevice> device);
 
     /**
      * @see IGattService::addCharacteristic()
