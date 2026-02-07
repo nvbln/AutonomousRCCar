@@ -39,7 +39,7 @@ public:
      *
      * @param service the BLEService to add the characteristic to.
      */
-    void addCharacteristicToService(BLEService& service);
+    void addCharacteristicToService(std::shared_ptr<IBLEService> service);
 
     /**
      * @see IGattCharacteristic::read()

@@ -3,9 +3,9 @@
 
 #include <memory>
 #include <string>
-#include <ArduinoBLE.h>
 
 #include "IBLEDevice.h"
+#include "IBLEService.h"
 #include "ISerial.h"
 #include "IGattService.h"
 
@@ -21,8 +21,9 @@ public:
      * @param serial The Arduino Serial interface for printing messages.
      * @param uuid The ID that the service is identified by.
      */
-    ArduinoGattService(const std::shared_ptr<ISerial> serial, const std::string uuid) : 
-        mSerial(serial), mService(uuid.c_str()), mUuid(uuid) {};
+    ArduinoGattService(const std::shared_ptr<ISerial> serial, 
+                       const std::shared_ptr<IBLEService> service) : 
+        mSerial(serial), mService(service) {};
 
     /**
      * @see IGattService::uuid()
@@ -58,8 +59,7 @@ public:
 
 private:
     const std::shared_ptr<ISerial> mSerial;
-    std::string mUuid;
-    BLEService mService;
+    const std::shared_ptr<IBLEService> mService;
     static const int mMaxNumCharacteristics = 5;
     int mNumCharacteristics = 0;
     std::shared_ptr<IGattCharacteristic> mCharacteristics[mMaxNumCharacteristics];

@@ -1,13 +1,14 @@
 #include <ArduinoBLE.h>
 
+#include "IBLEService.h"
 #include "ArduinoGattCharacteristic.h"
 
 std::string ArduinoGattCharacteristic::uuid() const {
     return mUuid;
 }
 
-void ArduinoGattCharacteristic::addCharacteristicToService(BLEService& service) {
-    service.addCharacteristic(mCharacteristic);
+void ArduinoGattCharacteristic::addCharacteristicToService(std::shared_ptr<IBLEService> service) {
+    service->addCharacteristic(mCharacteristic);
 }
 
 Result<ValueBuffer> ArduinoGattCharacteristic::read() {
