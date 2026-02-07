@@ -4,6 +4,9 @@ project(AutonomousRCCar VERSION 0.1
                         DESCRIPTION "Autonomous RC Car program"
                         LANGUAGES CXX)
 
+# Allows LSPs to read out compilation settings
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 # GoogleTest requires at least C++17
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKe_CXX_STANDARD_REQUIRED ON)
