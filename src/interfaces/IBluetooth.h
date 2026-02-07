@@ -44,7 +44,7 @@ public:
      * 
      * @param uuid The ID that identifies the service to other devices.
      */
-    virtual std::shared_ptr<IGattService> createService(const std::string uuid) const = 0;
+    virtual std::shared_ptr<IGattService> createService(const char* uuid) const = 0;
 
     /**
      * @brief Creates a GATT Characteristic and returns it.
@@ -55,7 +55,7 @@ public:
      * @param uuid The ID that identifies the characteristic to other devices.
      * @param valueLength Not implemented yet.
      */
-    virtual std::shared_ptr<IGattCharacteristic> createCharacteristic(const std::string uuid, const int valueLength) const = 0;
+    virtual std::shared_ptr<IGattCharacteristic> createCharacteristic(const char* uuid, const int valueLength) const = 0;
 
     /**
      * @brief Adds the service for broadcasting.

@@ -31,14 +31,19 @@ public:
     void setLocalName(const char* name) override;
 
     /**
+     @see IBLEDevice::createService()
+     */
+    std::shared_ptr<IBLEService> createService(const char* uuid) const override;
+
+    /**
      * @see IBLEDevice::addService()
      */
-    void addService(BLEService& service)  override;
+    void addService(std::shared_ptr<IBLEService> service)  override;
 
     /**
      * @see IBLEDevice::setAdvertisedService()
      */
-    void setAdvertisedService(BLEService& service) override;
+    void setAdvertisedService(std::shared_ptr<IBLEService> service) override;
 
     /**
      * @see IBLEDevice::advertise()

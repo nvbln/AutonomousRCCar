@@ -6,7 +6,7 @@
 #include "ArduinoGattCharacteristic.h"
 
 std::string ArduinoGattService::uuid() const {
-    return mUuid;
+    return mService->uuid();
 }
 
 void ArduinoGattService::addServiceToBLEDevice(std::shared_ptr<IBLEDevice> device) {
@@ -25,8 +25,8 @@ bool ArduinoGattService::addCharacteristic(std::shared_ptr<IGattCharacteristic> 
     mCharacteristics[mNumCharacteristics] = characteristic;
     mNumCharacteristics++;
 
-    auto nanoChar = std::static_pointer_cast<ArduinoGattCharacteristic>(characteristic);
-    nanoChar->addCharacteristicToService(mService);
+    auto arduinoChar = std::static_pointer_cast<ArduinoGattCharacteristic>(characteristic);
+    arduinoChar->addCharacteristicToService(mService);
 
     return true;
 }

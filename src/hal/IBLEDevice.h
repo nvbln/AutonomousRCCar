@@ -1,9 +1,7 @@
 #ifndef IBLEDEVICE_H
 #define IBLEDEVICE_H
 
-// TODO: Remove after further refactoring
-#include "ArduinoBLE.h"
-
+#include "IBLEService.h"
 #include "IBLECentral.h"
 
 /**
@@ -45,18 +43,25 @@ public:
     virtual void setLocalName(const char* name) = 0;
 
     /**
+     * @brief Creates a new service.
+     *
+     * @return a newly created service using the IBLEDevice interface.
+     */
+    virtual std::shared_ptr<IBLEService> createService(const char* uuid) const = 0;
+
+    /**
      * @brief Registers BLE Service such that it becomes available to central devices. 
      *
      * @see the ArduinoBLE library.
      */
-    virtual void addService(BLEService& service) = 0;
+    virtual void addService(std::shared_ptr<IBLEService> service) = 0;
 
     /**
      * @brief Makes service discoverable.
      *
      * @see the ArduinoBLE library.
      */
-    virtual void setAdvertisedService(BLEService& service) = 0;
+    virtual void setAdvertisedService(std::shared_ptr<IBLEService> service) = 0;
 
     /**
      * @brief Starts broadcasting the device.
