@@ -17,7 +17,7 @@ bool ArduinoBluetooth::start() {
         service->advertiseServiceOnBLEDevice(mBLEDevice);
     }
 
-    BLE.advertise();
+    mBLEDevice->advertise();
 
     return true;
 }
@@ -40,7 +40,8 @@ bool ArduinoBluetooth::stop() {
 }
 
 std::shared_ptr<IGattCharacteristic> ArduinoBluetooth::createCharacteristic(const char* uuid, const int valueLength) const {
-    return std::make_shared<ArduinoGattCharacteristic>(mSerial, uuid, valueLength);
+    std::shared_ptr<IBLECharacteristic> bleCharacteristic = mBLEDevice->createCharacteristic(uuid);
+    return std::make_shared<ArduinoGattCharacteristic>(mSerial, bleCharacteristic);
 }
 
 std::shared_ptr<IGattService> ArduinoBluetooth::createService(const char* uuid) const {

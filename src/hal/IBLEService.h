@@ -1,8 +1,9 @@
 #ifndef IBLESERVICE_H
 #define IBLESERVICE_H
 
-// TODO: Remove ArduinoBLE dependency upon BLECharacteristic refactor.
-#include <ArduinoBLE.h>
+#include <memory>
+
+#include "IBLECharacteristic.h"
 
 /**
  * @class IBLEService
@@ -18,6 +19,6 @@ public:
     virtual ~IBLEService() = default;
 
     virtual const char* uuid() const = 0;
-    virtual void addCharacteristic(BLECharacteristic& characteristic) = 0;
+    virtual void addCharacteristic(std::shared_ptr<IBLECharacteristic> characteristic) = 0;
 };
 #endif

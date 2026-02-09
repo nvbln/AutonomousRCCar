@@ -50,6 +50,13 @@ public:
     virtual std::shared_ptr<IBLEService> createService(const char* uuid) const = 0;
 
     /**
+     * @brief Creates a new characteristic.
+     *
+     * @return a newly created characteristic using the IBLEDevice interface.
+     */
+    virtual std::shared_ptr<IBLECharacteristic> createCharacteristic(const char* uuid) const = 0;
+
+    /**
      * @brief Registers BLE Service such that it becomes available to central devices. 
      *
      * @see the ArduinoBLE library.
