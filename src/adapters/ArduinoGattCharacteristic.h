@@ -1,10 +1,12 @@
 #ifndef ARDUINOGATTCHARACTERISTIC_H
 #define ARDUINOGATTCHARACTERISTIC_H
 
-#include <ArduinoBLE.h>
+#include <memory>
+
 
 #include "ISerial.h"
-#include "IGattService.h"
+#include "IBLECharacteristic.h"
+#include "IBLEService.h"
 #include "IGattCharacteristic.h"
 
 /**
@@ -21,18 +23,11 @@ public:
      * @param valueLength not implemented yet.
      */
     ArduinoGattCharacteristic(const std::shared_ptr<ISerial> serial,
-                              const std::string uuid,
-                              const int valueLength) : 
+                              const std::shared_ptr<IBLECharacteristic> characteristic) : 
         mSerial(serial),
-        mCharacteristic(uuid.c_str(), BLERead | BLEWrite),
-        mUuid(uuid), mValueLength(valueLength) {
-        mCharacteristic.writeValue(0);
+        mCharacteristic(characteristic) {
+        mCharacteristic->writeValue(0);
     };
-
-    /**
-     * @see IGattCharacteristic::uuid()
-     */
-    std::string uuid() const override;
 
     /**
      * @brief adds the characteristic to the service.
@@ -59,15 +54,11 @@ public:
     /**
      * @see IGattCharacteristic::update()
      */
-    void update();
+    void update() override;
 
 private:
     const std::shared_ptr<ISerial> mSerial;
-
-    // TODO: Make it type independent
-    BLEByteCharacteristic mCharacteristic;
-    std::string mUuid;
-    int mValueLength;
+    const std::shared_ptr<IBLECharacteristic> mCharacteristic;
 
     static const int mMaxNumCallbacks = 5;
     int mNumCallbacks = 0;

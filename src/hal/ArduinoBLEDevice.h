@@ -36,6 +36,11 @@ public:
     std::shared_ptr<IBLEService> createService(const char* uuid) const override;
 
     /**
+     * @see IBLEDevice::createCharacteristic()
+     */
+    std::shared_ptr<IBLECharacteristic> createCharacteristic(const char* uuid) const override;
+
+    /**
      * @see IBLEDevice::addService()
      */
     void addService(std::shared_ptr<IBLEService> service)  override;

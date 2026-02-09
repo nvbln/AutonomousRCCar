@@ -3,6 +3,7 @@
 #include <ArduinoBLE.h>
 
 #include "ArduinoBLEService.h"
+#include "ArduinoBLECharacteristic.h"
 #include "ArduinoBLECentral.h"
 #include "ArduinoBLEDevice.h"
 
@@ -20,6 +21,10 @@ void ArduinoBLEDevice::setLocalName(const char* name) {
 
 std::shared_ptr<IBLEService> ArduinoBLEDevice::createService(const char* uuid) const {
     return std::make_shared<ArduinoBLEService>(uuid);
+}
+
+std::shared_ptr<IBLECharacteristic> ArduinoBLEDevice::createCharacteristic(const char* uuid) const {
+    return std::make_shared<ArduinoBLECharacteristic>(uuid);
 }
 
 void ArduinoBLEDevice::addService(std::shared_ptr<IBLEService> service) {

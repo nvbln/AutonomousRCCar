@@ -69,13 +69,6 @@ public:
     virtual ~IGattCharacteristic() = default;
 
     /**
-     * @brief returns the UUID that the Characteristic is identified by.
-     *
-     * @return UUID of the Characteristic
-     */
-    virtual std::string uuid() const = 0;
-
-    /**
      * @brief reads the value from the Characteristic
      *
      * @return whether the read was successful, if so, the value of the Characteristic.
