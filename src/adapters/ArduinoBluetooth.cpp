@@ -37,6 +37,7 @@ void ArduinoBluetooth::update() {
 
 bool ArduinoBluetooth::stop() {
     mBLEDevice->end();
+    return true;
 }
 
 std::shared_ptr<IGattCharacteristic> ArduinoBluetooth::createCharacteristic(const char* uuid, const int valueLength) const {

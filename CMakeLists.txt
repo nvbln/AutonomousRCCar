@@ -24,23 +24,32 @@ target_include_directories(interfaces INTERFACE src/interfaces)
 add_library(hal INTERFACE)
 target_include_directories(hal INTERFACE src/hal)
 
+add_library(adapters
+    src/adapters/ArduinoBluetooth.cpp
+    src/adapters/ArduinoGattCharacteristic.cpp
+    src/adapters/ArduinoGattService.cpp
+    src/adapters/ArduinoLed.cpp
+)
+target_include_directories(adapters PUBLIC src/adapters src/hal)
+
 add_library(core STATIC
     src/core/Core.cpp
     src/core/LedController.cpp
 )
-
 target_include_directories(core PUBLIC src/core)
-target_link_libraries(core PUBLIC interfaces)
-target_link_libraries(core PUBLIC hal)
+
+target_link_libraries(adapters PUBLIC hal interfaces)
+target_link_libraries(core PUBLIC interfaces hal adapters)
 
 enable_testing()
 
 add_executable(core_test
     test/LedControllerTest.cpp
+    test/ArduinoLedTest.cpp
 )
 
 target_link_libraries(core_test
-    PRIVATE core interfaces hal
+    PRIVATE core interfaces hal adapters
     PUBLIC GTest::gtest_main GTest::gmock_main
 )
 
