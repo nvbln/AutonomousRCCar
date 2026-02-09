@@ -3,6 +3,8 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
+using ::testing::NiceMock;
+
 class MockPinIO : public IPinIO {
 public:
     MOCK_METHOD(void, pinMode, (uint8_t pin, PinIOMode mode), (const, override));
@@ -18,7 +20,7 @@ uint8_t mockPin = 0;
  * to "driving" mode.
  */
 TEST(ArduinoLedTests, ledShouldDrivePin) {
-    auto mockPinIO = std::make_shared<testing::NiceMock<MockPinIO>>();
+    auto mockPinIO = std::make_shared<NiceMock<MockPinIO>>();
 
     EXPECT_CALL(*mockPinIO, pinMode(mockPin, PinIOMode::Output));
     std::unique_ptr<ArduinoLed> arduinoLed = std::make_unique<ArduinoLed>(mockPinIO, mockPin);
@@ -30,7 +32,7 @@ TEST(ArduinoLedTests, ledShouldDrivePin) {
  * set to High and then to Low.
  */
 TEST(ArduinoLedTests, turnShouldChangeStateOfLED) {
-    auto mockPinIO = std::make_shared<testing::NiceMock<MockPinIO>>();
+    auto mockPinIO = std::make_shared<NiceMock<MockPinIO>>();
     std::unique_ptr<ArduinoLed> arduinoLed = std::make_unique<ArduinoLed>(mockPinIO, mockPin);
 
     EXPECT_CALL(*mockPinIO, digitalWrite(mockPin, PinIOValue::High));
@@ -41,7 +43,7 @@ TEST(ArduinoLedTests, turnShouldChangeStateOfLED) {
 }
 
 TEST(ArduinoLedTests, turnOnShouldTurnUpVoltage) {
-    auto mockPinIO = std::make_shared<testing::NiceMock<MockPinIO>>();
+    auto mockPinIO = std::make_shared<NiceMock<MockPinIO>>();
     std::unique_ptr<ArduinoLed> arduinoLed = std::make_unique<ArduinoLed>(mockPinIO, mockPin);
 
     EXPECT_CALL(*mockPinIO, digitalWrite(mockPin, PinIOValue::High)).Times(1);
@@ -51,7 +53,7 @@ TEST(ArduinoLedTests, turnOnShouldTurnUpVoltage) {
 }
 
 TEST(ArduinoLedTests, turnOffShouldTurnDownVoltage) {
-    auto mockPinIO = std::make_shared<testing::NiceMock<MockPinIO>>();
+    auto mockPinIO = std::make_shared<NiceMock<MockPinIO>>();
     std::unique_ptr<ArduinoLed> arduinoLed = std::make_unique<ArduinoLed>(mockPinIO, mockPin);
 
     EXPECT_CALL(*mockPinIO, digitalWrite(mockPin, PinIOValue::Low)).Times(1);

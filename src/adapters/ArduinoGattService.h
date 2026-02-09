@@ -2,7 +2,6 @@
 #define ARDUINOGATTSERVICE_H
 
 #include <memory>
-#include <string>
 
 #include "IBLEDevice.h"
 #include "IBLEService.h"
@@ -24,11 +23,6 @@ public:
     ArduinoGattService(const std::shared_ptr<ISerial> serial, 
                        const std::shared_ptr<IBLEService> service) : 
         mSerial(serial), mService(service) {};
-
-    /**
-     * @see IGattService::uuid()
-     */
-    std::string uuid() const override;
 
     /**
      * @brief adds the service to the BLE device.

@@ -12,7 +12,7 @@ Core::Core(std::shared_ptr<ISerial> serial,
     mSerial(serial), mBluetooth(bluetooth), mLed(led) {
     std::string uuid = "19B10001-E8F2-537E-4F6C-D104768A1214";
     std::shared_ptr<IGattService> ledService = mBluetooth->createService(uuid.c_str());
-    std::shared_ptr<IGattCharacteristic> ledChar = mBluetooth->createCharacteristic(uuid.c_str(), 1);
+    std::shared_ptr<IGattCharacteristic> ledChar = mBluetooth->createCharacteristic(uuid.c_str());
     ledService->addCharacteristic(ledChar);
 
     std::shared_ptr<LedController> ledController = std::make_shared<LedController>(mLed);

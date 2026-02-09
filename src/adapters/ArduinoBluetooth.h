@@ -63,7 +63,7 @@ public:
      * IGattCharacteristic to keep the abstraction in the application logic.
      * @return a shared pointer to the object as an IGattCharacteristic.
      */
-    std::shared_ptr<IGattCharacteristic> createCharacteristic(const char* uuid, const int valueLength) const override;
+    std::shared_ptr<IGattCharacteristic> createCharacteristic(const char* uuid) const override;
 
     /**
      * @see IBluetooth::addService()

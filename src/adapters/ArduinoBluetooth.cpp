@@ -40,7 +40,7 @@ bool ArduinoBluetooth::stop() {
     return true;
 }
 
-std::shared_ptr<IGattCharacteristic> ArduinoBluetooth::createCharacteristic(const char* uuid, const int valueLength) const {
+std::shared_ptr<IGattCharacteristic> ArduinoBluetooth::createCharacteristic(const char* uuid) const {
     std::shared_ptr<IBLECharacteristic> bleCharacteristic = mBLEDevice->createCharacteristic(uuid);
     return std::make_shared<ArduinoGattCharacteristic>(mSerial, bleCharacteristic);
 }
