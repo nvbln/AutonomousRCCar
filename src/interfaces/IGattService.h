@@ -1,8 +1,6 @@
 #ifndef IGATTSERVICE_H 
 #define IGATTSERVICE_H
 
-#include <string>
-
 #include "IGattCharacteristic.h"
 
 /**
@@ -19,14 +17,6 @@ public:
     virtual ~IGattService() = default;
 
     /**
-     * @brief returns the UUID that the Service is identified by.
-     *
-     * Note: can be the same as the UUID of the Characteristic.
-     * @return UUID of the Service.
-     */
-    virtual std::string uuid() const = 0;
-
-    /**
      * @brief adds the Characteristic to the Service
      *
      * GATT Characteristics need to be added to GATT services
@@ -40,7 +30,7 @@ public:
     /**
      * @brief check if the characteristics in the service were updated.
      */
-    virtual void update();
+    virtual void update() = 0;
 
 };
 #endif

@@ -60,8 +60,8 @@ private:
     const std::shared_ptr<ISerial> mSerial;
     const std::shared_ptr<IBLECharacteristic> mCharacteristic;
 
-    static const int mMaxNumCallbacks = 5;
-    int mNumCallbacks = 0;
+    static const uint8_t mMaxNumCallbacks = 5;
+    uint8_t mNumCallbacks = 0;
     Callback mCallbacks[mMaxNumCallbacks];
 };
 #endif

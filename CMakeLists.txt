@@ -44,8 +44,11 @@ target_link_libraries(core PUBLIC interfaces hal adapters)
 enable_testing()
 
 add_executable(core_test
-    test/LedControllerTest.cpp
-    test/ArduinoLedTest.cpp
+    test/core/LedControllerTest.cpp
+    test/adapters/ArduinoBluetooth.cpp
+    test/adapters/ArduinoGattServiceTest.cpp
+    test/adapters/ArduinoGattCharacteristicTest.cpp
+    test/adapters/ArduinoLedTest.cpp
 )
 
 target_link_libraries(core_test

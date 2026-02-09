@@ -5,10 +5,6 @@
 #include "ArduinoGattService.h"
 #include "ArduinoGattCharacteristic.h"
 
-std::string ArduinoGattService::uuid() const {
-    return mService->uuid();
-}
-
 void ArduinoGattService::addServiceToBLEDevice(std::shared_ptr<IBLEDevice> device) {
     device->addService(mService);
 }
