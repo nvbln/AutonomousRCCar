@@ -78,4 +78,4 @@ private:
     std::shared_ptr<IGattService> mServices[mMaxNumServices];
     int mNumServices = 0;
 };
-#endif;
+#endif
