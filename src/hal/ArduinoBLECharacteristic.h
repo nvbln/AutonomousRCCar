@@ -1,5 +1,4 @@
-#ifndef ARDUINOBLECHARACTERISTIC_H
-#define ARDUINOBLECHARACTERISTIC_H
+#pragma once
 
 #include <memory>
 
@@ -43,4 +42,3 @@ private:
     friend class ArduinoBLEService;
     BLEByteCharacteristic mCharacteristic;
 };
-#endif

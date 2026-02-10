@@ -1,5 +1,4 @@
-#ifndef ARDUINOBLUETOOTH_H
-#define ARDUINOBLUETOOTH_H
+#pragma once
 
 #include <string>
 #include <memory>
@@ -78,4 +77,3 @@ private:
     std::shared_ptr<IGattService> mServices[mMaxNumServices];
     int mNumServices = 0;
 };
-#endif

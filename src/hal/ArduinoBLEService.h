@@ -1,5 +1,4 @@
-#ifndef ARDUINOBLESERVICE_H
-#define ARDUINOBLESERVICE_H
+#pragma once
 
 #include <memory>
 
@@ -32,4 +31,3 @@ private:
     friend class ArduinoBLEDevice;
     BLEService mService;
 };
-#endif

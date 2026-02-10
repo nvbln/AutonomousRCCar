@@ -1,5 +1,4 @@
-#ifndef ARDUINOBLECENTRAL_H
-#define ARDUINOBLECENTRAL_H
+#pragma once
 
 #include <ArduinoBLE.h>
 
@@ -25,4 +24,3 @@ public:
 private:
     BLEDevice mCentral; 
 };
-#endif

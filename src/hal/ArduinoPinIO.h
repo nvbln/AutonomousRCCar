@@ -1,5 +1,4 @@
-#ifndef ARDUINOPINIO
-#define ARDUINOPINIO
+#pragma once
 
 #include <cstdint>
 
@@ -22,4 +21,3 @@ public:
      */
     void digitalWrite(uint8_t pin, PinIOValue value) const override;
 };
-#endif

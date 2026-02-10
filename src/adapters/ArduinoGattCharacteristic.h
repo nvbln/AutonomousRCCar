@@ -1,8 +1,6 @@
-#ifndef ARDUINOGATTCHARACTERISTIC_H
-#define ARDUINOGATTCHARACTERISTIC_H
+#pragma once
 
 #include <memory>
-
 
 #include "ISerial.h"
 #include "IBLECharacteristic.h"
@@ -64,4 +62,3 @@ private:
     uint8_t mNumCallbacks = 0;
     Callback mCallbacks[mMaxNumCallbacks];
 };
-#endif

@@ -1,5 +1,4 @@
-#ifndef IBLUETOOTH_H
-#define IBLUETOOTH_H
+#pragma once
 
 #include <memory>
 #include <string>
@@ -70,4 +69,3 @@ public:
     virtual bool addService(std::shared_ptr<IGattService> service) = 0;
 
 };
-#endif

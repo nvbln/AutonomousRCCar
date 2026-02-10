@@ -1,5 +1,4 @@
-#ifndef ILED_H
-#define ILED_H
+#pragma once
 
 /**
  * @class ILed
@@ -25,4 +24,3 @@ public:
     virtual void turnOff() = 0;
 
 };
-#endif

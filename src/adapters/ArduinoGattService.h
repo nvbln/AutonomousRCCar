@@ -1,5 +1,4 @@
-#ifndef ARDUINOGATTSERVICE_H
-#define ARDUINOGATTSERVICE_H
+#pragma once
 
 #include <memory>
 
@@ -58,4 +57,3 @@ private:
     int mNumCharacteristics = 0;
     std::shared_ptr<IGattCharacteristic> mCharacteristics[mMaxNumCharacteristics];
 };
-#endif

@@ -1,5 +1,4 @@
-#ifndef LEDCONTROLLER_H
-#define LEDCONTROLLER_H
+#pragma once
 
 #include <memory>
 
@@ -38,4 +37,3 @@ public:
 private:
     std::shared_ptr<ILed> mLed;
 };
-#endif

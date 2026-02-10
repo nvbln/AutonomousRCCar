@@ -1,5 +1,4 @@
-#ifndef CORE_H
-#define CORE_H
+#pragma once
 
 #include "ISerial.h"
 #include "IBluetooth.h"
@@ -43,4 +42,3 @@ private:
     std::shared_ptr<IBluetooth> mBluetooth;
     std::shared_ptr<ILed> mLed;
 };
-#endif

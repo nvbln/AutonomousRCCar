@@ -1,5 +1,4 @@
-#ifndef IGATTSERVICE_H 
-#define IGATTSERVICE_H
+#pragma once
 
 #include "IGattCharacteristic.h"
 
@@ -33,4 +32,3 @@ public:
     virtual void update() = 0;
 
 };
-#endif
