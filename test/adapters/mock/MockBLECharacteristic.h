@@ -1,5 +1,4 @@
-#ifndef MOCKBLECHARACTERISTIC_H
-#define MOCKBLECHARACTERISTIC_H
+#pragma once
 
 #include "IBLECharacteristic.h"
 #include <gmock/gmock.h>
@@ -11,4 +10,3 @@ public:
     MOCK_METHOD(uint8_t, value, (), (override));
     MOCK_METHOD(bool, written, (), (override));
 };
-#endif

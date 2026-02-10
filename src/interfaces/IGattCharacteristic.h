@@ -1,5 +1,4 @@
-#ifndef IGATTCHARACTERISTIC_H
-#define IGATTCHARACTERISTIC_H
+#pragma once
 
 #include <stdint.h>
 #include <string>
@@ -98,4 +97,3 @@ public:
      */
     virtual void update() = 0;
 };
-#endif

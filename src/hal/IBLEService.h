@@ -1,5 +1,4 @@
-#ifndef IBLESERVICE_H
-#define IBLESERVICE_H
+#pragma once
 
 #include <memory>
 
@@ -21,4 +20,3 @@ public:
     virtual const char* uuid() const = 0;
     virtual void addCharacteristic(std::shared_ptr<IBLECharacteristic> characteristic) = 0;
 };
-#endif

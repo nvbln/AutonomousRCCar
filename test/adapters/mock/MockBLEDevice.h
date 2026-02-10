@@ -1,5 +1,4 @@
-#ifndef MOCKBLEDEVICE_H
-#define MOCKBLEDEVICE_H
+#pragma once
 
 #include "IBLEDevice.h"
 #include <gmock/gmock.h>
@@ -16,4 +15,3 @@ public:
     MOCK_METHOD(void, advertise, (), (override));
     MOCK_METHOD(const std::shared_ptr<IBLECentral>, central, (), (const, override));
 };
-#endif

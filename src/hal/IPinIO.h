@@ -1,5 +1,4 @@
-#ifndef IPINIO
-#define IPINIO
+#pragma once
 
 #include <cstdint>
 
@@ -35,4 +34,3 @@ public:
      */
     virtual void digitalWrite(uint8_t pin, PinIOValue value) const = 0;
 };
-#endif

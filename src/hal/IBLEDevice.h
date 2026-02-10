@@ -1,5 +1,4 @@
-#ifndef IBLEDEVICE_H
-#define IBLEDEVICE_H
+#pragma once
 
 #include "IBLEService.h"
 #include "IBLECentral.h"
@@ -84,4 +83,3 @@ public:
      */
     virtual const std::shared_ptr<IBLECentral> central() const = 0;
 };
-#endif

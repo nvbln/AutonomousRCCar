@@ -1,5 +1,4 @@
-#ifndef MOCKBLESERVICE_H
-#define MOCKBLESERVICE_H
+#pragma once
 
 #include "IBLEService.h"
 #include "IBLECharacteristic.h"
@@ -10,4 +9,3 @@ public:
     MOCK_METHOD(const char*, uuid, (), (const, override));
     MOCK_METHOD(void, addCharacteristic, (std::shared_ptr<IBLECharacteristic> characteristic), (override));
 };
-#endif

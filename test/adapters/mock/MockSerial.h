@@ -1,5 +1,4 @@
-#ifndef MOCKSERIAL_H
-#define MOCKSERIAL_H
+#pragma once
 
 #include <gmock/gmock.h>
 #include "ISerial.h"
@@ -11,4 +10,3 @@ public:
     MOCK_METHOD(size_t, println, (const char str[]), (const, override));
     MOCK_METHOD(bool, ready, (), (const, override));
 };
-#endif

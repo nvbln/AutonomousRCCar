@@ -1,5 +1,4 @@
-#ifndef ARDUINOSERIAL_H
-#define ARDUINOSERIAL_H
+#pragma once
 
 #include "ISerial.h"
 
@@ -36,4 +35,3 @@ public:
         return Serial;
     }
 };
-#endif

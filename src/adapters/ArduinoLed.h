@@ -1,5 +1,4 @@
-#ifndef ARDUINOLED_H
-#define ARDUINOLED_H
+#pragma once
 
 #include <memory>
 
@@ -39,4 +38,3 @@ private:
     bool mOn = false;
     uint8_t mPin;
 };
-#endif

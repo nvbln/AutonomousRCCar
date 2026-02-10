@@ -1,5 +1,4 @@
-#ifndef IBLECHARACTERISTIC_H
-#define IBLECHARACTERISTIC_H
+#pragma once
 
 #include <cstdint>
 
@@ -45,4 +44,3 @@ public:
      */
     virtual bool written() = 0;
 };
-#endif

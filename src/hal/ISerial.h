@@ -1,5 +1,4 @@
-#ifndef ISERIAL_H
-#define ISERIAL_H
+#pragma once
 
 #include <cstddef>
 
@@ -45,4 +44,3 @@ public:
     virtual bool ready() const = 0;
         
 };
-#endif

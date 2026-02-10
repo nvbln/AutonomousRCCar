@@ -1,5 +1,4 @@
-#ifndef ARDUINOBLEDEVICE_H
-#define ARDUINOBLEDEVICE_H
+#pragma once
 
 #include "IBLECentral.h"
 #include "IBLEDevice.h"
@@ -60,4 +59,3 @@ public:
      */
     const std::shared_ptr<IBLECentral> central() const override;
 };
-#endif

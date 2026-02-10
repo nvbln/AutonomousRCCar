@@ -1,5 +1,4 @@
-#ifndef IBLECENTRAL_H
-#define IBLECENTRAL_H
+#pragma once
 
 /**
  * @class IBLECentral
@@ -32,4 +31,3 @@ public:
      */
     virtual bool connected() const = 0;
 };
-#endif
