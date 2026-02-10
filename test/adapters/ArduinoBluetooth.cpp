@@ -24,14 +24,6 @@ public:
     MOCK_METHOD(void, update, (), (override));
 };
 
-/*class MockGattCharacteristic : public IGattCharacteristic {
-public:
-    MOCK_METHOD(Result<ValueBuffer>, read, (), (override));
-    MOCK_METHOD(bool, write, (const ValueBuffer& valueBuffer), (override));
-    MOCK_METHOD(bool, addCallback, (Callback callback), (override));
-    MOCK_METHOD(void, update, (), (override));
-};*/
-
 TEST(ArduinoBluetoothTests, shouldStartAndBroadcastServices) {
     auto mockSerial = std::make_shared<NiceMock<MockSerial>>();
     auto mockBLEDevice = std::make_shared<MockBLEDevice>();
