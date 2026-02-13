@@ -2,6 +2,8 @@
 
 #include "ISerial.h"
 
+#include <Arduino.h>
+
 /**
  * @class ArduinoSerial
  * @brief wrapper implementation for the Arduino library.
@@ -16,17 +18,37 @@ public:
     /**
     * @see ISerial::begin()
     */
-    void begin(unsigned long baud) const override;
+    void begin(unsigned long baud) const override {
+        Serial.begin(baud);
+    }
 
     /**
      * @see ISerial::print()
      */
-    size_t print(const char str[]) const override;
+    size_t print(const char* str) const override {
+        return Serial.print(str);
+    }
+
+    /**
+     * @see ISerial::print()
+     */
+    size_t print(float value, int digits = 2) const override {
+        return Serial.print(value, digits);
+    }
 
     /**
      * @see ISerial::println()
      */
-    size_t println(const char str[]) const override;
+    size_t println(const char* str) const override {
+        return Serial.println(str);
+    }
+
+    /**
+     * @see ISerial::println()
+     */
+    size_t println(float value, int digits = 2) const override {
+        return Serial.println(value, digits);
+    }
 
     /**
      * @see ISerial::ready()

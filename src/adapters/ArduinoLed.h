@@ -12,7 +12,7 @@
 class ArduinoLed : public ILed {
 public:
     /**
-     * @brief creates an object representing the LED at the given pin.
+     * @brief Creates an object representing the LED at the given pin.
      *
      * @param pin The pin that the LED is corresponds to.
      */

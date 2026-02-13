@@ -30,7 +30,7 @@ public:
     void setLocalName(const char* name) override;
 
     /**
-     @see IBLEDevice::createService()
+     * @see IBLEDevice::createService()
      */
     std::shared_ptr<IBLEService> createService(const char* uuid) const override;
 

@@ -3,6 +3,7 @@
 #include "ISerial.h"
 #include "IBluetooth.h"
 #include "ILed.h"
+#include "IAccelerator.h"
 
 /**
  * @class Core
@@ -20,14 +21,16 @@ public:
      * @brief Sets up the main control flow for the application.
      *
      * Takes the instances of the hardware components of the device
-     * through a more general HAL interface.
+     * through a more general HAL and adapters interface.
      *
-     * @param bluetooth Instance of the Bluetooth provided by the device.
-     * @param led       Instance of the LED provided by the device.
+     * @param bluetooth   Instance of the Bluetooth provided by the device.
+     * @param led         Instance of the LED provided by the device.
+     * @param accelerator Instance of the IMU Accelerator provided by the device.
      */
     Core(std::shared_ptr<ISerial>,
          std::shared_ptr<IBluetooth> bluetooth,
-         std::shared_ptr<ILed> led);
+         std::shared_ptr<ILed> led,
+         std::shared_ptr<IAccelerator> accelerator);
 
     /**
      * @brief Updates the state of the application logic.
@@ -41,4 +44,5 @@ private:
     std::shared_ptr<ISerial> mSerial;
     std::shared_ptr<IBluetooth> mBluetooth;
     std::shared_ptr<ILed> mLed;
+    std::shared_ptr<IAccelerator> mAccelerator;
 };

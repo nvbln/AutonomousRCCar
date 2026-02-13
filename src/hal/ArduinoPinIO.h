@@ -6,6 +6,7 @@
 
 /**
  * @class ArduinoPinIO
+ * @brief wrapper implementation of pin-related functions in Arduino.
  */
 class ArduinoPinIO : public IPinIO {
 public:

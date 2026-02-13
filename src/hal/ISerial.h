@@ -28,6 +28,7 @@ public:
      * @see the Arduino.h API
      */
     virtual size_t print(const char str[]) const = 0; 
+    virtual size_t print(float value, int digits = 2) const = 0;
 
     /**
      * @brief Prints the text to the serial console with a newline.
@@ -35,6 +36,7 @@ public:
      * @see the Arduino.h API
      */
     virtual size_t println(const char str[]) const = 0;
+    virtual size_t println(float value, int digits = 2) const = 0;
 
     /**
      * @brief returns whether the USB serial port is ready.
