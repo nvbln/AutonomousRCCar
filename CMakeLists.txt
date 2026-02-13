@@ -29,6 +29,7 @@ add_library(adapters
     src/adapters/ArduinoGattCharacteristic.cpp
     src/adapters/ArduinoGattService.cpp
     src/adapters/ArduinoLed.cpp
+    src/adapters/ArduinoAccelerator.cpp
 )
 target_include_directories(adapters PUBLIC src/adapters src/hal)
 
@@ -49,6 +50,7 @@ add_executable(core_test
     test/adapters/ArduinoGattServiceTest.cpp
     test/adapters/ArduinoGattCharacteristicTest.cpp
     test/adapters/ArduinoLedTest.cpp
+    test/adapters/ArduinoAccelerator.cpp
 )
 
 target_link_libraries(core_test
