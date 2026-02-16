@@ -34,18 +34,29 @@ add_library(adapters
 target_include_directories(adapters PUBLIC src/adapters src/hal)
 
 add_library(core STATIC
-    src/core/Core.cpp
-    src/core/LedController.cpp
+    src/core/src/Core.cpp
+    src/core/src/LedController.cpp
+    src/core/src/MotionStatusEvaluator.cpp
+    src/core/src/strategies/SimpleVarianceSpikeDetectionStrategy.cpp
+    src/core/src/strategies/SimpleMotionEvaluationStrategy.cpp
 )
-target_include_directories(core PUBLIC src/core)
+target_include_directories(core 
+    PUBLIC src/core/src external/circularbuffer
+)
 
 target_link_libraries(adapters PUBLIC hal interfaces)
 target_link_libraries(core PUBLIC interfaces hal adapters)
 
 enable_testing()
 
+add_library(test_mocks INTERFACE)
+target_include_directories(test_mocks INTERFACE test/mock)
+
 add_executable(core_test
     test/core/LedControllerTest.cpp
+    test/core/MotionStatusEvaluatorTest.cpp
+    test/core/strategies/SimpleVarianceSpikeDetectionStrategyTest.cpp
+    test/core/strategies/SimpleMotionEvaluationStrategyTest.cpp
     test/adapters/ArduinoBluetooth.cpp
     test/adapters/ArduinoGattServiceTest.cpp
     test/adapters/ArduinoGattCharacteristicTest.cpp
@@ -54,7 +65,7 @@ add_executable(core_test
 )
 
 target_link_libraries(core_test
-    PRIVATE core interfaces hal adapters
+    PRIVATE core interfaces hal adapters test_mocks
     PUBLIC GTest::gtest_main GTest::gmock_main
 )
 

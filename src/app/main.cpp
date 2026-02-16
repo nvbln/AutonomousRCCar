@@ -52,5 +52,5 @@ void loop() {
     core->update();
 
     // Delay for debugging purposes.
-    delay(1000);
+    delay(10);
 }
