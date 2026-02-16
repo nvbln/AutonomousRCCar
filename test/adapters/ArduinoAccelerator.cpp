@@ -1,4 +1,4 @@
-#include "mock/MockSerial.h"
+#include "MockSerial.h"
 #include "IIMUAccelerator.h"
 #include "IClock.h"
 #include "ArduinoAccelerator.h"
@@ -26,7 +26,7 @@ TEST(ArduinoAcceleratorTests, onlyAddedCallbacksAreTriggered) {
     auto mockIMUAccelerator = std::make_shared<NiceMock<MockIMUAccelerator>>();
     auto mockClock = std::make_shared<MockClock>();
 
-    EXPECT_CALL(*mockClock, micros())
+    EXPECT_CALL(*mockClock, micros)
         .WillOnce(Return(0))
         .WillRepeatedly(Return(11000));
 

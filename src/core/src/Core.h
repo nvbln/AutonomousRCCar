@@ -5,6 +5,8 @@
 #include "ILed.h"
 #include "IAccelerator.h"
 
+#include "MotionStatusEvaluator.h"
+
 /**
  * @class Core
  * @brief Main controller of all application logic.
@@ -45,4 +47,5 @@ private:
     std::shared_ptr<IBluetooth> mBluetooth;
     std::shared_ptr<ILed> mLed;
     std::shared_ptr<IAccelerator> mAccelerator;
+    std::shared_ptr<MotionStatusEvaluator> mMotionEvaluator;
 };

@@ -5,7 +5,11 @@
 #include "ILed.h"
 #include "IAccelerator.h"
 
+#include "strategies/SimpleMotionEvaluationStrategy.h"
+#include "strategies/SimpleVarianceSpikeDetectionStrategy.h"
+
 #include "LedController.h"
+#include "MotionStatusEvaluator.h"
 
 Core::Core(std::shared_ptr<ISerial> serial, 
            std::shared_ptr<IBluetooth> bluetooth,
@@ -27,15 +31,33 @@ Core::Core(std::shared_ptr<ISerial> serial,
         mSerial->println("Started the bluetooth service");
     }
 
-    serial->println("X\tY\tZ");
+    /*serial->println("X\tY\tZ");
     accelerator->addCallback([serial](AccelerationData data) {
         serial->print(data.x);
         serial->print('\t');
         serial->print(data.y);
         serial->print('\t');
         serial->println(data.z);
-    });
+    });*/
+
+    mMotionEvaluator = std::make_shared<MotionStatusEvaluator>(
+                accelerator,
+                std::make_shared<SimpleVarianceSpikeDetectionStrategy>(),
+                std::make_shared<SimpleMotionEvaluationStrategy>()
+    );
 }
 
 void Core::update() {
+    MotionStatus status = mMotionEvaluator->status(); 
+    switch(status) {
+        case MotionStatus::Still:
+            mSerial->println("Still");
+            break;
+        case MotionStatus::Moving:
+            mSerial->println("Moving");
+            break;
+        case MotionStatus::Blocked:
+            mSerial->println("Blocked");
+            break;
+    }
 }
