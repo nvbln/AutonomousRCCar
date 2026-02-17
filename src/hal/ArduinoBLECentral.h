@@ -15,12 +15,17 @@ public:
     /**
      * @see IBLECentral::address()
      */
-    const char* address() const override;
+    const char* address() const override {
+        return mCentral.address().c_str();
+    }
 
     /**
      * @see IBLECentral::connected()
      */
-    bool connected() const override;
+    bool connected() const override {
+        return mCentral.connected();
+    }
+
 private:
     BLEDevice mCentral; 
 };
