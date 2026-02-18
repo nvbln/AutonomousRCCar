@@ -13,9 +13,16 @@ public:
     ArduinoClock() {};
 
     /**
-     * @see ITimer::micros()
+     * @see IClock::micros()
      */
     unsigned long micros() const override {
         return ::micros();
+    }
+
+    /**
+     * @see IClock::delayMicroseconds()
+     */
+    void delayMicroseconds(unsigned int us) override {
+        return ::delayMicroseconds(us);
     }
 };

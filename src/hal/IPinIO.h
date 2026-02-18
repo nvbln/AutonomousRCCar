@@ -33,4 +33,11 @@ public:
      * @see the Arduino.h API
      */
     virtual void digitalWrite(uint8_t pin, PinIOValue value) const = 0;
+
+    /**
+     * @brief Listens for a pulse on the specified pin.
+     *
+     * @see the Arduino.h API
+     */
+    virtual unsigned long pulseIn(uint8_t pin, PinIOValue value, unsigned long timeout = 1000000L) const = 0;
 };

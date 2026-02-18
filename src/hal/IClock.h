@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @class ITimer
+ * @class IClock
  * @brief thin wrapper for the time-related functions in Arduino.
  *
  * The main purpose of this wrapper is to separate the
@@ -21,4 +21,11 @@ public:
      * @return the current time in microseconds.
      */
     virtual unsigned long micros() const = 0;
+
+    /**
+     * @brief delays the time in microseconds.
+     *
+     * @see the Arduino.h API
+     */
+    virtual void delayMicroseconds(unsigned int us) = 0;
 };

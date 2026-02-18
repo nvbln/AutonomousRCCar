@@ -4,6 +4,7 @@
 #include "IBluetooth.h"
 #include "ILed.h"
 #include "IAccelerator.h"
+#include "IUltrasound.h"
 
 #include "MotionStatusEvaluator.h"
 
@@ -32,7 +33,8 @@ public:
     Core(std::shared_ptr<ISerial>,
          std::shared_ptr<IBluetooth> bluetooth,
          std::shared_ptr<ILed> led,
-         std::shared_ptr<IAccelerator> accelerator);
+         std::shared_ptr<IAccelerator> accelerator,
+         std::shared_ptr<IUltrasound> ultrasound);
 
     /**
      * @brief Updates the state of the application logic.
@@ -48,4 +50,5 @@ private:
     std::shared_ptr<ILed> mLed;
     std::shared_ptr<IAccelerator> mAccelerator;
     std::shared_ptr<MotionStatusEvaluator> mMotionEvaluator;
+    std::shared_ptr<IUltrasound> mUltrasound;
 };

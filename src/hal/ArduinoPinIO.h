@@ -28,10 +28,21 @@ public:
      * @see IPinIO::digitalWrite()
      */
     void digitalWrite(uint8_t pin, PinIOValue value) const override {
+        ::digitalWrite(pin, convertPinIOValue(value));
+    }
+
+    /**
+     * @see IPinIO::pulseIn()
+     */
+    unsigned long pulseIn(uint8_t pin, PinIOValue value, unsigned long timeout) const override {
+        return ::pulseIn(pin, convertPinIOValue(value), timeout);
+    }
+private:
+    PinStatus convertPinIOValue(PinIOValue value) const {
         switch (value) {
-            case PinIOValue::Low: ::digitalWrite(pin, LOW); break;
-            case PinIOValue::High: ::digitalWrite(pin, HIGH); break;
-            default: ::digitalWrite(pin, LOW); break;
+            case PinIOValue::Low: return LOW;
+            case PinIOValue::High: return HIGH;
+            default: return LOW; break;
         }
     }
 };

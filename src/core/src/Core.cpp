@@ -4,6 +4,7 @@
 #include "IBluetooth.h"
 #include "ILed.h"
 #include "IAccelerator.h"
+#include "IUltrasound.h"
 
 #include "strategies/SimpleMotionEvaluationStrategy.h"
 #include "strategies/SimpleVarianceSpikeDetectionStrategy.h"
@@ -14,8 +15,10 @@
 Core::Core(std::shared_ptr<ISerial> serial, 
            std::shared_ptr<IBluetooth> bluetooth,
            std::shared_ptr<ILed> led,
-           std::shared_ptr<IAccelerator> accelerator) : 
-    mSerial(serial), mBluetooth(bluetooth), mLed(led), mAccelerator(accelerator) {
+           std::shared_ptr<IAccelerator> accelerator,
+           std::shared_ptr<IUltrasound> ultrasound) : 
+    mSerial(serial), mBluetooth(bluetooth), mLed(led), mAccelerator(accelerator),
+    mUltrasound(ultrasound) {
     std::string uuid = "19B10001-E8F2-537E-4F6C-D104768A1214";
     std::shared_ptr<IGattService> ledService = mBluetooth->createService(uuid.c_str());
     std::shared_ptr<IGattCharacteristic> ledChar = mBluetooth->createCharacteristic(uuid.c_str());
@@ -31,20 +34,16 @@ Core::Core(std::shared_ptr<ISerial> serial,
         mSerial->println("Started the bluetooth service");
     }
 
-    /*serial->println("X\tY\tZ");
-    accelerator->addCallback([serial](AccelerationData data) {
-        serial->print(data.x);
-        serial->print('\t');
-        serial->print(data.y);
-        serial->print('\t');
-        serial->println(data.z);
-    });*/
-
     mMotionEvaluator = std::make_shared<MotionStatusEvaluator>(
                 accelerator,
                 std::make_shared<SimpleVarianceSpikeDetectionStrategy>(),
                 std::make_shared<SimpleMotionEvaluationStrategy>()
     );
+
+    ultrasound->addCallback([serial](float distance) {
+        serial->print("distance: ");
+        serial->println(distance);
+    });
 }
 
 void Core::update() {

@@ -10,14 +10,19 @@
 #include "ArduinoIMUAccelerator.h"
 #include "ArduinoAccelerator.h"
 #include "ArduinoClock.h"
+#include "ArduinoUltrasound.h"
 
 #include <memory>
+
+static const uint8_t TRIG_PIN = 9;
+static const uint8_t ECHO_PIN = 10;
 
 std::shared_ptr<ArduinoBLEDevice> bleDevice;
 std::shared_ptr<ArduinoSerial> serial;
 std::shared_ptr<ArduinoPinIO> pinIO;
 std::shared_ptr<ArduinoIMUAccelerator> IMUAccelerator;
 std::shared_ptr<ArduinoClock> arduinoClock;
+std::shared_ptr<ArduinoUltrasound> ultrasound;
 
 std::shared_ptr<Core> core;
 std::shared_ptr<ArduinoBluetooth> bluetooth;
@@ -37,17 +42,19 @@ void setup() {
 
     led = std::make_shared<ArduinoLed>(pinIO, LED_BUILTIN);
     accelerator = std::make_shared<ArduinoAccelerator>(serial, IMUAccelerator, arduinoClock);
+    ultrasound = std::make_shared<ArduinoUltrasound>(arduinoClock, pinIO, TRIG_PIN, ECHO_PIN);
 
     if (!BLE.begin()) {
         serial->println("Starting Bluetooth BLE failed!");
     } else {
         bluetooth = std::make_shared<ArduinoBluetooth>(serial, bleDevice, "LED");
-        core = std::make_shared<Core>(serial, bluetooth, led, accelerator);
+        core = std::make_shared<Core>(serial, bluetooth, led, accelerator, ultrasound);
     }
 }
 
 void loop() {
     accelerator->update();
+    ultrasound->update();
     bluetooth->update();
     core->update();
 
