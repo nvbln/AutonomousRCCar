@@ -1,6 +1,6 @@
 #include "MockSerial.h"
 #include "IIMUAccelerator.h"
-#include "IClock.h"
+#include "MockClock.h"
 #include "ArduinoAccelerator.h"
 
 #include <gtest/gtest.h>
@@ -14,11 +14,6 @@ public:
     MOCK_METHOD(int, begin, (), (override));
     MOCK_METHOD(int, accelerationAvailable, (), (const, override));
     MOCK_METHOD(int, readAcceleration, (float& x, float& y, float& z), (const, override));
-};
-
-class MockClock : public IClock {
-public:
-    MOCK_METHOD(unsigned long, micros, (), (const, override));
 };
 
 TEST(ArduinoAcceleratorTests, onlyAddedCallbacksAreTriggered) {

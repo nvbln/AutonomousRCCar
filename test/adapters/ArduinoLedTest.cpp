@@ -1,15 +1,10 @@
-#include "IPinIO.h"
+#include "MockPinIO.h"
 #include "ArduinoLed.h"
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
 using ::testing::NiceMock;
 
-class MockPinIO : public IPinIO {
-public:
-    MOCK_METHOD(void, pinMode, (uint8_t pin, PinIOMode mode), (const, override));
-    MOCK_METHOD(void, digitalWrite, (uint8_t pin, PinIOValue value), (const, override));
-};
 
 uint8_t mockPin = 0;
 

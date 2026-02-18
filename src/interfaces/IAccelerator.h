@@ -29,7 +29,7 @@ public:
     virtual ~IAccelerator() = default;
 
     /**
-     * @brief adds the given callback to the Accelerator.
+     * @brief Adds the given callback to the Accelerator.
      *
      * The callback is called when the value of the
      * accelerator is updated.
