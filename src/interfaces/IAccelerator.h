@@ -24,7 +24,7 @@ public:
      * Represents a function that forwards the sampled values
      * through the AccelerationData.
      */
-    using AcceleratorCallback = std::function<void(AccelerationData)>;
+    using Callback = std::function<void(AccelerationData)>;
 
     virtual ~IAccelerator() = default;
 
@@ -35,7 +35,7 @@ public:
      * accelerator is updated.
      * @return whether the callback was added.
      */
-    virtual bool addCallback(AcceleratorCallback callback) = 0;
+    virtual bool addCallback(Callback callback) = 0;
     
     /**
      * @brief check if the values were updated.

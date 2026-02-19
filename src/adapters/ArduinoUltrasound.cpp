@@ -1,19 +1,7 @@
-#include "IUltrasound.h"
 #include "IClock.h"
 #include "IPinIO.h"
 
 #include "ArduinoUltrasound.h"
-
-bool ArduinoUltrasound::addCallback(UltrasoundCallback callback) {
-    if (mNumCallbacks >= mMaxNumCallbacks) {
-        return false;
-    }
-
-    mCallbacks[mNumCallbacks] = callback;
-    mNumCallbacks++;
-
-    return true;
-}
 
 void ArduinoUltrasound::update() {
     mPinIO->digitalWrite(mTrigPin, PinIOValue::High);
@@ -24,7 +12,5 @@ void ArduinoUltrasound::update() {
     float duration = mPinIO->pulseIn(mEchoPin, PinIOValue::High, 10000);
     float distance = duration * 0.01715; // sound of speed in cm/us divided by 2.
 
-    for (int i = 0; i < mNumCallbacks; i++) {
-        mCallbacks[i](distance);
-    }
+    event.notify(distance);
 }

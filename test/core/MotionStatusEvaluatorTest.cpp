@@ -15,7 +15,7 @@ using ::testing::NiceMock;
 
 class MockAccelerator : public IAccelerator {
 public:
-    MOCK_METHOD(bool, addCallback, (AcceleratorCallback callback), (override));
+    MOCK_METHOD(bool, addCallback, (Callback callback), (override));
     MOCK_METHOD(void, update, (), (override));
 };
 
@@ -49,7 +49,7 @@ TEST(MotionStatusEvaluatorTests, shouldUpdateInternalData) {
     auto mockSpikeStrategy = std::make_shared<NiceMock<MockSpikeDetectionStrategy>>();
     auto mockMotionStrategy = std::make_shared<NiceMock<MockMotionEvaluationStrategy>>();
 
-    IAccelerator::AcceleratorCallback callback;
+    IAccelerator::Callback callback;
 
     // Check if no data is there, and therefore the default motion is returned.
     EXPECT_CALL(*mockAccelerator, addCallback).WillOnce(::testing::DoAll(

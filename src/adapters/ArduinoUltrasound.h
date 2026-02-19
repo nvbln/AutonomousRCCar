@@ -3,6 +3,7 @@
 #include "IUltrasound.h"
 #include "IClock.h"
 #include "IPinIO.h"
+#include "Event.h"
 
 #include <memory>
 
@@ -28,7 +29,9 @@ public:
     /**
      * @see IUltrasound::addCallback()
      */
-    bool addCallback(UltrasoundCallback callback) override;
+    bool addCallback(Callback callback) override {
+        return event.subscribe(callback);
+    }
 
     /**
      * @see IUltrasound::update()
@@ -39,7 +42,5 @@ private:
     const std::shared_ptr<IPinIO> mPinIO;
     const uint8_t mTrigPin, mEchoPin;
 
-    static const uint8_t mMaxNumCallbacks = 5;
-    uint8_t mNumCallbacks = 0;
-    UltrasoundCallback mCallbacks[mMaxNumCallbacks];
+    Event<Callback, 5, float> event;
 };

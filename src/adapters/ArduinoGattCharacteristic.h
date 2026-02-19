@@ -6,6 +6,7 @@
 #include "IBLECharacteristic.h"
 #include "IBLEService.h"
 #include "IGattCharacteristic.h"
+#include "Event.h"
 
 /**
  * @class ArduinoGattCharacteristic
@@ -47,7 +48,9 @@ public:
     /**
      * @see IGattCharacteristic::addCallback()
      */
-    bool addCallback(Callback callback) override;
+    bool addCallback(Callback callback) override {
+        return event.subscribe(callback);
+    }
 
     /**
      * @see IGattCharacteristic::update()
@@ -58,7 +61,5 @@ private:
     const std::shared_ptr<ISerial> mSerial;
     const std::shared_ptr<IBLECharacteristic> mCharacteristic;
 
-    static const uint8_t mMaxNumCallbacks = 5;
-    uint8_t mNumCallbacks = 0;
-    Callback mCallbacks[mMaxNumCallbacks];
+    Event<Callback, 5, ValueBuffer> event;
 };

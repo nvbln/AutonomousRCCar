@@ -4,6 +4,7 @@
 #include "IIMUAccelerator.h"
 #include "IAccelerator.h"
 #include "IClock.h"
+#include "Event.h"
 
 #include <cstdint>
 #include <memory>
@@ -28,7 +29,9 @@ public:
      /**
       * @see IAccelerator::addCallback()
       */
-     bool addCallback(AcceleratorCallback callback) override;
+     bool addCallback(Callback callback) override {
+        return event.subscribe(callback);
+     }
 
      /**
       * @see IAccelerator::update()
@@ -41,7 +44,5 @@ private:
    std::shared_ptr<IClock> mClock;
    unsigned long mLastSampleTime;
 
-   static const uint8_t mMaxNumCallbacks = 5;
-   uint8_t mNumCallbacks = 0;
-   AcceleratorCallback mCallbacks[mMaxNumCallbacks];
+   Event<Callback, 5, AccelerationData> event;
 };

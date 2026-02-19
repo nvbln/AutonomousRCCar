@@ -15,7 +15,7 @@ public:
     /**
      * @brief Callback type used for handling newly sampled data.
      */
-    using UltrasoundCallback = std::function<void(float distanceCm)>;
+    using Callback = std::function<void(float distanceCm)>;
 
     virtual ~IUltrasound() = default;
 
@@ -26,7 +26,7 @@ public:
      * accelerator is updated.
      * @return whether the callback was added.
      */
-    virtual bool addCallback(UltrasoundCallback callback) = 0;
+    virtual bool addCallback(Callback callback) = 0;
 
     /**
      * @brief make a new measurement.
