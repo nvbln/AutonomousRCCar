@@ -37,6 +37,13 @@ public:
     unsigned long pulseIn(uint8_t pin, PinIOValue value, unsigned long timeout) const override {
         return ::pulseIn(pin, convertPinIOValue(value), timeout);
     }
+
+    /**
+     * @see IPinIO::analogWrite()
+     */
+    void analogWrite(uint8_t pin, int value) override {
+        ::analogWrite(pin, value);
+    }
 private:
     PinStatus convertPinIOValue(PinIOValue value) const {
         switch (value) {

@@ -23,21 +23,28 @@ public:
     /**
      * @brief Configures the behaviour of the specified pin.
      *
-     * @see the Arduino.h API
+     * @see the Arduino.h API.
      */
     virtual void pinMode(uint8_t pin, PinIOMode mode) const = 0;
 
     /**
      * @brief Sets the voltage of the pin.
      *
-     * @see the Arduino.h API
+     * @see the Arduino.h API.
      */
     virtual void digitalWrite(uint8_t pin, PinIOValue value) const = 0;
 
     /**
      * @brief Listens for a pulse on the specified pin.
      *
-     * @see the Arduino.h API
+     * @see the Arduino.h API.
      */
     virtual unsigned long pulseIn(uint8_t pin, PinIOValue value, unsigned long timeout = 1000000L) const = 0;
+
+    /**
+     * @brief Sets the voltage of the analog pin.
+     *
+     * @see the Arduino.h API.
+     */
+    virtual void analogWrite(uint8_t pin, int value) = 0;
 };

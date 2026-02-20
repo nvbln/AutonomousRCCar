@@ -31,6 +31,8 @@ add_library(adapters
     src/adapters/ArduinoLed.cpp
     src/adapters/ArduinoAccelerator.cpp
     src/adapters/ArduinoUltrasound.cpp
+    src/adapters/RCCarWheel.cpp
+    src/adapters/RCCarMovement.cpp
 )
 target_include_directories(adapters PUBLIC src/adapters src/hal)
 
@@ -64,6 +66,8 @@ add_executable(core_test
     test/adapters/ArduinoLedTest.cpp
     test/adapters/ArduinoAccelerator.cpp
     test/adapters/ArduinoUltrasoundTest.cpp
+    test/adapters/RCCarWheelTest.cpp
+    test/adapters/RCCarMovementTest.cpp
 )
 
 target_link_libraries(core_test
