@@ -5,6 +5,7 @@
 #include "ILed.h"
 #include "IAccelerator.h"
 #include "IUltrasound.h"
+#include "IVehicleMovement.h"
 
 #include "MotionStatusEvaluator.h"
 
@@ -34,7 +35,8 @@ public:
          std::shared_ptr<IBluetooth> bluetooth,
          std::shared_ptr<ILed> led,
          std::shared_ptr<IAccelerator> accelerator,
-         std::shared_ptr<IUltrasound> ultrasound);
+         std::shared_ptr<IUltrasound> ultrasound,
+         std::shared_ptr<IVehicleMovement> vehicleMovement);
 
     /**
      * @brief Updates the state of the application logic.
@@ -51,4 +53,5 @@ private:
     std::shared_ptr<IAccelerator> mAccelerator;
     std::shared_ptr<MotionStatusEvaluator> mMotionEvaluator;
     std::shared_ptr<IUltrasound> mUltrasound;
+    std::shared_ptr<IVehicleMovement> mVehicleMovement;
 };

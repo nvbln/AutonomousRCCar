@@ -16,9 +16,14 @@ Core::Core(std::shared_ptr<ISerial> serial,
            std::shared_ptr<IBluetooth> bluetooth,
            std::shared_ptr<ILed> led,
            std::shared_ptr<IAccelerator> accelerator,
-           std::shared_ptr<IUltrasound> ultrasound) : 
-    mSerial(serial), mBluetooth(bluetooth), mLed(led), mAccelerator(accelerator),
-    mUltrasound(ultrasound) {
+           std::shared_ptr<IUltrasound> ultrasound,
+           std::shared_ptr<IVehicleMovement> vehicleMovement) : 
+        mSerial(serial), 
+        mBluetooth(bluetooth),
+        mLed(led),
+        mAccelerator(accelerator),
+        mUltrasound(ultrasound),
+        mVehicleMovement(vehicleMovement) {
     std::string uuid = "19B10001-E8F2-537E-4F6C-D104768A1214";
     std::shared_ptr<IGattService> ledService = mBluetooth->createService(uuid.c_str());
     std::shared_ptr<IGattCharacteristic> ledChar = mBluetooth->createCharacteristic(uuid.c_str());
@@ -40,14 +45,15 @@ Core::Core(std::shared_ptr<ISerial> serial,
                 std::make_shared<SimpleMotionEvaluationStrategy>()
     );
 
-    ultrasound->addCallback([serial](float distance) {
+    mVehicleMovement->forward();
+    /*ultrasound->addCallback([serial](float distance) {
         serial->print("distance: ");
         serial->println(distance);
-    });
+    });*/
 }
 
 void Core::update() {
-    MotionStatus status = mMotionEvaluator->status(); 
+    /*MotionStatus status = mMotionEvaluator->status(); 
     switch(status) {
         case MotionStatus::Still:
             mSerial->println("Still");
@@ -58,5 +64,5 @@ void Core::update() {
         case MotionStatus::Blocked:
             mSerial->println("Blocked");
             break;
-    }
+    }*/
 }

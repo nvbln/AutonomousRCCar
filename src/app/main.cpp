@@ -11,11 +11,17 @@
 #include "ArduinoAccelerator.h"
 #include "ArduinoClock.h"
 #include "ArduinoUltrasound.h"
+#include "RCCarWheel.h"
+#include "RCCarMovement.h"
 
 #include <memory>
 
 static const uint8_t TRIG_PIN = 9;
 static const uint8_t ECHO_PIN = 10;
+static const uint8_t LEFT_FORWARD = A0;
+static const uint8_t LEFT_BACKWARD = A1;
+static const uint8_t RIGHT_FORWARD = A2;
+static const uint8_t RIGHT_BACKWARD = A3;
 
 std::shared_ptr<ArduinoBLEDevice> bleDevice;
 std::shared_ptr<ArduinoSerial> serial;
@@ -23,6 +29,10 @@ std::shared_ptr<ArduinoPinIO> pinIO;
 std::shared_ptr<ArduinoIMUAccelerator> IMUAccelerator;
 std::shared_ptr<ArduinoClock> arduinoClock;
 std::shared_ptr<ArduinoUltrasound> ultrasound;
+
+std::shared_ptr<RCCarWheel> leftWheel;
+std::shared_ptr<RCCarWheel> rightWheel;
+std::shared_ptr<RCCarMovement> rcCarMovement;
 
 std::shared_ptr<Core> core;
 std::shared_ptr<ArduinoBluetooth> bluetooth;
@@ -44,11 +54,21 @@ void setup() {
     accelerator = std::make_shared<ArduinoAccelerator>(serial, IMUAccelerator, arduinoClock);
     ultrasound = std::make_shared<ArduinoUltrasound>(arduinoClock, pinIO, TRIG_PIN, ECHO_PIN);
 
+    leftWheel = std::make_shared<RCCarWheel>(pinIO, LEFT_FORWARD, LEFT_BACKWARD);
+    rightWheel = std::make_shared<RCCarWheel>(pinIO, RIGHT_FORWARD, RIGHT_BACKWARD);
+    rcCarMovement = std::make_shared<RCCarMovement>(leftWheel, rightWheel);
+
     if (!BLE.begin()) {
         serial->println("Starting Bluetooth BLE failed!");
     } else {
         bluetooth = std::make_shared<ArduinoBluetooth>(serial, bleDevice, "LED");
-        core = std::make_shared<Core>(serial, bluetooth, led, accelerator, ultrasound);
+        core = std::make_shared<Core>(serial,
+                                      bluetooth,
+                                      led,
+                                      accelerator,
+                                      ultrasound,
+                                      rcCarMovement
+        );
     }
 }
 
