@@ -23,50 +23,85 @@ class MockVehicleMovement : public IVehicleMovement {
 public:
     MOCK_METHOD(void, forward, (), (override));
     MOCK_METHOD(void, backward, (), (override));
-    MOCK_METHOD(void, turnDegrees, (int degrees), (override));
+    MOCK_METHOD(void, turn, (), (override));
     MOCK_METHOD(void, stop, (), (override));
     MOCK_METHOD(MovementStatus, movementStatus, (), (const, override));
 };
 
-TEST(CarMovementControllerTests, shouldStopWhenCloseToObstacle) {
-    auto mockSerial = std::make_shared<NiceMock<MockSerial>>();
-    auto mockUltrasound = std::make_shared<MockUltrasound>();
-
+class CarMovementControllerTest : public ::testing::Test {
+protected:
+    std::shared_ptr<NiceMock<MockSerial>> mockSerial;
+    std::shared_ptr<MockUltrasound> mockUltrasound;
+    std::shared_ptr<MockVehicleMovement> mockCarMovement;
+    MovementStatus status;
     IUltrasound::Callback callback;
-    ON_CALL(*mockUltrasound, addCallback).WillByDefault(::testing::DoAll(
-        SaveArg<0>(&callback),
-        Return(true)
-    ));
 
-    auto mockCarMovement = std::make_shared<MockVehicleMovement>();
-    MovementStatus status = MovementStatus::Still; 
-    ON_CALL(*mockCarMovement, movementStatus).WillByDefault(Invoke([&status]() {
-        return status;
-    }));
-    ON_CALL(*mockCarMovement, forward).WillByDefault(Invoke([&status]() {
-        status = MovementStatus::Forwards;
-    }));
-    ON_CALL(*mockCarMovement, backward).WillByDefault(Invoke([&status]() {
-        status = MovementStatus::Backwards;
-    }));
-    ON_CALL(*mockCarMovement, stop).WillByDefault(Invoke([&status]() {
+    void SetUp() override {
+        mockSerial = std::make_shared<NiceMock<MockSerial>>();
+        mockUltrasound = std::make_shared<MockUltrasound>();
+        mockCarMovement = std::make_shared<MockVehicleMovement>();
+
+        ON_CALL(*mockUltrasound, addCallback).WillByDefault(::testing::DoAll(
+            SaveArg<0>(&callback),
+            Return(true)
+        ));
+
         status = MovementStatus::Still;
-    }));
 
+        ON_CALL(*mockCarMovement, movementStatus).WillByDefault(Invoke([this]() {
+            return status;
+        }));
+
+        ON_CALL(*mockCarMovement, forward).WillByDefault(Invoke([this]() {
+            status = MovementStatus::Forwards;
+        }));
+
+        ON_CALL(*mockCarMovement, backward).WillByDefault(Invoke([this]() {
+            status = MovementStatus::Backwards;
+        }));
+
+        ON_CALL(*mockCarMovement, turn).WillByDefault(Invoke([this]() {
+            status = MovementStatus::Turning;
+        }));
+
+        ON_CALL(*mockCarMovement, stop).WillByDefault(Invoke([this]() {
+            status = MovementStatus::Still;
+        }));
+    }
+};
+
+TEST_F(CarMovementControllerTest, shouldStopWhenTooCloseToObstacle) {
     std::unique_ptr<CarMovementController> controller 
             = std::make_unique<CarMovementController>(mockSerial,
                                                       mockUltrasound,
                                                       mockCarMovement
     );
 
-    // Set the initial distance and check if car starts driving.
     callback(100);
     controller->controlCar();
     EXPECT_EQ(MovementStatus::Forwards, status);
 
-    // Set the distance too low and check if the car stops driving.
     callback(5);
-    //ON_CALL(*mockCarMovement, movementStatus).WillByDefault(Return(MovementStatus::Forwards));
     controller->controlCar();
     EXPECT_EQ(MovementStatus::Still, status);
-};
+}
+
+TEST_F(CarMovementControllerTest, shouldTurnWhenCloseToObstacle) {
+    std::unique_ptr<CarMovementController> controller 
+            = std::make_unique<CarMovementController>(mockSerial,
+                                                      mockUltrasound,
+                                                      mockCarMovement
+    );
+    
+    callback(100);
+    controller->controlCar();
+    EXPECT_EQ(MovementStatus::Forwards, status);
+
+    callback(20);
+    controller->controlCar();
+    EXPECT_EQ(MovementStatus::Turning, status);
+
+    callback(100);
+    controller->controlCar();
+    EXPECT_EQ(MovementStatus::Forwards, status);
+}

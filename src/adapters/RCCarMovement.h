@@ -23,7 +23,7 @@ public:
     /**
      * @see IVehicleMovement::turnDegrees()
      */
-    void turnDegrees(int degrees) override;
+    void turn() override;
 
     /**
      * @see IVehicleMovement::stop()

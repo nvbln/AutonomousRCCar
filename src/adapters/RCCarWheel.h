@@ -8,7 +8,7 @@
 
 class RCCarWheel : public IWheel {
 public:
-    static constexpr int MovementVoltage = 150; // Corresponds to 2V for Arduino Nano 33.
+    static constexpr int MovementVoltage = 75; // Corresponds to 1V for Arduino Nano 33.
 
     RCCarWheel(std::shared_ptr<IPinIO> pinIO,
                const uint8_t forwardPin,

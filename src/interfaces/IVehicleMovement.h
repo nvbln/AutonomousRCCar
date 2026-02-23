@@ -29,12 +29,9 @@ public:
     virtual void backward() = 0;
 
     /**
-     * @brief Turns the vehicle by the given degrees.
-     *
-     * The degrees clockwise, so 90 degrees is a turn to the
-     * right, while 270 degrees is a turn to the left.
+     * @brief Turns the vehicle until stopped.
      */
-    virtual void turnDegrees(int degrees) = 0;
+    virtual void turn() = 0;
 
     /**
      * @brief Stops all vehicle movement.

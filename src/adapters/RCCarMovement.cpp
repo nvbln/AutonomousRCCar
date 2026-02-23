@@ -16,8 +16,13 @@ void RCCarMovement::backward() {
     }
 }
 
-void RCCarMovement::turnDegrees(int degrees) {
-    // TODO: Implement
+void RCCarMovement::turn() {
+    if (mStatus != MovementStatus::Turning) {
+        // Only one-directional turning is supported for now.
+        mLeftWheel->forward();
+        mRightWheel->backward();
+        mStatus = MovementStatus::Turning;
+    }
 }
 
 void RCCarMovement::stop() {
