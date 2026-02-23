@@ -11,6 +11,9 @@
 
 #include "LedController.h"
 #include "MotionStatusEvaluator.h"
+#include "CarMovementController.h"
+
+std::shared_ptr<CarMovementController> carController;
 
 Core::Core(std::shared_ptr<ISerial> serial, 
            std::shared_ptr<IBluetooth> bluetooth,
@@ -45,24 +48,10 @@ Core::Core(std::shared_ptr<ISerial> serial,
                 std::make_shared<SimpleMotionEvaluationStrategy>()
     );
 
-    mVehicleMovement->forward();
-    /*ultrasound->addCallback([serial](float distance) {
-        serial->print("distance: ");
-        serial->println(distance);
-    });*/
+    carController = std::make_shared<CarMovementController>(
+            serial, ultrasound, mVehicleMovement);
 }
 
 void Core::update() {
-    /*MotionStatus status = mMotionEvaluator->status(); 
-    switch(status) {
-        case MotionStatus::Still:
-            mSerial->println("Still");
-            break;
-        case MotionStatus::Moving:
-            mSerial->println("Moving");
-            break;
-        case MotionStatus::Blocked:
-            mSerial->println("Blocked");
-            break;
-    }*/
+    carController->controlCar();
 }

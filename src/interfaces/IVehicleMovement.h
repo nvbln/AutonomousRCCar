@@ -1,5 +1,7 @@
 #pragma once
 
+enum class MovementStatus { Forwards, Backwards, Turning, Still };
+
 /**
  * @class IVehicleMovement
  * @brief Interface for controlling the vehicle movement.
@@ -38,4 +40,11 @@ public:
      * @brief Stops all vehicle movement.
      */
     virtual void stop() = 0;
+
+    /**
+     * @brief Gives the current movement being done (and Still if not).
+     *
+     * @return an enum containing the current status of the movement.
+     */
+    virtual MovementStatus movementStatus() const = 0;
 };

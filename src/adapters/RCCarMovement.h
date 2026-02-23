@@ -30,6 +30,12 @@ public:
      */
     void stop() override;
 
+    /**
+     * @see IVehicleMovement::movementStatus()
+     */
+    MovementStatus movementStatus() const override;
+
 private:
+    MovementStatus mStatus = MovementStatus::Still;
     const std::shared_ptr<IWheel> mLeftWheel, mRightWheel;
 };

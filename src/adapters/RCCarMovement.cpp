@@ -1,13 +1,19 @@
 #include "RCCarMovement.h"
 
 void RCCarMovement::forward() {
-    mLeftWheel->forward();
-    mRightWheel->forward();
+    if (mStatus != MovementStatus::Forwards) {
+        mLeftWheel->forward();
+        mRightWheel->forward();
+        mStatus = MovementStatus::Forwards;
+    }
 }
 
 void RCCarMovement::backward() {
-    mLeftWheel->backward();
-    mRightWheel->backward();
+    if (mStatus != MovementStatus::Backwards) {
+        mLeftWheel->backward();
+        mRightWheel->backward();
+        mStatus = MovementStatus::Backwards;
+    }
 }
 
 void RCCarMovement::turnDegrees(int degrees) {
@@ -15,6 +21,13 @@ void RCCarMovement::turnDegrees(int degrees) {
 }
 
 void RCCarMovement::stop() {
-    mLeftWheel->stop();
-    mRightWheel->stop();
+    if (mStatus != MovementStatus::Still) {
+        mLeftWheel->stop();
+        mRightWheel->stop();
+        mStatus = MovementStatus::Still;
+    }
+}
+
+MovementStatus RCCarMovement::movementStatus() const {
+    return mStatus;
 }

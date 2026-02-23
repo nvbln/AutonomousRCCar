@@ -40,6 +40,7 @@ add_library(core STATIC
     src/core/src/Core.cpp
     src/core/src/LedController.cpp
     src/core/src/MotionStatusEvaluator.cpp
+    src/core/src/CarMovementController.cpp
     src/core/src/strategies/SimpleVarianceSpikeDetectionStrategy.cpp
     src/core/src/strategies/SimpleMotionEvaluationStrategy.cpp
 )
@@ -58,6 +59,7 @@ target_include_directories(test_mocks INTERFACE test/mock)
 add_executable(core_test
     test/core/LedControllerTest.cpp
     test/core/MotionStatusEvaluatorTest.cpp
+    test/core/CarMovementControllerTest.cpp
     test/core/strategies/SimpleVarianceSpikeDetectionStrategyTest.cpp
     test/core/strategies/SimpleMotionEvaluationStrategyTest.cpp
     test/adapters/ArduinoBluetooth.cpp
