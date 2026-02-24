@@ -1,7 +1,12 @@
 #include "CarMovementController.h"
 #include "IVehicleMovement.h"
+#include "ValueBuffer.h"
 
 void CarMovementController::controlCar() {
+    if (mMotorsLocked) {
+        return;
+    }
+
     MovementStatus status = mCarMovement->movementStatus();
 
     bool canMove = mDistance == 0 || mDistance > 50;
@@ -27,3 +32,7 @@ void CarMovementController::controlCar() {
         return;
     }
 }
+
+void CarMovementController::handle(ValueBuffer buffer) {
+    mMotorsLocked = !buffer.data[0];
+};

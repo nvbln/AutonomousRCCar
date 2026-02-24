@@ -2,6 +2,7 @@
 #include "IUltrasound.h"
 #include "IVehicleMovement.h"
 #include "CarMovementController.h"
+#include "ValueBuffer.h"
 
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
@@ -77,6 +78,8 @@ TEST_F(CarMovementControllerTest, shouldStopWhenTooCloseToObstacle) {
                                                       mockCarMovement
     );
 
+    controller->handle(ValueBuffer{1, 1});
+
     callback(100);
     controller->controlCar();
     EXPECT_EQ(MovementStatus::Forwards, status);
@@ -92,6 +95,8 @@ TEST_F(CarMovementControllerTest, shouldTurnWhenCloseToObstacle) {
                                                       mockUltrasound,
                                                       mockCarMovement
     );
+
+    controller->handle(ValueBuffer{1, 1});
     
     callback(100);
     controller->controlCar();

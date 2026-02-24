@@ -6,6 +6,7 @@
 #include "IAccelerator.h"
 #include "IUltrasound.h"
 #include "IVehicleMovement.h"
+#include "CarMovementController.h"
 
 #include "MotionStatusEvaluator.h"
 
@@ -54,4 +55,5 @@ private:
     std::shared_ptr<MotionStatusEvaluator> mMotionEvaluator;
     std::shared_ptr<IUltrasound> mUltrasound;
     std::shared_ptr<IVehicleMovement> mVehicleMovement;
+    std::shared_ptr<CarMovementController> mCarController;
 };

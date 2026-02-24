@@ -6,14 +6,8 @@
 #include "IAccelerator.h"
 #include "IUltrasound.h"
 
-#include "strategies/SimpleMotionEvaluationStrategy.h"
-#include "strategies/SimpleVarianceSpikeDetectionStrategy.h"
-
 #include "LedController.h"
-#include "MotionStatusEvaluator.h"
 #include "CarMovementController.h"
-
-std::shared_ptr<CarMovementController> carController;
 
 Core::Core(std::shared_ptr<ISerial> serial, 
            std::shared_ptr<IBluetooth> bluetooth,
@@ -28,30 +22,28 @@ Core::Core(std::shared_ptr<ISerial> serial,
         mUltrasound(ultrasound),
         mVehicleMovement(vehicleMovement) {
     std::string uuid = "19B10001-E8F2-537E-4F6C-D104768A1214";
-    std::shared_ptr<IGattService> ledService = mBluetooth->createService(uuid.c_str());
-    std::shared_ptr<IGattCharacteristic> ledChar = mBluetooth->createCharacteristic(uuid.c_str());
-    ledService->addCharacteristic(ledChar);
+    std::shared_ptr<IGattService> motorService = mBluetooth->createService(uuid.c_str());
+    std::shared_ptr<IGattCharacteristic> motorChar = mBluetooth->createCharacteristic(uuid.c_str());
+    motorService->addCharacteristic(motorChar);
 
     std::shared_ptr<LedController> ledController = std::make_shared<LedController>(mLed);
-    ledChar->addCallback([ledController](ValueBuffer buffer) {
+    motorChar->addCallback([ledController](ValueBuffer buffer) {
         ledController->handle(buffer);
     });
 
-    mBluetooth->addService(ledService);
+    mCarController = std::make_shared<CarMovementController>(
+            serial, ultrasound, mVehicleMovement);
+    motorChar->addCallback([this](ValueBuffer buffer) {
+        mCarController->handle(buffer);
+    });
+
+    mBluetooth->addService(motorService);
+
     if (mBluetooth->start()) {
         mSerial->println("Started the bluetooth service");
     }
-
-    mMotionEvaluator = std::make_shared<MotionStatusEvaluator>(
-                accelerator,
-                std::make_shared<SimpleVarianceSpikeDetectionStrategy>(),
-                std::make_shared<SimpleMotionEvaluationStrategy>()
-    );
-
-    carController = std::make_shared<CarMovementController>(
-            serial, ultrasound, mVehicleMovement);
 }
 
 void Core::update() {
-    carController->controlCar();
+    mCarController->controlCar();
 }
