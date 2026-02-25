@@ -32,15 +32,15 @@ public:
 class CarMovementControllerTest : public ::testing::Test {
 protected:
     std::shared_ptr<NiceMock<MockSerial>> mockSerial;
-    std::shared_ptr<MockUltrasound> mockUltrasound;
-    std::shared_ptr<MockVehicleMovement> mockCarMovement;
+    std::shared_ptr<NiceMock<MockUltrasound>> mockUltrasound;
+    std::shared_ptr<NiceMock<MockVehicleMovement>> mockCarMovement;
     MovementStatus status;
     IUltrasound::Callback callback;
 
     void SetUp() override {
         mockSerial = std::make_shared<NiceMock<MockSerial>>();
-        mockUltrasound = std::make_shared<MockUltrasound>();
-        mockCarMovement = std::make_shared<MockVehicleMovement>();
+        mockUltrasound = std::make_shared<NiceMock<MockUltrasound>>();
+        mockCarMovement = std::make_shared<NiceMock<MockVehicleMovement>>();
 
         ON_CALL(*mockUltrasound, addCallback).WillByDefault(::testing::DoAll(
             SaveArg<0>(&callback),
