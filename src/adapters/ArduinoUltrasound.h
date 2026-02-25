@@ -1,15 +1,14 @@
 #pragma once
 
 #include "IUltrasound.h"
-#include "IClock.h"
-#include "IPinIO.h"
+#include "IUltrasoundSource.h"
 #include "Event.h"
 
 #include <memory>
 
 /**
  * @class ArduinoUltrasound
- * @brief implements the communication with the ultrasound component.
+ * @brief notifies subscribers on new ultrasound data from IUltrasoundSource.
  */
 class ArduinoUltrasound : public IUltrasound {
 public:
@@ -17,14 +16,8 @@ public:
      * @brief creates an object that handles the Ultrasound distance measurements.
      *
      */
-    ArduinoUltrasound(std::shared_ptr<IClock> clock,
-                      std::shared_ptr<IPinIO> pinIO,
-                      uint8_t trigPin,
-                      uint8_t echoPin) :
-            mClock(clock), mPinIO(pinIO), mTrigPin(trigPin), mEchoPin(echoPin) {
-        mPinIO->pinMode(mTrigPin, PinIOMode::Output);
-        mPinIO->pinMode(mEchoPin, PinIOMode::Input);
-    }
+    ArduinoUltrasound(IUltrasoundSource* ultrasound) :
+            mUltrasound(ultrasound) {}
 
     /**
      * @see IUltrasound::addCallback()
@@ -34,13 +27,17 @@ public:
     }
 
     /**
+     * @brief Notifies its subscribers of the most up-to-date distance measurement.
+     *
+     * Due to the nature that the distance measurement is calculated on Arduino,
+     * there is no guarantee that this is new data. There is only the guarantee
+     * that this is the most recent measurement.
+     *
      * @see IUltrasound::update()
      */
     void update() override;
 private:
-    const std::shared_ptr<IClock> mClock;
-    const std::shared_ptr<IPinIO> mPinIO;
-    const uint8_t mTrigPin, mEchoPin;
+    IUltrasoundSource* mUltrasound;
 
     Event<Callback, 5, float> event;
 };

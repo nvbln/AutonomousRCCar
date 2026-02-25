@@ -11,24 +11,25 @@
 #include "ArduinoAccelerator.h"
 #include "ArduinoClock.h"
 #include "ArduinoUltrasound.h"
+#include "ArduinoUltrasoundSingleton.h"
 #include "RCCarWheel.h"
 #include "RCCarMovement.h"
 
 #include <memory>
 
-static const uint8_t TRIG_PIN = 9;
-static const uint8_t ECHO_PIN = 10;
-static const uint8_t LEFT_FORWARD = A0;
-static const uint8_t LEFT_BACKWARD = A1;
-static const uint8_t RIGHT_FORWARD = A2;
-static const uint8_t RIGHT_BACKWARD = A3;
+static constexpr uint8_t TRIG_PIN = 9;
+static constexpr uint8_t ECHO_PIN = 10;
+static constexpr uint8_t LEFT_FORWARD_PIN = A0;
+static constexpr uint8_t LEFT_BACKWARD_PIN = A1;
+static constexpr uint8_t RIGHT_FORWARD_PIN = A2;
+static constexpr uint8_t RIGHT_BACKWARD_PIN = A3;
 
 std::shared_ptr<ArduinoBLEDevice> bleDevice;
 std::shared_ptr<ArduinoSerial> serial;
 std::shared_ptr<ArduinoPinIO> pinIO;
 std::shared_ptr<ArduinoIMUAccelerator> IMUAccelerator;
 std::shared_ptr<ArduinoClock> arduinoClock;
-std::shared_ptr<ArduinoUltrasound> ultrasound;
+ArduinoUltrasoundSingleton* ultrasoundSingleton;
 
 std::shared_ptr<RCCarWheel> leftWheel;
 std::shared_ptr<RCCarWheel> rightWheel;
@@ -38,6 +39,7 @@ std::shared_ptr<Core> core;
 std::shared_ptr<ArduinoBluetooth> bluetooth;
 std::shared_ptr<ArduinoLed> led;
 std::shared_ptr<ArduinoAccelerator> accelerator;
+std::shared_ptr<ArduinoUltrasound> ultrasound;
 
 void setup() {
     bleDevice = std::make_shared<ArduinoBLEDevice>();
@@ -45,6 +47,7 @@ void setup() {
     pinIO = std::make_shared<ArduinoPinIO>();
     IMUAccelerator = std::make_shared<ArduinoIMUAccelerator>();
     arduinoClock = std::make_shared<ArduinoClock>();
+    ultrasoundSingleton = ArduinoUltrasoundSingleton::instance(TRIG_PIN, ECHO_PIN);
 
     serial->begin(9600);
     while (!serial->ready());
@@ -52,10 +55,10 @@ void setup() {
 
     led = std::make_shared<ArduinoLed>(pinIO, LED_BUILTIN);
     accelerator = std::make_shared<ArduinoAccelerator>(serial, IMUAccelerator, arduinoClock);
-    ultrasound = std::make_shared<ArduinoUltrasound>(arduinoClock, pinIO, TRIG_PIN, ECHO_PIN);
+    ultrasound = std::make_shared<ArduinoUltrasound>(ultrasoundSingleton);
 
-    leftWheel = std::make_shared<RCCarWheel>(pinIO, LEFT_FORWARD, LEFT_BACKWARD);
-    rightWheel = std::make_shared<RCCarWheel>(pinIO, RIGHT_FORWARD, RIGHT_BACKWARD);
+    leftWheel = std::make_shared<RCCarWheel>(pinIO, LEFT_FORWARD_PIN, LEFT_BACKWARD_PIN);
+    rightWheel = std::make_shared<RCCarWheel>(pinIO, RIGHT_FORWARD_PIN, RIGHT_BACKWARD_PIN);
     rcCarMovement = std::make_shared<RCCarMovement>(leftWheel, rightWheel);
 
     if (!BLE.begin()) {

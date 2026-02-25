@@ -37,6 +37,10 @@ Core::Core(std::shared_ptr<ISerial> serial,
         mCarController->handle(buffer);
     });
 
+    ultrasound->addCallback([serial](float distance) {
+        serial->println(distance);
+    });
+
     mBluetooth->addService(motorService);
 
     if (mBluetooth->start()) {
