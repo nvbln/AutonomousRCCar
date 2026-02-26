@@ -1,11 +1,11 @@
 #pragma once
 
-#include <cstdint>
-#include <string>
-#include <functional>
 #include <ValueBuffer.h>
+#include <cstdint>
+#include <functional>
+#include <string>
 
-template<typename T>
+template <typename T>
 /**
  * @struct Result
  * @brief Represents the data retrievel operation result.
@@ -17,15 +17,15 @@ template<typename T>
  * @tparam T the type of data that is retrieved.
  */
 struct Result {
-    /**
-     * @brief Whether the data was successfully retrieved and stored
-     */
-    bool success;
+  /**
+   * @brief Whether the data was successfully retrieved and stored
+   */
+  bool success;
 
-    /**
-     * @brief The retrieved data.
-     */
-    T data;
+  /**
+   * @brief The retrieved data.
+   */
+  T data;
 };
 
 /**
@@ -38,43 +38,43 @@ struct Result {
  */
 class IGattCharacteristic {
 public:
-    /**
-     * @brief Callback type used for handling newly written data to the Characteristic.
-     *
-     * Represents a function that receives the written value through the
-     * Result<ValueBuffer> and passes it to the listener.
-     */
-    using Callback = std::function<void(ValueBuffer)>;
+  /**
+   * @brief Callback type used for handling newly written data to the Characteristic.
+   *
+   * Represents a function that receives the written value through the
+   * Result<ValueBuffer> and passes it to the listener.
+   */
+  using Callback = std::function<void(ValueBuffer)>;
 
-    virtual ~IGattCharacteristic() = default;
+  virtual ~IGattCharacteristic() = default;
 
-    /**
-     * @brief reads the value from the Characteristic
-     *
-     * @return whether the read was successful, if so, the value of the Characteristic.
-     */
-    virtual Result<ValueBuffer> read() = 0;
+  /**
+   * @brief reads the value from the Characteristic
+   *
+   * @return whether the read was successful, if so, the value of the Characteristic.
+   */
+  virtual Result<ValueBuffer> read() = 0;
 
-    /**
-     * @brief writes the buffer to the Characteristic.
-     *
-     * @return whether the write operation was successful.
-     */
-    virtual bool write(const ValueBuffer& valueBuffer) = 0;
+  /**
+   * @brief writes the buffer to the Characteristic.
+   *
+   * @return whether the write operation was successful.
+   */
+  virtual bool write(const ValueBuffer &valueBuffer) = 0;
 
-    /**
-     * @brief adds the given callback to the Characteristic.
-     *
-     * The Callback is called when the value of the
-     * Characteristic is updated.
-     * @return whether the callback was added.
-     */
-    virtual bool addCallback(Callback callback) = 0;
+  /**
+   * @brief adds the given callback to the Characteristic.
+   *
+   * The Callback is called when the value of the
+   * Characteristic is updated.
+   * @return whether the callback was added.
+   */
+  virtual bool addCallback(Callback callback) = 0;
 
-    /**
-     * @brief check if the Characteristic was updated.
-     *
-     * Specifically, checks if a new value has been written to the Characteristic.
-     */
-    virtual void update() = 0;
+  /**
+   * @brief check if the Characteristic was updated.
+   *
+   * Specifically, checks if a new value has been written to the Characteristic.
+   */
+  virtual void update() = 0;
 };

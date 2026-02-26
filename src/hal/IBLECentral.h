@@ -15,19 +15,19 @@
  */
 class IBLECentral {
 public:
-    virtual ~IBLECentral() = default;
+  virtual ~IBLECentral() = default;
 
-    /**
-     * @brief Returns the MAC address of the connected central device.
-     *
-     * @see the ArduinoBLE library.
-     */
-    virtual const char* address() const = 0;
+  /**
+   * @brief Returns the MAC address of the connected central device.
+   *
+   * @see the ArduinoBLE library.
+   */
+  virtual const char *address() const = 0;
 
-    /**
-     * @brief Indicates whether the central device is currently connected to the peripheral. 
-     *
-     * @see the ArduinoBLE library.
-     */
-    virtual bool connected() const = 0;
+  /**
+   * @brief Indicates whether the central device is currently connected to the peripheral.
+   *
+   * @see the ArduinoBLE library.
+   */
+  virtual bool connected() const = 0;
 };

@@ -12,20 +12,20 @@
  */
 class IClock {
 public:
-    virtual ~IClock() = default;
+  virtual ~IClock() = default;
 
-    /**
-     * @brief returns the current time in microseconds.
-     * 
-     * @see the Arduino.h API.
-     * @return the current time in microseconds.
-     */
-    virtual unsigned long micros() const = 0;
+  /**
+   * @brief returns the current time in microseconds.
+   *
+   * @see the Arduino.h API.
+   * @return the current time in microseconds.
+   */
+  virtual unsigned long micros() const = 0;
 
-    /**
-     * @brief delays the time in microseconds.
-     *
-     * @see the Arduino.h API
-     */
-    virtual void delayMicroseconds(unsigned int us) = 0;
+  /**
+   * @brief delays the time in microseconds.
+   *
+   * @see the Arduino.h API
+   */
+  virtual void delayMicroseconds(unsigned int us) = 0;
 };

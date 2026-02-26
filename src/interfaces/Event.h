@@ -15,38 +15,37 @@
  * @tparam maxSubscribers Maximum number of callbacks that can be registered.
  * @tparam Args... The argument types forwarded to each callback.
  */
-template<typename CallbackType, uint8_t maxSubscribers, typename... Args>
-class Event {
+template <typename CallbackType, uint8_t maxSubscribers, typename... Args> class Event {
 public:
-    /**
-     * @brief Registers a new callback.
-     *
-     * @param callback The callback function to register.
-     * @return whether the callback was successfully registered.
-     */
-    bool subscribe(CallbackType callback) {
-        if (mNumSubscribers >= maxSubscribers) {
-            return false;
-        }
-        
-        mCallbacks[mNumSubscribers] = callback;
-        mNumSubscribers++;
-
-        return true;
+  /**
+   * @brief Registers a new callback.
+   *
+   * @param callback The callback function to register.
+   * @return whether the callback was successfully registered.
+   */
+  bool subscribe(CallbackType callback) {
+    if (mNumSubscribers >= maxSubscribers) {
+      return false;
     }
 
-    /**
-     * @brief Invokes all registered callbacks in the order of subscription.
-     *
-     * @param args Arguments forwarded to each callback.
-     */
-    void notify(Args... args) {
-        for (int i = 0; i < mNumSubscribers; i++) {
-            mCallbacks[i](args...);
-        }
+    mCallbacks[mNumSubscribers] = callback;
+    mNumSubscribers++;
+
+    return true;
+  }
+
+  /**
+   * @brief Invokes all registered callbacks in the order of subscription.
+   *
+   * @param args Arguments forwarded to each callback.
+   */
+  void notify(Args... args) {
+    for (int i = 0; i < mNumSubscribers; i++) {
+      mCallbacks[i](args...);
     }
+  }
 
 private:
-    uint8_t mNumSubscribers = 0;
-    CallbackType mCallbacks[maxSubscribers];
+  uint8_t mNumSubscribers = 0;
+  CallbackType mCallbacks[maxSubscribers];
 };

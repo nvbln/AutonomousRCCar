@@ -1,8 +1,8 @@
 #pragma once
 
+#include "Event.h"
 #include "IUltrasound.h"
 #include "IUltrasoundSource.h"
-#include "Event.h"
 
 #include <memory>
 
@@ -12,32 +12,30 @@
  */
 class ArduinoUltrasound : public IUltrasound {
 public:
-    /**
-     * @brief creates an object that handles the Ultrasound distance measurements.
-     *
-     */
-    ArduinoUltrasound(IUltrasoundSource* ultrasound) :
-            mUltrasound(ultrasound) {}
+  /**
+   * @brief creates an object that handles the Ultrasound distance measurements.
+   *
+   */
+  ArduinoUltrasound(IUltrasoundSource *ultrasound) : mUltrasound(ultrasound) {}
 
-    /**
-     * @see IUltrasound::addCallback()
-     */
-    bool addCallback(Callback callback) override {
-        return event.subscribe(callback);
-    }
+  /**
+   * @see IUltrasound::addCallback()
+   */
+  bool addCallback(Callback callback) override { return event.subscribe(callback); }
 
-    /**
-     * @brief Notifies its subscribers of the most up-to-date distance measurement.
-     *
-     * Due to the nature that the distance measurement is calculated on Arduino,
-     * there is no guarantee that this is new data. There is only the guarantee
-     * that this is the most recent measurement.
-     *
-     * @see IUltrasound::update()
-     */
-    void update() override;
+  /**
+   * @brief Notifies its subscribers of the most up-to-date distance measurement.
+   *
+   * Due to the nature that the distance measurement is calculated on Arduino,
+   * there is no guarantee that this is new data. There is only the guarantee
+   * that this is the most recent measurement.
+   *
+   * @see IUltrasound::update()
+   */
+  void update() override;
+
 private:
-    IUltrasoundSource* mUltrasound;
+  IUltrasoundSource *mUltrasound;
 
-    Event<Callback, 5, float> event;
+  Event<Callback, 5, float> event;
 };

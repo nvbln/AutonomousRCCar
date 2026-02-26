@@ -15,38 +15,29 @@
  */
 class ArduinoBLECharacteristic : public IBLECharacteristic {
 public:
-    ArduinoBLECharacteristic(const char* uuid) : 
-        mCharacteristic(uuid, BLERead | BLEWrite) {};
+  ArduinoBLECharacteristic(const char *uuid) : mCharacteristic(uuid, BLERead | BLEWrite){};
 
-    /**
-     * @see IBLECharacteristic::writeValue()
-     */
-    void writeValue(const uint8_t value) override {
-        mCharacteristic.writeValue(value);
-    }
+  /**
+   * @see IBLECharacteristic::writeValue()
+   */
+  void writeValue(const uint8_t value) override { mCharacteristic.writeValue(value); }
 
-    /**
-     * @see IBLECharacteristic::read()
-     */
-    uint8_t read() override {
-        return mCharacteristic.read();
-    }
+  /**
+   * @see IBLECharacteristic::read()
+   */
+  uint8_t read() override { return mCharacteristic.read(); }
 
-    /**
-     * @see IBLECharacteristic::value()
-     */
-    uint8_t value() override {
-        return mCharacteristic.value();
-    }
+  /**
+   * @see IBLECharacteristic::value()
+   */
+  uint8_t value() override { return mCharacteristic.value(); }
 
-    /**
-     * @see IBLECharacteristic::written()
-     */
-    bool written() override {
-        return mCharacteristic.written();
-    }
+  /**
+   * @see IBLECharacteristic::written()
+   */
+  bool written() override { return mCharacteristic.written(); }
 
 private:
-    friend class ArduinoBLEService;
-    BLEByteCharacteristic mCharacteristic;
+  friend class ArduinoBLEService;
+  BLEByteCharacteristic mCharacteristic;
 };

@@ -3,9 +3,9 @@
 #include <functional>
 
 struct AccelerationData {
-    float x;
-    float y;
-    float z;
+  float x;
+  float y;
+  float z;
 };
 
 /**
@@ -18,27 +18,27 @@ struct AccelerationData {
  */
 class IAccelerator {
 public:
-    /**
-     * @brief Callback type used for handling newly sampled data.
-     *
-     * Represents a function that forwards the sampled values
-     * through the AccelerationData.
-     */
-    using Callback = std::function<void(AccelerationData)>;
+  /**
+   * @brief Callback type used for handling newly sampled data.
+   *
+   * Represents a function that forwards the sampled values
+   * through the AccelerationData.
+   */
+  using Callback = std::function<void(AccelerationData)>;
 
-    virtual ~IAccelerator() = default;
+  virtual ~IAccelerator() = default;
 
-    /**
-     * @brief Adds the given callback to the Accelerator.
-     *
-     * The callback is called when the value of the
-     * accelerator is updated.
-     * @return whether the callback was added.
-     */
-    virtual bool addCallback(Callback callback) = 0;
-    
-    /**
-     * @brief check if the values were updated.
-     */
-    virtual void update() = 0;
+  /**
+   * @brief Adds the given callback to the Accelerator.
+   *
+   * The callback is called when the value of the
+   * accelerator is updated.
+   * @return whether the callback was added.
+   */
+  virtual bool addCallback(Callback callback) = 0;
+
+  /**
+   * @brief check if the values were updated.
+   */
+  virtual void update() = 0;
 };

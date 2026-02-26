@@ -1,19 +1,18 @@
 #include "SimpleMotionEvaluationStrategy.h"
 
-MotionStatus SimpleMotionEvaluationStrategy::evaluateCurrentMotion(
-        const MotionStatus status, 
-        const bool spike) const {
-    if (status == MotionStatus::Still && spike) {
-        return MotionStatus::Moving;
-    }
+MotionStatus SimpleMotionEvaluationStrategy::evaluateCurrentMotion(const MotionStatus status,
+                                                                   const bool spike) const {
+  if (status == MotionStatus::Still && spike) {
+    return MotionStatus::Moving;
+  }
 
-    if (status == MotionStatus::Moving && spike) {
-        return MotionStatus::Blocked;
-    }
+  if (status == MotionStatus::Moving && spike) {
+    return MotionStatus::Blocked;
+  }
 
-    if (status == MotionStatus::Blocked && !spike) {
-        return MotionStatus::Still;
-    }
+  if (status == MotionStatus::Blocked && !spike) {
+    return MotionStatus::Still;
+  }
 
-    return status;
+  return status;
 };

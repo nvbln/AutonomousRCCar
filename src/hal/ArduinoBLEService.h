@@ -2,11 +2,11 @@
 
 #include <memory>
 
-#include <ArduinoBLE.h>
+#include "ArduinoBLECharacteristic.h"
 #include "ArduinoBLEDevice.h"
 #include "IBLECharacteristic.h"
 #include "IBLEService.h"
-#include "ArduinoBLECharacteristic.h"
+#include <ArduinoBLE.h>
 
 /**
  * @class ArduinoBLEService
@@ -17,23 +17,22 @@
  */
 class ArduinoBLEService : public IBLEService {
 public:
-    ArduinoBLEService(const char* uuid) : mService(uuid) {};
+  ArduinoBLEService(const char *uuid) : mService(uuid){};
 
-    /**
-     * @see IBLEService::uuid()
-     */
-    const char* uuid() const override {
-        return mService.uuid();
-    }
+  /**
+   * @see IBLEService::uuid()
+   */
+  const char *uuid() const override { return mService.uuid(); }
 
-    /**
-     * @see IBLEService::addCharacteristic()
-     */
-    void addCharacteristic(std::shared_ptr<IBLECharacteristic> characteristic) override {
-        auto arduinoChar = std::static_pointer_cast<ArduinoBLECharacteristic>(characteristic);
-        mService.addCharacteristic(arduinoChar->mCharacteristic);
-    }
+  /**
+   * @see IBLEService::addCharacteristic()
+   */
+  void addCharacteristic(std::shared_ptr<IBLECharacteristic> characteristic) override {
+    auto arduinoChar = std::static_pointer_cast<ArduinoBLECharacteristic>(characteristic);
+    mService.addCharacteristic(arduinoChar->mCharacteristic);
+  }
+
 private:
-    friend class ArduinoBLEDevice;
-    BLEService mService;
+  friend class ArduinoBLEDevice;
+  BLEService mService;
 };

@@ -10,15 +10,15 @@
  */
 class IUltrasoundSource {
 public:
-    /**
-     * @brief returns the duration that it took for the sound wave to travel back.
-     *
-     * @return The duration in microseconds.
-     */
-    virtual unsigned long duration() const = 0;
+  /**
+   * @brief returns the duration that it took for the sound wave to travel back.
+   *
+   * @return The duration in microseconds.
+   */
+  virtual unsigned long duration() const = 0;
 
-    /**
-     * @brief starts an ultrasound time measurement.
-     */
-    virtual void measureDuration() = 0;
+  /**
+   * @brief starts an ultrasound time measurement.
+   */
+  virtual void measureDuration() = 0;
 };

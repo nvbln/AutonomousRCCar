@@ -10,19 +10,15 @@
  */
 class ArduinoClock : public IClock {
 public:
-    ArduinoClock() {};
+  ArduinoClock(){};
 
-    /**
-     * @see IClock::micros()
-     */
-    unsigned long micros() const override {
-        return ::micros();
-    }
+  /**
+   * @see IClock::micros()
+   */
+  unsigned long micros() const override { return ::micros(); }
 
-    /**
-     * @see IClock::delayMicroseconds()
-     */
-    void delayMicroseconds(unsigned int us) override {
-        return ::delayMicroseconds(us);
-    }
+  /**
+   * @see IClock::delayMicroseconds()
+   */
+  void delayMicroseconds(unsigned int us) override { return ::delayMicroseconds(us); }
 };

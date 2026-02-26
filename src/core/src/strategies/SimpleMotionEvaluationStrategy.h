@@ -14,15 +14,15 @@
  */
 class SimpleMotionEvaluationStrategy : public IMotionEvaluationStrategy {
 public:
-    /**
-     * @brief creates an instance of the strategy.
-     */
-    SimpleMotionEvaluationStrategy() {};
+  /**
+   * @brief creates an instance of the strategy.
+   */
+  SimpleMotionEvaluationStrategy(){};
 
-    /**
-     * @brief implements the strategy described for this class.
-     * 
-     * @see IMotionEvaluationStrategy::evaluateCurrentMotion()
-     */
-    MotionStatus evaluateCurrentMotion(const MotionStatus status, const bool spike) const override;
+  /**
+   * @brief implements the strategy described for this class.
+   *
+   * @see IMotionEvaluationStrategy::evaluateCurrentMotion()
+   */
+  MotionStatus evaluateCurrentMotion(const MotionStatus status, const bool spike) const override;
 };

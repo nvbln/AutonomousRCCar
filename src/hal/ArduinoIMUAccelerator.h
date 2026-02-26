@@ -13,26 +13,22 @@
  */
 class ArduinoIMUAccelerator : public IIMUAccelerator {
 public:
-    ArduinoIMUAccelerator() {};
+  ArduinoIMUAccelerator(){};
 
-    /**
-     * @see IIMUAccelerator::begin()
-     */
-    int begin() override {
-        return IMU.begin();
-    }
+  /**
+   * @see IIMUAccelerator::begin()
+   */
+  int begin() override { return IMU.begin(); }
 
-    /**
-     * @see IIMUAccelerator::accelerationAvailable()
-     */
-    int accelerationAvailable() const override {
-        return IMU.accelerationAvailable();
-    }
+  /**
+   * @see IIMUAccelerator::accelerationAvailable()
+   */
+  int accelerationAvailable() const override { return IMU.accelerationAvailable(); }
 
-    /**
-     * @see IIMUAccelerator::readAcceleration()
-     */
-    int readAcceleration(float& x, float& y, float& z) const override {
-        return IMU.readAcceleration(x, y, z);
-    }
+  /**
+   * @see IIMUAccelerator::readAcceleration()
+   */
+  int readAcceleration(float &x, float &y, float &z) const override {
+    return IMU.readAcceleration(x, y, z);
+  }
 };

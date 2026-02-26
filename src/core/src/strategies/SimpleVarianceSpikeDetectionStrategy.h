@@ -14,36 +14,36 @@
  */
 class SimpleVarianceSpikeDetectionStrategy : public ISpikeDetectionStrategy {
 private:
-    static constexpr uint8_t BUFFER_SIZE = 50;
+  static constexpr uint8_t BUFFER_SIZE = 50;
 
 public:
-    /**
-     * @brief creates an instance of the strategy.
-     *
-     * @params baselineSize Number of samples to use as baseline.
-     * @params outlierMultiple How many times higher the spike variance
-     *         should be than the baseline to be considered a spike.
-     */
-    SimpleVarianceSpikeDetectionStrategy(uint8_t baselineSize = 45,
-                                         uint8_t outlierMultiple = 10) :
-                                         mOutlierMultiple(outlierMultiple) {
-        if (mBaselineSize > BUFFER_SIZE - 1) {
-            mBaselineSize = 45;
-        } else {
-            mBaselineSize = baselineSize;
-        }
-    };
+  /**
+   * @brief creates an instance of the strategy.
+   *
+   * @params baselineSize Number of samples to use as baseline.
+   * @params outlierMultiple How many times higher the spike variance
+   *         should be than the baseline to be considered a spike.
+   */
+  SimpleVarianceSpikeDetectionStrategy(uint8_t baselineSize = 45, uint8_t outlierMultiple = 10)
+      : mOutlierMultiple(outlierMultiple) {
+    if (mBaselineSize > BUFFER_SIZE - 1) {
+      mBaselineSize = 45;
+    } else {
+      mBaselineSize = baselineSize;
+    }
+  };
 
-    /**
-     * @brief detects spikes based on the relative difference in variance.
-     *
-     * NOTE: If the buffer is not filled, the function will always return false.
-     * @see ISpikeDetectionStrategy::detectSpike()
-     */
-    bool detectSpike(const std::shared_ptr<CircularBuffer<float, BUFFER_SIZE>> bufferX,
-                     const std::shared_ptr<CircularBuffer<float, BUFFER_SIZE>> bufferY) const override;
+  /**
+   * @brief detects spikes based on the relative difference in variance.
+   *
+   * NOTE: If the buffer is not filled, the function will always return false.
+   * @see ISpikeDetectionStrategy::detectSpike()
+   */
+  bool
+  detectSpike(const std::shared_ptr<CircularBuffer<float, BUFFER_SIZE>> bufferX,
+              const std::shared_ptr<CircularBuffer<float, BUFFER_SIZE>> bufferY) const override;
 
 private:
-    uint8_t mBaselineSize;
-    uint8_t mOutlierMultiple;
+  uint8_t mBaselineSize;
+  uint8_t mOutlierMultiple;
 };

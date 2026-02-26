@@ -15,8 +15,8 @@
  */
 class IBLEService {
 public:
-    virtual ~IBLEService() = default;
+  virtual ~IBLEService() = default;
 
-    virtual const char* uuid() const = 0;
-    virtual void addCharacteristic(std::shared_ptr<IBLECharacteristic> characteristic) = 0;
+  virtual const char *uuid() const = 0;
+  virtual void addCharacteristic(std::shared_ptr<IBLECharacteristic> characteristic) = 0;
 };

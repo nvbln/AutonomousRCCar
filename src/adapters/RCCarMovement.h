@@ -1,41 +1,41 @@
 #pragma once
 
-#include "IWheel.h"
 #include "IVehicleMovement.h"
+#include "IWheel.h"
 
 #include <memory>
 
 class RCCarMovement : public IVehicleMovement {
 public:
-    RCCarMovement(std::shared_ptr<IWheel> leftWheel, std::shared_ptr<IWheel> rightWheel) :
-            mLeftWheel(leftWheel), mRightWheel(rightWheel) {}
+  RCCarMovement(std::shared_ptr<IWheel> leftWheel, std::shared_ptr<IWheel> rightWheel)
+      : mLeftWheel(leftWheel), mRightWheel(rightWheel) {}
 
-    /**
-     * @see IVehicleMovement::forward()
-     */
-    void forward() override;
+  /**
+   * @see IVehicleMovement::forward()
+   */
+  void forward() override;
 
-    /**
-     * @see IVehicleMovement::backward()
-     */
-    void backward() override;
+  /**
+   * @see IVehicleMovement::backward()
+   */
+  void backward() override;
 
-    /**
-     * @see IVehicleMovement::turnDegrees()
-     */
-    void turn() override;
+  /**
+   * @see IVehicleMovement::turnDegrees()
+   */
+  void turn() override;
 
-    /**
-     * @see IVehicleMovement::stop()
-     */
-    void stop() override;
+  /**
+   * @see IVehicleMovement::stop()
+   */
+  void stop() override;
 
-    /**
-     * @see IVehicleMovement::movementStatus()
-     */
-    MovementStatus movementStatus() const override;
+  /**
+   * @see IVehicleMovement::movementStatus()
+   */
+  MovementStatus movementStatus() const override;
 
 private:
-    MovementStatus mStatus = MovementStatus::Still;
-    const std::shared_ptr<IWheel> mLeftWheel, mRightWheel;
+  MovementStatus mStatus = MovementStatus::Still;
+  const std::shared_ptr<IWheel> mLeftWheel, mRightWheel;
 };

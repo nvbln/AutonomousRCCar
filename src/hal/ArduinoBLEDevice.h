@@ -1,9 +1,9 @@
 #pragma once
 
-#include "IBLEDevice.h"
-#include "ArduinoBLEService.h"
-#include "ArduinoBLECharacteristic.h"
 #include "ArduinoBLECentral.h"
+#include "ArduinoBLECharacteristic.h"
+#include "ArduinoBLEService.h"
+#include "IBLEDevice.h"
 
 #include <ArduinoBLE.h>
 
@@ -18,70 +18,62 @@
  */
 class ArduinoBLEDevice : public IBLEDevice {
 public:
-    ArduinoBLEDevice() {};
+  ArduinoBLEDevice(){};
 
-    /**
-     * @see IBLEDevice::begin()
-     */
-    bool begin() override {
-        return BLE.begin();
-    }
+  /**
+   * @see IBLEDevice::begin()
+   */
+  bool begin() override { return BLE.begin(); }
 
-    /**
-     * @see IBLEDevice::end()
-     */
-    void end() override {
-        BLE.end();
-    }
+  /**
+   * @see IBLEDevice::end()
+   */
+  void end() override { BLE.end(); }
 
-    /**
-     * @see IBLEDevice::setLocalName()
-     */
-    void setLocalName(const char* name) override {
-        BLE.setLocalName(name);
-    }
+  /**
+   * @see IBLEDevice::setLocalName()
+   */
+  void setLocalName(const char *name) override { BLE.setLocalName(name); }
 
-    /**
-     * @see IBLEDevice::createService()
-     */
-    std::shared_ptr<IBLEService> createService(const char* uuid) const override {
-        return std::make_shared<ArduinoBLEService>(uuid);
-    }
+  /**
+   * @see IBLEDevice::createService()
+   */
+  std::shared_ptr<IBLEService> createService(const char *uuid) const override {
+    return std::make_shared<ArduinoBLEService>(uuid);
+  }
 
-    /**
-     * @see IBLEDevice::createCharacteristic()
-     */
-    std::shared_ptr<IBLECharacteristic> createCharacteristic(const char* uuid) const override {
-        return std::make_shared<ArduinoBLECharacteristic>(uuid);
-    }
+  /**
+   * @see IBLEDevice::createCharacteristic()
+   */
+  std::shared_ptr<IBLECharacteristic> createCharacteristic(const char *uuid) const override {
+    return std::make_shared<ArduinoBLECharacteristic>(uuid);
+  }
 
-    /**
-     * @see IBLEDevice::addService()
-     */
-    void addService(std::shared_ptr<IBLEService> service)  override {
-        auto arduinoService = std::static_pointer_cast<ArduinoBLEService>(service);
-        BLE.addService(arduinoService->mService);
-    }
+  /**
+   * @see IBLEDevice::addService()
+   */
+  void addService(std::shared_ptr<IBLEService> service) override {
+    auto arduinoService = std::static_pointer_cast<ArduinoBLEService>(service);
+    BLE.addService(arduinoService->mService);
+  }
 
-    /**
-     * @see IBLEDevice::setAdvertisedService()
-     */
-    void setAdvertisedService(std::shared_ptr<IBLEService> service) override {
-        auto arduinoService = std::static_pointer_cast<ArduinoBLEService>(service);
-        BLE.setAdvertisedService(arduinoService->mService);
-    }
+  /**
+   * @see IBLEDevice::setAdvertisedService()
+   */
+  void setAdvertisedService(std::shared_ptr<IBLEService> service) override {
+    auto arduinoService = std::static_pointer_cast<ArduinoBLEService>(service);
+    BLE.setAdvertisedService(arduinoService->mService);
+  }
 
-    /**
-     * @see IBLEDevice::advertise()
-     */
-    void advertise() override {
-        BLE.advertise();
-    }
+  /**
+   * @see IBLEDevice::advertise()
+   */
+  void advertise() override { BLE.advertise(); }
 
-    /**
-     * @see IBLEDevice::central()
-     */
-    const std::shared_ptr<IBLECentral> central() const override {
-        return std::make_shared<ArduinoBLECentral>(BLE.central());
-    }
+  /**
+   * @see IBLEDevice::central()
+   */
+  const std::shared_ptr<IBLECentral> central() const override {
+    return std::make_shared<ArduinoBLECentral>(BLE.central());
+  }
 };

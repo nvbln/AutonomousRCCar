@@ -1,9 +1,9 @@
 #pragma once
 
-#include "strategies/ISpikeDetectionStrategy.h"
-#include "strategies/IMotionEvaluationStrategy.h"
 #include "IAccelerator.h"
 #include "MotionStatus.h"
+#include "strategies/IMotionEvaluationStrategy.h"
+#include "strategies/ISpikeDetectionStrategy.h"
 
 #include <CircularBuffer.hpp>
 
@@ -20,38 +20,36 @@
  */
 class MotionStatusEvaluator {
 public:
-    /**
-     * @brief creates an instance of the MotionStatusEvaluator
-     * 
-     * @params accelerator an instance of the IMU data source.
-     * @params spikeStrategy the strategy to use for detecting spikes.
-     * @params motionStrategy the strategy to use for determining the new motion status.
-     */
-    MotionStatusEvaluator(std::shared_ptr<IAccelerator> accelerator,
-                          std::shared_ptr<ISpikeDetectionStrategy> spikeStrategy,
-                          std::shared_ptr<IMotionEvaluationStrategy> motionStrategy) :
-            mSpikeStrategy(spikeStrategy), mMotionStrategy(motionStrategy) {
-        mBufferX = std::make_shared<CircularBuffer<float, 50>>();
-        mBufferY = std::make_shared<CircularBuffer<float, 50>>();
-        accelerator->addCallback([this](AccelerationData data) {
-            this->updateData(data);
-        });
-    }
+  /**
+   * @brief creates an instance of the MotionStatusEvaluator
+   *
+   * @params accelerator an instance of the IMU data source.
+   * @params spikeStrategy the strategy to use for detecting spikes.
+   * @params motionStrategy the strategy to use for determining the new motion status.
+   */
+  MotionStatusEvaluator(std::shared_ptr<IAccelerator> accelerator,
+                        std::shared_ptr<ISpikeDetectionStrategy> spikeStrategy,
+                        std::shared_ptr<IMotionEvaluationStrategy> motionStrategy)
+      : mSpikeStrategy(spikeStrategy), mMotionStrategy(motionStrategy) {
+    mBufferX = std::make_shared<CircularBuffer<float, 50>>();
+    mBufferY = std::make_shared<CircularBuffer<float, 50>>();
+    accelerator->addCallback([this](AccelerationData data) { this->updateData(data); });
+  }
 
-    /**
-     * @brief Calculates and returns the current MotionStatus.
-     *
-     * @return the most up-to-date MotionStatus
-     */
-    MotionStatus status(); 
+  /**
+   * @brief Calculates and returns the current MotionStatus.
+   *
+   * @return the most up-to-date MotionStatus
+   */
+  MotionStatus status();
 
 private:
-    MotionStatus mCurrentStatus = MotionStatus::Still;
-    bool mHasNewData = false;
-    std::shared_ptr<CircularBuffer<float, 50>> mBufferX;
-    std::shared_ptr<CircularBuffer<float, 50>> mBufferY;
-    std::shared_ptr<ISpikeDetectionStrategy> mSpikeStrategy;
-    std::shared_ptr<IMotionEvaluationStrategy> mMotionStrategy;
+  MotionStatus mCurrentStatus = MotionStatus::Still;
+  bool mHasNewData = false;
+  std::shared_ptr<CircularBuffer<float, 50>> mBufferX;
+  std::shared_ptr<CircularBuffer<float, 50>> mBufferY;
+  std::shared_ptr<ISpikeDetectionStrategy> mSpikeStrategy;
+  std::shared_ptr<IMotionEvaluationStrategy> mMotionStrategy;
 
-    void updateData(AccelerationData data);
+  void updateData(AccelerationData data);
 };

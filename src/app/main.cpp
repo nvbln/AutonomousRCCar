@@ -1,19 +1,19 @@
 #include <Arduino.h>
 #include <ArduinoBLE.h>
 
-#include "Core.h"
+#include "ArduinoAccelerator.h"
 #include "ArduinoBLEDevice.h"
+#include "ArduinoBluetooth.h"
+#include "ArduinoClock.h"
+#include "ArduinoIMUAccelerator.h"
+#include "ArduinoLed.h"
 #include "ArduinoPinIO.h"
 #include "ArduinoSerial.h"
-#include "ArduinoBluetooth.h"
-#include "ArduinoLed.h"
-#include "ArduinoIMUAccelerator.h"
-#include "ArduinoAccelerator.h"
-#include "ArduinoClock.h"
 #include "ArduinoUltrasound.h"
 #include "ArduinoUltrasoundSingleton.h"
-#include "RCCarWheel.h"
+#include "Core.h"
 #include "RCCarMovement.h"
+#include "RCCarWheel.h"
 
 #include <memory>
 
@@ -29,7 +29,7 @@ std::shared_ptr<ArduinoSerial> serial;
 std::shared_ptr<ArduinoPinIO> pinIO;
 std::shared_ptr<ArduinoIMUAccelerator> IMUAccelerator;
 std::shared_ptr<ArduinoClock> arduinoClock;
-ArduinoUltrasoundSingleton* ultrasoundSingleton;
+ArduinoUltrasoundSingleton *ultrasoundSingleton;
 
 std::shared_ptr<RCCarWheel> leftWheel;
 std::shared_ptr<RCCarWheel> rightWheel;
@@ -42,45 +42,40 @@ std::shared_ptr<ArduinoAccelerator> accelerator;
 std::shared_ptr<ArduinoUltrasound> ultrasound;
 
 void setup() {
-    bleDevice = std::make_shared<ArduinoBLEDevice>();
-    serial = std::make_shared<ArduinoSerial>();
-    pinIO = std::make_shared<ArduinoPinIO>();
-    IMUAccelerator = std::make_shared<ArduinoIMUAccelerator>();
-    arduinoClock = std::make_shared<ArduinoClock>();
-    ultrasoundSingleton = ArduinoUltrasoundSingleton::instance(TRIG_PIN, ECHO_PIN);
+  bleDevice = std::make_shared<ArduinoBLEDevice>();
+  serial = std::make_shared<ArduinoSerial>();
+  pinIO = std::make_shared<ArduinoPinIO>();
+  IMUAccelerator = std::make_shared<ArduinoIMUAccelerator>();
+  arduinoClock = std::make_shared<ArduinoClock>();
+  ultrasoundSingleton = ArduinoUltrasoundSingleton::instance(TRIG_PIN, ECHO_PIN);
 
-    serial->begin(9600);
-    while (!serial->ready());
-    serial->println("Start");
+  serial->begin(9600);
+  while (!serial->ready())
+    ;
+  serial->println("Start");
 
-    led = std::make_shared<ArduinoLed>(pinIO, LED_BUILTIN);
-    accelerator = std::make_shared<ArduinoAccelerator>(serial, IMUAccelerator, arduinoClock);
-    ultrasound = std::make_shared<ArduinoUltrasound>(ultrasoundSingleton);
+  led = std::make_shared<ArduinoLed>(pinIO, LED_BUILTIN);
+  accelerator = std::make_shared<ArduinoAccelerator>(serial, IMUAccelerator, arduinoClock);
+  ultrasound = std::make_shared<ArduinoUltrasound>(ultrasoundSingleton);
 
-    leftWheel = std::make_shared<RCCarWheel>(pinIO, LEFT_FORWARD_PIN, LEFT_BACKWARD_PIN);
-    rightWheel = std::make_shared<RCCarWheel>(pinIO, RIGHT_FORWARD_PIN, RIGHT_BACKWARD_PIN);
-    rcCarMovement = std::make_shared<RCCarMovement>(leftWheel, rightWheel);
+  leftWheel = std::make_shared<RCCarWheel>(pinIO, LEFT_FORWARD_PIN, LEFT_BACKWARD_PIN);
+  rightWheel = std::make_shared<RCCarWheel>(pinIO, RIGHT_FORWARD_PIN, RIGHT_BACKWARD_PIN);
+  rcCarMovement = std::make_shared<RCCarMovement>(leftWheel, rightWheel);
 
-    if (!BLE.begin()) {
-        serial->println("Starting Bluetooth BLE failed!");
-    } else {
-        bluetooth = std::make_shared<ArduinoBluetooth>(serial, bleDevice, "LED");
-        core = std::make_shared<Core>(serial,
-                                      bluetooth,
-                                      led,
-                                      accelerator,
-                                      ultrasound,
-                                      rcCarMovement
-        );
-    }
+  if (!BLE.begin()) {
+    serial->println("Starting Bluetooth BLE failed!");
+  } else {
+    bluetooth = std::make_shared<ArduinoBluetooth>(serial, bleDevice, "LED");
+    core = std::make_shared<Core>(serial, bluetooth, led, accelerator, ultrasound, rcCarMovement);
+  }
 }
 
 void loop() {
-    accelerator->update();
-    ultrasound->update();
-    bluetooth->update();
-    core->update();
+  accelerator->update();
+  ultrasound->update();
+  bluetooth->update();
+  core->update();
 
-    // Delay for debugging purposes.
-    delay(10);
+  // Delay for debugging purposes.
+  delay(10);
 }

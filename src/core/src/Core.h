@@ -1,12 +1,12 @@
 #pragma once
 
-#include "ISerial.h"
+#include "CarMovementController.h"
+#include "IAccelerator.h"
 #include "IBluetooth.h"
 #include "ILed.h"
-#include "IAccelerator.h"
+#include "ISerial.h"
 #include "IUltrasound.h"
 #include "IVehicleMovement.h"
-#include "CarMovementController.h"
 
 #include "MotionStatusEvaluator.h"
 
@@ -22,38 +22,35 @@
  */
 class Core {
 public:
-    /**
-     * @brief Sets up the main control flow for the application.
-     *
-     * Takes the instances of the hardware components of the device
-     * through a more general HAL and adapters interface.
-     *
-     * @param bluetooth   Instance of the Bluetooth provided by the device.
-     * @param led         Instance of the LED provided by the device.
-     * @param accelerator Instance of the IMU Accelerator provided by the device.
-     */
-    Core(std::shared_ptr<ISerial>,
-         std::shared_ptr<IBluetooth> bluetooth,
-         std::shared_ptr<ILed> led,
-         std::shared_ptr<IAccelerator> accelerator,
-         std::shared_ptr<IUltrasound> ultrasound,
-         std::shared_ptr<IVehicleMovement> vehicleMovement);
+  /**
+   * @brief Sets up the main control flow for the application.
+   *
+   * Takes the instances of the hardware components of the device
+   * through a more general HAL and adapters interface.
+   *
+   * @param bluetooth   Instance of the Bluetooth provided by the device.
+   * @param led         Instance of the LED provided by the device.
+   * @param accelerator Instance of the IMU Accelerator provided by the device.
+   */
+  Core(std::shared_ptr<ISerial>, std::shared_ptr<IBluetooth> bluetooth, std::shared_ptr<ILed> led,
+       std::shared_ptr<IAccelerator> accelerator, std::shared_ptr<IUltrasound> ultrasound,
+       std::shared_ptr<IVehicleMovement> vehicleMovement);
 
-    /**
-     * @brief Updates the state of the application logic.
-     *
-     * Updates the application logic layer by working through the
-     * event queue (to be implemented) and state changes that occurred this cycle.
-     */
-    void update();
+  /**
+   * @brief Updates the state of the application logic.
+   *
+   * Updates the application logic layer by working through the
+   * event queue (to be implemented) and state changes that occurred this cycle.
+   */
+  void update();
 
 private:
-    std::shared_ptr<ISerial> mSerial;
-    std::shared_ptr<IBluetooth> mBluetooth;
-    std::shared_ptr<ILed> mLed;
-    std::shared_ptr<IAccelerator> mAccelerator;
-    std::shared_ptr<MotionStatusEvaluator> mMotionEvaluator;
-    std::shared_ptr<IUltrasound> mUltrasound;
-    std::shared_ptr<IVehicleMovement> mVehicleMovement;
-    std::shared_ptr<CarMovementController> mCarController;
+  std::shared_ptr<ISerial> mSerial;
+  std::shared_ptr<IBluetooth> mBluetooth;
+  std::shared_ptr<ILed> mLed;
+  std::shared_ptr<IAccelerator> mAccelerator;
+  std::shared_ptr<MotionStatusEvaluator> mMotionEvaluator;
+  std::shared_ptr<IUltrasound> mUltrasound;
+  std::shared_ptr<IVehicleMovement> mVehicleMovement;
+  std::shared_ptr<CarMovementController> mCarController;
 };

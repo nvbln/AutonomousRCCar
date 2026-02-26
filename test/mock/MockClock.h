@@ -5,6 +5,6 @@
 
 class MockClock : public IClock {
 public:
-    MOCK_METHOD(unsigned long, micros, (), (const, override));
-    MOCK_METHOD(void, delayMicroseconds, (unsigned int us), (override));
+  MOCK_METHOD(unsigned long, micros, (), (const, override));
+  MOCK_METHOD(void, delayMicroseconds, (unsigned int us), (override));
 };
