@@ -44,7 +44,7 @@ add_library(core STATIC
     src/core/src/strategies/SimpleVarianceSpikeDetectionStrategy.cpp
     src/core/src/strategies/SimpleMotionEvaluationStrategy.cpp
 )
-target_include_directories(core 
+target_include_directories(core
     PUBLIC src/core/src external/circularbuffer
 )
 
@@ -62,11 +62,11 @@ add_executable(core_test
     test/core/CarMovementControllerTest.cpp
     test/core/strategies/SimpleVarianceSpikeDetectionStrategyTest.cpp
     test/core/strategies/SimpleMotionEvaluationStrategyTest.cpp
-    test/adapters/ArduinoBluetooth.cpp
+    test/adapters/ArduinoBluetoothTest.cpp
     test/adapters/ArduinoGattServiceTest.cpp
     test/adapters/ArduinoGattCharacteristicTest.cpp
     test/adapters/ArduinoLedTest.cpp
-    test/adapters/ArduinoAccelerator.cpp
+    test/adapters/ArduinoAcceleratorTest.cpp
     test/adapters/ArduinoUltrasoundTest.cpp
     test/adapters/RCCarWheelTest.cpp
     test/adapters/RCCarMovementTest.cpp

@@ -3,6 +3,7 @@
 #include <memory>
 #include <string>
 
+#include "IBLEDevice.h"
 #include "IBluetooth.h"
 #include "IGattCharacteristic.h"
 #include "ISerial.h"
