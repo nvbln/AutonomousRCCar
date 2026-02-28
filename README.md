@@ -1,6 +1,11 @@
-# Autonomous RC Car
+# <p align="center">Autonomous RC Car</p>
 
-Transforming a toy RC Car into an autonomous vehicle using Arduino.
+<p align="center">
+ Transforming a toy RC Car into an autonomous vehicle using Arduino.
+</p>
+<p align="center">
+ <img padding="10px" src="https://nathan.vanbeelen.site/images/autonomous_rc_car.jpeg" width="500"/>
+</p>
 
 ## About
 
