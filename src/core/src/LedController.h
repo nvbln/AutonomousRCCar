@@ -2,8 +2,8 @@
 
 #include <memory>
 
-#include "IGattCharacteristic.h"
 #include "ILed.h"
+#include "ValueBuffer.h"
 
 /**
  * @class LedController

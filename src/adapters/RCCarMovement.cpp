@@ -4,7 +4,7 @@ void RCCarMovement::forward() {
   if (mStatus != MovementStatus::Forwards) {
     mLeftWheel->forward();
     mRightWheel->forward();
-    mStatus = MovementStatus::Forwards;
+    updateStatus(MovementStatus::Forwards);
   }
 }
 
@@ -12,7 +12,7 @@ void RCCarMovement::backward() {
   if (mStatus != MovementStatus::Backwards) {
     mLeftWheel->backward();
     mRightWheel->backward();
-    mStatus = MovementStatus::Backwards;
+    updateStatus(MovementStatus::Backwards);
   }
 }
 
@@ -21,7 +21,7 @@ void RCCarMovement::turn() {
     // Only one-directional turning is supported for now.
     mLeftWheel->forward();
     mRightWheel->backward();
-    mStatus = MovementStatus::Turning;
+    updateStatus(MovementStatus::Turning);
   }
 }
 
@@ -29,7 +29,7 @@ void RCCarMovement::stop() {
   if (mStatus != MovementStatus::Still) {
     mLeftWheel->stop();
     mRightWheel->stop();
-    mStatus = MovementStatus::Still;
+    updateStatus(MovementStatus::Still);
   }
 }
 

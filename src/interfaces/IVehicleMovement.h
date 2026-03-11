@@ -1,6 +1,9 @@
 #pragma once
 
-enum class MovementStatus { Forwards, Backwards, Turning, Still };
+#include <cstdint>
+#include <functional>
+
+enum class MovementStatus : uint8_t { Forwards = 0, Backwards = 1, Turning = 2, Still = 3 };
 
 /**
  * @class IVehicleMovement
@@ -12,6 +15,11 @@ enum class MovementStatus { Forwards, Backwards, Turning, Still };
  */
 class IVehicleMovement {
 public:
+  /**
+   * @brief Calls the subscriber with the current MovementStatus on every change.
+   */
+  using Callback = std::function<void(MovementStatus)>;
+
   virtual ~IVehicleMovement() = default;
 
   /**
@@ -44,4 +52,9 @@ public:
    * @return an enum containing the current status of the movement.
    */
   virtual MovementStatus movementStatus() const = 0;
+
+  /**
+   * @brief Subscribes to changes of the MovementStatus of the vehicle.
+   */
+  virtual void subscribe(Callback callback) = 0;
 };

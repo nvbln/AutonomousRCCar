@@ -27,6 +27,7 @@ public:
   MOCK_METHOD(void, turn, (), (override));
   MOCK_METHOD(void, stop, (), (override));
   MOCK_METHOD(MovementStatus, movementStatus, (), (const, override));
+  MOCK_METHOD(void, subscribe, (Callback callback), (override));
 };
 
 class CarMovementControllerTest : public ::testing::Test {
@@ -71,7 +72,7 @@ TEST_F(CarMovementControllerTest, shouldStopWhenTooCloseToObstacle) {
   std::unique_ptr<CarMovementController> controller =
       std::make_unique<CarMovementController>(mockSerial, mockUltrasound, mockCarMovement);
 
-  controller->handle(ValueBuffer{1, 1});
+  controller->handle(ValueBuffer{{1}, 1});
 
   callback(100);
   controller->controlCar();
@@ -86,7 +87,7 @@ TEST_F(CarMovementControllerTest, shouldTurnWhenCloseToObstacle) {
   std::unique_ptr<CarMovementController> controller =
       std::make_unique<CarMovementController>(mockSerial, mockUltrasound, mockCarMovement);
 
-  controller->handle(ValueBuffer{1, 1});
+  controller->handle(ValueBuffer{{1}, 1});
 
   callback(100);
   controller->controlCar();

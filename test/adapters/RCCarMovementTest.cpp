@@ -6,6 +6,8 @@
 
 // TODO: Add test for turnDegrees once it's implemented.
 
+using ::testing::NiceMock;
+
 class MockWheel : public IWheel {
 public:
   MOCK_METHOD(void, forward, (), (override));
@@ -33,4 +35,22 @@ TEST(RCCarMovementTests, turnsAndStopsWheels) {
   EXPECT_CALL(*mockWheel1, stop).Times(1);
   EXPECT_CALL(*mockWheel2, stop).Times(1);
   rcCarMovement->stop();
+}
+
+TEST(RCCarMovementTests, reportsMovementStatusChanges) {
+  const auto mockWheel1 = std::make_shared<NiceMock<MockWheel>>();
+  const auto mockWheel2 = std::make_shared<NiceMock<MockWheel>>();
+
+  std::vector<MovementStatus> expected = {MovementStatus::Forwards, MovementStatus::Backwards,
+                                          MovementStatus::Turning, MovementStatus::Still};
+  std::vector<MovementStatus> received;
+  auto rcCarMovement = std::make_shared<RCCarMovement>(mockWheel1, mockWheel2);
+  rcCarMovement->subscribe([&received](MovementStatus status) { received.push_back(status); });
+
+  rcCarMovement->forward();
+  rcCarMovement->backward();
+  rcCarMovement->turn();
+  rcCarMovement->stop();
+
+  EXPECT_EQ(expected, received);
 }
