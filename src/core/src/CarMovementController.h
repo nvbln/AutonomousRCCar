@@ -19,7 +19,7 @@ public:
   CarMovementController(std::shared_ptr<ISerial> serial, std::shared_ptr<IUltrasound> ultrasound,
                         std::shared_ptr<IVehicleMovement> carMovement)
       : mSerial(serial), mCarMovement(carMovement) {
-    ultrasound->addCallback([this](float distance) { this->mDistance = distance; });
+    ultrasound->subscribe([this](float distance) { this->mDistance = distance; });
   }
 
   /**

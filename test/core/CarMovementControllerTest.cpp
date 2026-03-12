@@ -16,7 +16,7 @@ using ::testing::SaveArg;
 
 class MockUltrasound : public IUltrasound {
 public:
-  MOCK_METHOD(bool, addCallback, (IUltrasound::Callback callback), (override));
+  MOCK_METHOD(bool, subscribe, (IUltrasound::Callback callback), (override));
   MOCK_METHOD(void, update, (), (override));
 };
 
@@ -43,7 +43,7 @@ protected:
     mockUltrasound = std::make_shared<NiceMock<MockUltrasound>>();
     mockCarMovement = std::make_shared<NiceMock<MockVehicleMovement>>();
 
-    ON_CALL(*mockUltrasound, addCallback)
+    ON_CALL(*mockUltrasound, subscribe)
         .WillByDefault(::testing::DoAll(SaveArg<0>(&callback), Return(true)));
 
     status = MovementStatus::Still;

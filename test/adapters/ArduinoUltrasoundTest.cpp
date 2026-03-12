@@ -21,7 +21,7 @@ TEST(ArduinoUltrasoundTests, ultrasoundIsCorrectlyConvertedToDistance) {
   unsigned long measuredTime = 10000;
   EXPECT_CALL(mockUltrasoundSource, duration).WillOnce(Return(measuredTime));
 
-  ultrasound->addCallback(
+  ultrasound->subscribe(
       [&measuredTime](float distance) { EXPECT_EQ(measuredTime * 0.01715, distance); });
 
   ultrasound->update();

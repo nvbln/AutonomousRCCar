@@ -4,8 +4,6 @@
 #include "IUltrasound.h"
 #include "IUltrasoundSource.h"
 
-#include <memory>
-
 /**
  * @class ArduinoUltrasound
  * @brief notifies subscribers on new ultrasound data from IUltrasoundSource.
@@ -21,7 +19,7 @@ public:
   /**
    * @see IUltrasound::addCallback()
    */
-  bool addCallback(Callback callback) override { return event.subscribe(callback); }
+  bool subscribe(Callback callback) override { return event.subscribe(callback); }
 
   /**
    * @brief Notifies its subscribers of the most up-to-date distance measurement.

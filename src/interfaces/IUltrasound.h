@@ -20,13 +20,13 @@ public:
   virtual ~IUltrasound() = default;
 
   /**
-   * @brief Adss the callback to the Ultrasound.
+   * @brief Adds the callback to the Ultrasound.
    *
    * The callback is called when the value of the
    * accelerator is updated.
    * @return whether the callback was added.
    */
-  virtual bool addCallback(Callback callback) = 0;
+  virtual bool subscribe(Callback callback) = 0;
 
   /**
    * @brief make a new measurement.
