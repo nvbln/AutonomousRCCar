@@ -66,5 +66,5 @@ public:
    * @param service The service to be broadcasted.
    * @return whether the Service was added.
    */
-  virtual bool addService(std::shared_ptr<IGattService> service) = 0;
+  virtual bool addService(IGattService *service) = 0;
 };

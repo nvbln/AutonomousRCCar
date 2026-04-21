@@ -50,8 +50,8 @@ Core::Core(std::shared_ptr<ISerial> serial, std::shared_ptr<IBluetooth> bluetoot
 
   ultrasound->subscribe([serial](float distance) { serial->println(distance); });
 
-  mBluetooth->addService(motorService);
-  mBluetooth->addService(movementService);
+  mBluetooth->addService(motorService.get());
+  mBluetooth->addService(movementService.get());
 
   if (mBluetooth->start()) {
     mSerial->println("Started the bluetooth service");

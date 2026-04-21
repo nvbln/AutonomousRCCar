@@ -20,8 +20,7 @@ public:
    * @param serial The Arduino Serial interface for printing messages.
    * @param name The name that it uses to advertise itself on Bluetooth.
    */
-  ArduinoBluetooth(const std::shared_ptr<ISerial> serial,
-                   const std::shared_ptr<IBLEDevice> bleDevice, std::string name)
+  ArduinoBluetooth(const ISerial *serial, IBLEDevice *const bleDevice, std::string name)
       : mBLEDevice(bleDevice), mSerial(serial), mName(name){};
 
   /**
@@ -71,13 +70,13 @@ public:
   /**
    * @see IBluetooth::addService()
    */
-  bool addService(std::shared_ptr<IGattService> service) override;
+  bool addService(IGattService *service) override;
 
 private:
-  std::shared_ptr<IBLEDevice> mBLEDevice;
-  const std::shared_ptr<ISerial> mSerial;
+  IBLEDevice *const mBLEDevice;
+  const ISerial *mSerial;
   std::string mName;
   static const int mMaxNumServices = 5;
-  std::shared_ptr<IGattService> mServices[mMaxNumServices];
+  IGattService *mServices[mMaxNumServices];
   int mNumServices = 0;
 };

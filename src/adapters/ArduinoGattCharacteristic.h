@@ -21,7 +21,7 @@ public:
    * @param uuid The UUID that the Characteristic is identified by.
    * @param valueLength not implemented yet.
    */
-  ArduinoGattCharacteristic(const std::shared_ptr<ISerial> serial,
+  ArduinoGattCharacteristic(const ISerial *serial,
                             const std::shared_ptr<IBLECharacteristic> characteristic)
       : mSerial(serial), mCharacteristic(characteristic) {
     mCharacteristic->writeValue(0);
@@ -55,7 +55,7 @@ public:
   void update() override;
 
 private:
-  const std::shared_ptr<ISerial> mSerial;
+  const ISerial *mSerial;
   const std::shared_ptr<IBLECharacteristic> mCharacteristic;
 
   Event<Callback, 5, ValueBuffer> event;

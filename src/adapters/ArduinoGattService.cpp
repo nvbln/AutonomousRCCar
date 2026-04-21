@@ -5,11 +5,9 @@
 #include "ArduinoGattCharacteristic.h"
 #include "ArduinoGattService.h"
 
-void ArduinoGattService::addServiceToBLEDevice(std::shared_ptr<IBLEDevice> device) {
-  device->addService(mService);
-}
+void ArduinoGattService::addServiceToBLEDevice(IBLEDevice *device) { device->addService(mService); }
 
-void ArduinoGattService::advertiseServiceOnBLEDevice(std::shared_ptr<IBLEDevice> device) {
+void ArduinoGattService::advertiseServiceOnBLEDevice(IBLEDevice *device) {
   device->setAdvertisedService(mService);
 }
 

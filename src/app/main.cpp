@@ -24,7 +24,6 @@ static constexpr uint8_t LEFT_BACKWARD_PIN = A1;
 static constexpr uint8_t RIGHT_FORWARD_PIN = A2;
 static constexpr uint8_t RIGHT_BACKWARD_PIN = A3;
 
-std::shared_ptr<ArduinoBLEDevice> bleDevice;
 std::shared_ptr<ArduinoSerial> serial;
 std::shared_ptr<ArduinoPinIO> pinIO;
 std::shared_ptr<ArduinoIMUAccelerator> IMUAccelerator;
@@ -42,7 +41,7 @@ std::shared_ptr<ArduinoAccelerator> accelerator;
 std::shared_ptr<ArduinoUltrasound> ultrasound;
 
 void setup() {
-  bleDevice = std::make_shared<ArduinoBLEDevice>();
+  auto bleDevice = ArduinoBLEDevice();
   serial = std::make_shared<ArduinoSerial>();
   pinIO = std::make_shared<ArduinoPinIO>();
   IMUAccelerator = std::make_shared<ArduinoIMUAccelerator>();
@@ -66,7 +65,7 @@ void setup() {
   if (!BLE.begin()) {
     serial->println("Starting Bluetooth BLE failed!");
   } else {
-    bluetooth = std::make_shared<ArduinoBluetooth>(serial, bleDevice, "LED");
+    bluetooth = std::make_shared<ArduinoBluetooth>(serial.get(), &bleDevice, "LED");
     core = std::make_shared<Core>(serial, bluetooth, led, accelerator, ultrasound, rcCarMovement);
   }
 }

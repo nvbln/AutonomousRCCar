@@ -12,33 +12,33 @@ using ::testing::NiceMock;
 using ::testing::Return;
 
 TEST(ArduinoGattServiceTests, shouldAddServiceToBLEDevice) {
-  auto mockSerial = std::make_shared<MockSerial>();
+  auto mockSerial = MockSerial();
   std::shared_ptr<IBLEService> mockBLEService = std::make_shared<MockBLEService>();
   auto mockBLEDevice = std::make_shared<MockBLEDevice>();
 
   EXPECT_CALL(*mockBLEDevice, addService(mockBLEService)).Times(1);
 
-  auto arduinoService = std::make_unique<ArduinoGattService>(mockSerial, mockBLEService);
-  arduinoService->addServiceToBLEDevice(mockBLEDevice);
+  auto arduinoService = std::make_unique<ArduinoGattService>(&mockSerial, mockBLEService);
+  arduinoService->addServiceToBLEDevice(mockBLEDevice.get());
 }
 
 TEST(ArduinoGattServiceTests, shouldAdvertiseServiceOnBLEDevice) {
-  auto mockSerial = std::make_shared<MockSerial>();
+  auto mockSerial = MockSerial();
   std::shared_ptr<IBLEService> mockBLEService = std::make_shared<MockBLEService>();
   auto mockBLEDevice = std::make_shared<MockBLEDevice>();
 
   EXPECT_CALL(*mockBLEDevice, setAdvertisedService(mockBLEService)).Times(1);
 
-  auto arduinoService = std::make_unique<ArduinoGattService>(mockSerial, mockBLEService);
-  arduinoService->advertiseServiceOnBLEDevice(mockBLEDevice);
+  auto arduinoService = std::make_unique<ArduinoGattService>(&mockSerial, mockBLEService);
+  arduinoService->advertiseServiceOnBLEDevice(mockBLEDevice.get());
 }
 
 TEST(ArduinoGattServiceTests, shouldAddAndUpdateCharacteristic) {
-  auto mockSerial = std::make_shared<MockSerial>();
+  auto mockSerial = MockSerial();
   auto mockBLEService = std::make_shared<NiceMock<MockBLEService>>();
   auto mockBLECharacteristic = std::make_shared<NiceMock<MockBLECharacteristic>>();
   auto arduinoCharacteristic =
-      std::make_shared<ArduinoGattCharacteristic>(mockSerial, mockBLECharacteristic);
+      std::make_shared<ArduinoGattCharacteristic>(&mockSerial, mockBLECharacteristic);
 
   uint8_t expectedValue = 200;
   EXPECT_CALL(*mockBLECharacteristic, value()).Times(1).WillOnce(Return(expectedValue));
@@ -49,7 +49,7 @@ TEST(ArduinoGattServiceTests, shouldAddAndUpdateCharacteristic) {
   arduinoCharacteristic->addCallback(
       [&receivedValue](ValueBuffer buffer) { receivedValue = buffer.data[0]; });
 
-  auto arduinoService = std::make_unique<ArduinoGattService>(mockSerial, mockBLEService);
+  auto arduinoService = std::make_unique<ArduinoGattService>(&mockSerial, mockBLEService);
   arduinoService->addCharacteristic(arduinoCharacteristic);
   arduinoService->update();
 
@@ -57,12 +57,12 @@ TEST(ArduinoGattServiceTests, shouldAddAndUpdateCharacteristic) {
 }
 
 TEST(ArduinoGattServiceTests, numberCharacteristicsShouldHaveMaximum) {
-  auto mockSerial = std::make_shared<MockSerial>();
+  auto mockSerial = MockSerial();
   auto mockBLEService = std::make_shared<NiceMock<MockBLEService>>();
   auto mockBLECharacteristic = std::make_shared<NiceMock<MockBLECharacteristic>>();
   auto arduinoCharacteristic =
-      std::make_shared<ArduinoGattCharacteristic>(mockSerial, mockBLECharacteristic);
-  auto arduinoService = std::make_unique<ArduinoGattService>(mockSerial, mockBLEService);
+      std::make_shared<ArduinoGattCharacteristic>(&mockSerial, mockBLECharacteristic);
+  auto arduinoService = std::make_unique<ArduinoGattService>(&mockSerial, mockBLEService);
 
   arduinoService->addCharacteristic(arduinoCharacteristic);
   arduinoService->addCharacteristic(arduinoCharacteristic);

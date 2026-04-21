@@ -6,13 +6,12 @@
 #include "ArduinoGattService.h"
 #include "IBLECentral.h"
 #include "IBLEDevice.h"
-#include "IBluetooth.h"
 #include "ISerial.h"
 
 bool ArduinoBluetooth::start() {
   mBLEDevice->setLocalName(mName.c_str());
   for (int i = 0; i < mNumServices; i++) {
-    auto service = std::static_pointer_cast<ArduinoGattService>(mServices[i]);
+    auto service = static_cast<ArduinoGattService *>(mServices[i]);
     service->addServiceToBLEDevice(mBLEDevice);
     service->advertiseServiceOnBLEDevice(mBLEDevice);
   }
@@ -51,7 +50,7 @@ std::shared_ptr<IGattService> ArduinoBluetooth::createService(const char *uuid) 
   return std::make_shared<ArduinoGattService>(mSerial, bleService);
 }
 
-bool ArduinoBluetooth::addService(std::shared_ptr<IGattService> service) {
+bool ArduinoBluetooth::addService(IGattService *service) {
   if (mNumServices >= mMaxNumServices) {
     return false;
   }
