@@ -45,8 +45,8 @@ public:
   /**
    * @see IBLEDevice::createCharacteristic()
    */
-  std::shared_ptr<IBLECharacteristic> createCharacteristic(const char *uuid) const override {
-    return std::make_shared<ArduinoBLECharacteristic>(uuid);
+  std::unique_ptr<IBLECharacteristic> createCharacteristic(const char *uuid) const override {
+    return std::make_unique<ArduinoBLECharacteristic>(uuid);
   }
 
   /**

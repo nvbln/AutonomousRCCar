@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include "IBLECentral.h"
 #include "IBLEService.h"
 
@@ -53,7 +55,7 @@ public:
    *
    * @return a newly created characteristic using the IBLEDevice interface.
    */
-  virtual std::shared_ptr<IBLECharacteristic> createCharacteristic(const char *uuid) const = 0;
+  virtual std::unique_ptr<IBLECharacteristic> createCharacteristic(const char *uuid) const = 0;
 
   /**
    * @brief Registers BLE Service such that it becomes available to central devices.

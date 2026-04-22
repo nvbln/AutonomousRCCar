@@ -7,6 +7,5 @@
 class MockBLEService : public IBLEService {
 public:
   MOCK_METHOD(const char *, uuid, (), (const, override));
-  MOCK_METHOD(void, addCharacteristic, (std::shared_ptr<IBLECharacteristic> characteristic),
-              (override));
+  MOCK_METHOD(void, addCharacteristic, (IBLECharacteristic * characteristic), (override));
 };

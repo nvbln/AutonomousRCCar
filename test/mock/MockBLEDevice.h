@@ -9,7 +9,7 @@ public:
   MOCK_METHOD(void, end, (), (override));
   MOCK_METHOD(void, setLocalName, (const char *name), (override));
   MOCK_METHOD(std::shared_ptr<IBLEService>, createService, (const char *uuid), (const, override));
-  MOCK_METHOD(std::shared_ptr<IBLECharacteristic>, createCharacteristic, (const char *uuid),
+  MOCK_METHOD(std::unique_ptr<IBLECharacteristic>, createCharacteristic, (const char *uuid),
               (const, override));
   MOCK_METHOD(void, addService, (std::shared_ptr<IBLEService>), (override));
   MOCK_METHOD(void, setAdvertisedService, (std::shared_ptr<IBLEService>), (override));

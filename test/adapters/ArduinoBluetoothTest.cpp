@@ -75,13 +75,13 @@ TEST(ArduinoBluetoothTests, shouldEndBLEDeviceOnStop) {
 TEST(ArduinoBluetoothTests, shouldCreateArduinoGattCharacteristic) {
   auto mockSerial = NiceMock<MockSerial>();
   auto mockBLEDevice = MockBLEDevice();
-  auto mockBLECharacteristic = std::make_shared<NiceMock<MockBLECharacteristic>>();
+  auto mockBLECharacteristic = std::make_unique<NiceMock<MockBLECharacteristic>>();
 
   const char *expectedUuid = "test";
 
   EXPECT_CALL(mockBLEDevice, createCharacteristic(testing::StrEq(expectedUuid)))
       .Times(1)
-      .WillOnce(Return(mockBLECharacteristic));
+      .WillOnce(Return(ByMove(std::move(mockBLECharacteristic))));
 
   auto arduinoBluetooth = ArduinoBluetooth(&mockSerial, &mockBLEDevice, "Test");
   auto arduinoCharacteristic = arduinoBluetooth.createCharacteristic(expectedUuid);

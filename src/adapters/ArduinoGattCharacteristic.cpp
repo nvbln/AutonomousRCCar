@@ -1,8 +1,8 @@
 #include "ArduinoGattCharacteristic.h"
 #include "IBLEService.h"
 
-void ArduinoGattCharacteristic::addCharacteristicToService(std::shared_ptr<IBLEService> service) {
-  service->addCharacteristic(mCharacteristic);
+void ArduinoGattCharacteristic::addCharacteristicToService(IBLEService *service) {
+  service->addCharacteristic(mCharacteristic.get());
 }
 
 Result<ValueBuffer> ArduinoGattCharacteristic::read() {

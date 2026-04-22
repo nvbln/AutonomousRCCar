@@ -27,8 +27,8 @@ public:
   /**
    * @see IBLEService::addCharacteristic()
    */
-  void addCharacteristic(std::shared_ptr<IBLECharacteristic> characteristic) override {
-    auto arduinoChar = std::static_pointer_cast<ArduinoBLECharacteristic>(characteristic);
+  void addCharacteristic(IBLECharacteristic *characteristic) override {
+    auto arduinoChar = static_cast<ArduinoBLECharacteristic *>(characteristic);
     mService.addCharacteristic(arduinoChar->mCharacteristic);
   }
 

@@ -22,8 +22,8 @@ public:
    * @param valueLength not implemented yet.
    */
   ArduinoGattCharacteristic(const ISerial *serial,
-                            const std::shared_ptr<IBLECharacteristic> characteristic)
-      : mSerial(serial), mCharacteristic(characteristic) {
+                            std::unique_ptr<IBLECharacteristic> characteristic)
+      : mSerial(serial), mCharacteristic(std::move(characteristic)) {
     mCharacteristic->writeValue(0);
   };
 
@@ -32,7 +32,7 @@ public:
    *
    * @param service the BLEService to add the characteristic to.
    */
-  void addCharacteristicToService(std::shared_ptr<IBLEService> service);
+  void addCharacteristicToService(IBLEService *service);
 
   /**
    * @see IGattCharacteristic::read()
@@ -56,7 +56,7 @@ public:
 
 private:
   const ISerial *mSerial;
-  const std::shared_ptr<IBLECharacteristic> mCharacteristic;
+  std::unique_ptr<IBLECharacteristic> mCharacteristic;
 
   Event<Callback, 5, ValueBuffer> event;
 };

@@ -20,7 +20,7 @@ bool ArduinoGattService::addCharacteristic(std::shared_ptr<IGattCharacteristic> 
   mNumCharacteristics++;
 
   auto arduinoChar = std::static_pointer_cast<ArduinoGattCharacteristic>(characteristic);
-  arduinoChar->addCharacteristicToService(mService);
+  arduinoChar->addCharacteristicToService(mService.get());
 
   return true;
 }
