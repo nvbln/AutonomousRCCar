@@ -19,8 +19,8 @@ public:
    * @param serial The Arduino Serial interface for printing messages.
    * @param uuid The ID that the service is identified by.
    */
-  ArduinoGattService(const ISerial *serial, const std::shared_ptr<IBLEService> service)
-      : mSerial(serial), mService(service){};
+  ArduinoGattService(const ISerial *serial, std::unique_ptr<IBLEService> service)
+      : mSerial(serial), mService(std::move(service)){};
 
   /**
    * @brief adds the service to the BLE device.
@@ -42,7 +42,7 @@ public:
   /**
    * @see IGattService::addCharacteristic()
    */
-  bool addCharacteristic(std::shared_ptr<IGattCharacteristic> characteristic) override;
+  bool addCharacteristic(IGattCharacteristic *characteristic) override;
 
   /**
    * @see IGattService::update()
@@ -51,8 +51,8 @@ public:
 
 private:
   const ISerial *mSerial;
-  const std::shared_ptr<IBLEService> mService;
+  const std::unique_ptr<IBLEService> mService;
   static const int mMaxNumCharacteristics = 5;
   int mNumCharacteristics = 0;
-  std::shared_ptr<IGattCharacteristic> mCharacteristics[mMaxNumCharacteristics];
+  IGattCharacteristic *mCharacteristics[mMaxNumCharacteristics];
 };

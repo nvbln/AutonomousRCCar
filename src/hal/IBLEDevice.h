@@ -48,7 +48,7 @@ public:
    *
    * @return a newly created service using the IBLEDevice interface.
    */
-  virtual std::shared_ptr<IBLEService> createService(const char *uuid) const = 0;
+  virtual std::unique_ptr<IBLEService> createService(const char *uuid) const = 0;
 
   /**
    * @brief Creates a new characteristic.
@@ -62,14 +62,14 @@ public:
    *
    * @see the ArduinoBLE library.
    */
-  virtual void addService(std::shared_ptr<IBLEService> service) = 0;
+  virtual void addService(IBLEService *service) = 0;
 
   /**
    * @brief Makes service discoverable.
    *
    * @see the ArduinoBLE library.
    */
-  virtual void setAdvertisedService(std::shared_ptr<IBLEService> service) = 0;
+  virtual void setAdvertisedService(IBLEService *service) = 0;
 
   /**
    * @brief Starts broadcasting the device.

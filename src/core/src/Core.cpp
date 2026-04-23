@@ -26,15 +26,15 @@ Core::Core(std::shared_ptr<ISerial> serial, std::shared_ptr<IBluetooth> bluetoot
 
   std::shared_ptr<IGattCharacteristic> motorChar =
       mBluetooth->createCharacteristic(DRIVE_LOCK_CHAR_ID);
-  motorService->addCharacteristic(motorChar);
+  motorService->addCharacteristic(motorChar.get());
 
   std::shared_ptr<IGattCharacteristic> movementChar =
       mBluetooth->createCharacteristic(MOVEMENT_STATUS_CHAR_ID);
-  movementService->addCharacteristic(movementChar);
+  movementService->addCharacteristic(movementChar.get());
 
   std::shared_ptr<IGattCharacteristic> ultrasoundChar =
       mBluetooth->createCharacteristic(ULTRASOUND_CHAR_ID);
-  ultrasoundService->addCharacteristic(ultrasoundChar);
+  ultrasoundService->addCharacteristic(ultrasoundChar.get());
   ultrasound->subscribe([ultrasoundChar](float distanceCm) {
     ultrasoundChar->write(ValueBuffer{{static_cast<uint8_t>(distanceCm)}, 1});
   });

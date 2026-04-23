@@ -46,8 +46,8 @@ ArduinoBluetooth::createCharacteristic(const char *uuid) const {
 }
 
 std::shared_ptr<IGattService> ArduinoBluetooth::createService(const char *uuid) const {
-  std::shared_ptr<IBLEService> bleService = mBLEDevice->createService(uuid);
-  return std::make_shared<ArduinoGattService>(mSerial, bleService);
+  std::unique_ptr<IBLEService> bleService = mBLEDevice->createService(uuid);
+  return std::make_shared<ArduinoGattService>(mSerial, std::move(bleService));
 }
 
 bool ArduinoBluetooth::addService(IGattService *service) {

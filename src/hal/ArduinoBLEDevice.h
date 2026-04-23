@@ -38,8 +38,8 @@ public:
   /**
    * @see IBLEDevice::createService()
    */
-  std::shared_ptr<IBLEService> createService(const char *uuid) const override {
-    return std::make_shared<ArduinoBLEService>(uuid);
+  std::unique_ptr<IBLEService> createService(const char *uuid) const override {
+    return std::make_unique<ArduinoBLEService>(uuid);
   }
 
   /**
@@ -52,16 +52,16 @@ public:
   /**
    * @see IBLEDevice::addService()
    */
-  void addService(std::shared_ptr<IBLEService> service) override {
-    auto arduinoService = std::static_pointer_cast<ArduinoBLEService>(service);
+  void addService(IBLEService *service) override {
+    auto arduinoService = static_cast<ArduinoBLEService *>(service);
     BLE.addService(arduinoService->mService);
   }
 
   /**
    * @see IBLEDevice::setAdvertisedService()
    */
-  void setAdvertisedService(std::shared_ptr<IBLEService> service) override {
-    auto arduinoService = std::static_pointer_cast<ArduinoBLEService>(service);
+  void setAdvertisedService(IBLEService *service) override {
+    auto arduinoService = static_cast<ArduinoBLEService *>(service);
     BLE.setAdvertisedService(arduinoService->mService);
   }
 

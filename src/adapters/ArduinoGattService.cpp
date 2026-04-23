@@ -5,13 +5,15 @@
 #include "ArduinoGattCharacteristic.h"
 #include "ArduinoGattService.h"
 
-void ArduinoGattService::addServiceToBLEDevice(IBLEDevice *device) { device->addService(mService); }
-
-void ArduinoGattService::advertiseServiceOnBLEDevice(IBLEDevice *device) {
-  device->setAdvertisedService(mService);
+void ArduinoGattService::addServiceToBLEDevice(IBLEDevice *device) {
+  device->addService(mService.get());
 }
 
-bool ArduinoGattService::addCharacteristic(std::shared_ptr<IGattCharacteristic> characteristic) {
+void ArduinoGattService::advertiseServiceOnBLEDevice(IBLEDevice *device) {
+  device->setAdvertisedService(mService.get());
+}
+
+bool ArduinoGattService::addCharacteristic(IGattCharacteristic *characteristic) {
   if (mNumCharacteristics >= mMaxNumCharacteristics) {
     return false;
   }
@@ -19,7 +21,7 @@ bool ArduinoGattService::addCharacteristic(std::shared_ptr<IGattCharacteristic> 
   mCharacteristics[mNumCharacteristics] = characteristic;
   mNumCharacteristics++;
 
-  auto arduinoChar = std::static_pointer_cast<ArduinoGattCharacteristic>(characteristic);
+  auto arduinoChar = static_cast<ArduinoGattCharacteristic *>(characteristic);
   arduinoChar->addCharacteristicToService(mService.get());
 
   return true;

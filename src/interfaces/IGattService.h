@@ -1,7 +1,5 @@
 #pragma once
 
-#include <memory>
-
 #include "IGattCharacteristic.h"
 
 /**
@@ -26,7 +24,7 @@ public:
    * @param characteristic pointer to the GATT Characteristic to add to the service.
    * @return whether the Characteristic was added to the service.
    */
-  virtual bool addCharacteristic(std::shared_ptr<IGattCharacteristic> characteristic) = 0;
+  virtual bool addCharacteristic(IGattCharacteristic *characteristic) = 0;
 
   /**
    * @brief check if the characteristics in the service were updated.

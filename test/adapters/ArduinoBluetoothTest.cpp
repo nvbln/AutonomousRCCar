@@ -20,24 +20,24 @@ public:
 
 class MockGattService : public IGattService {
 public:
-  MOCK_METHOD(bool, addCharacteristic, (std::shared_ptr<IGattCharacteristic>), (override));
+  MOCK_METHOD(bool, addCharacteristic, (IGattCharacteristic *), (override));
   MOCK_METHOD(void, update, (), (override));
 };
 
 TEST(ArduinoBluetoothTests, shouldStartAndBroadcastServices) {
   auto mockSerial = NiceMock<MockSerial>();
   auto mockBLEDevice = MockBLEDevice();
-  std::shared_ptr<IBLEService> mockBLEService = std::make_shared<MockBLEService>();
+  std::unique_ptr<IBLEService> mockBLEService = std::make_unique<MockBLEService>();
 
   const char *expectedName = "Test";
 
   EXPECT_CALL(mockBLEDevice, setLocalName(testing::StrEq(expectedName))).Times(1);
-  EXPECT_CALL(mockBLEDevice, addService(mockBLEService)).Times(1);
-  EXPECT_CALL(mockBLEDevice, setAdvertisedService(mockBLEService)).Times(1);
+  EXPECT_CALL(mockBLEDevice, addService(mockBLEService.get())).Times(1);
+  EXPECT_CALL(mockBLEDevice, setAdvertisedService(mockBLEService.get())).Times(1);
   EXPECT_CALL(mockBLEDevice, advertise()).Times(1);
 
   auto arduinoBluetooth = ArduinoBluetooth(&mockSerial, &mockBLEDevice, expectedName);
-  auto arduinoService = ArduinoGattService(&mockSerial, mockBLEService);
+  auto arduinoService = ArduinoGattService(&mockSerial, std::move(mockBLEService));
   arduinoBluetooth.addService(&arduinoService);
   bool result = arduinoBluetooth.start();
 
@@ -92,13 +92,13 @@ TEST(ArduinoBluetoothTests, shouldCreateArduinoGattCharacteristic) {
 TEST(ArduinoBluetoothTests, shouldCreateArduinoGattService) {
   auto mockSerial = NiceMock<MockSerial>();
   auto mockBLEDevice = MockBLEDevice();
-  auto mockBLEService = std::make_shared<MockBLEService>();
+  auto mockBLEService = std::make_unique<MockBLEService>();
 
   const char *expectedUuid = "test";
 
   EXPECT_CALL(mockBLEDevice, createService(testing::StrEq(expectedUuid)))
       .Times(1)
-      .WillOnce(Return(mockBLEService));
+      .WillOnce(Return(testing::ByMove(std::move(mockBLEService))));
 
   auto arduinoBluetooth = ArduinoBluetooth(&mockSerial, &mockBLEDevice, "Test");
   auto arduinoService = arduinoBluetooth.createService(expectedUuid);
@@ -109,8 +109,8 @@ TEST(ArduinoBluetoothTests, shouldCreateArduinoGattService) {
 TEST(ArduinoBluetoothTests, numberServicesShouldHaveMaximum) {
   auto mockSerial = NiceMock<MockSerial>();
   auto mockBLEDevice = MockBLEDevice();
-  auto mockBLEService = std::make_shared<MockBLEService>();
-  auto arduinoService = ArduinoGattService(&mockSerial, mockBLEService);
+  auto mockBLEService = std::make_unique<MockBLEService>();
+  auto arduinoService = ArduinoGattService(&mockSerial, std::move(mockBLEService));
   auto arduinoBluetooth = ArduinoBluetooth(&mockSerial, &mockBLEDevice, "Test");
 
   arduinoBluetooth.addService(&arduinoService);
