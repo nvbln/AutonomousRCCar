@@ -14,10 +14,10 @@ uint8_t mockPin = 0;
  * to "driving" mode.
  */
 TEST(ArduinoLedTests, ledShouldDrivePin) {
-  auto mockPinIO = std::make_shared<NiceMock<MockPinIO>>();
+  auto mockPinIO = NiceMock<MockPinIO>();
 
-  EXPECT_CALL(*mockPinIO, pinMode(mockPin, PinIOMode::Output));
-  std::unique_ptr<ArduinoLed> arduinoLed = std::make_unique<ArduinoLed>(mockPinIO, mockPin);
+  EXPECT_CALL(mockPinIO, pinMode(mockPin, PinIOMode::Output));
+  ArduinoLed arduinoLed = ArduinoLed(&mockPinIO, mockPin);
 }
 
 /*
@@ -26,32 +26,32 @@ TEST(ArduinoLedTests, ledShouldDrivePin) {
  * set to High and then to Low.
  */
 TEST(ArduinoLedTests, turnShouldChangeStateOfLED) {
-  auto mockPinIO = std::make_shared<NiceMock<MockPinIO>>();
-  std::unique_ptr<ArduinoLed> arduinoLed = std::make_unique<ArduinoLed>(mockPinIO, mockPin);
+  auto mockPinIO = NiceMock<MockPinIO>();
+  ArduinoLed arduinoLed = ArduinoLed(&mockPinIO, mockPin);
 
-  EXPECT_CALL(*mockPinIO, digitalWrite(mockPin, PinIOValue::High));
-  EXPECT_CALL(*mockPinIO, digitalWrite(mockPin, PinIOValue::Low));
+  EXPECT_CALL(mockPinIO, digitalWrite(mockPin, PinIOValue::High));
+  EXPECT_CALL(mockPinIO, digitalWrite(mockPin, PinIOValue::Low));
 
-  arduinoLed->turn();
-  arduinoLed->turn();
+  arduinoLed.turn();
+  arduinoLed.turn();
 }
 
 TEST(ArduinoLedTests, turnOnShouldTurnUpVoltage) {
-  auto mockPinIO = std::make_shared<NiceMock<MockPinIO>>();
-  std::unique_ptr<ArduinoLed> arduinoLed = std::make_unique<ArduinoLed>(mockPinIO, mockPin);
+  auto mockPinIO = NiceMock<MockPinIO>();
+  ArduinoLed arduinoLed = ArduinoLed(&mockPinIO, mockPin);
 
-  EXPECT_CALL(*mockPinIO, digitalWrite(mockPin, PinIOValue::High)).Times(1);
-  EXPECT_CALL(*mockPinIO, digitalWrite(mockPin, PinIOValue::Low)).Times(0);
+  EXPECT_CALL(mockPinIO, digitalWrite(mockPin, PinIOValue::High)).Times(1);
+  EXPECT_CALL(mockPinIO, digitalWrite(mockPin, PinIOValue::Low)).Times(0);
 
-  arduinoLed->turnOn();
+  arduinoLed.turnOn();
 }
 
 TEST(ArduinoLedTests, turnOffShouldTurnDownVoltage) {
-  auto mockPinIO = std::make_shared<NiceMock<MockPinIO>>();
-  std::unique_ptr<ArduinoLed> arduinoLed = std::make_unique<ArduinoLed>(mockPinIO, mockPin);
+  auto mockPinIO = NiceMock<MockPinIO>();
+  ArduinoLed arduinoLed = ArduinoLed(&mockPinIO, mockPin);
 
-  EXPECT_CALL(*mockPinIO, digitalWrite(mockPin, PinIOValue::Low)).Times(1);
-  EXPECT_CALL(*mockPinIO, digitalWrite(mockPin, PinIOValue::High)).Times(0);
+  EXPECT_CALL(mockPinIO, digitalWrite(mockPin, PinIOValue::Low)).Times(1);
+  EXPECT_CALL(mockPinIO, digitalWrite(mockPin, PinIOValue::High)).Times(0);
 
-  arduinoLed->turnOff();
+  arduinoLed.turnOff();
 }

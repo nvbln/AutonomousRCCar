@@ -1,9 +1,7 @@
-#include <memory>
-
 #include "ArduinoLed.h"
 #include "IPinIO.h"
 
-ArduinoLed::ArduinoLed(std::shared_ptr<IPinIO> pinIO, uint8_t pin) : mPinIO(pinIO), mPin(pin) {
+ArduinoLed::ArduinoLed(IPinIO *const pinIO, uint8_t pin) : mPinIO(pinIO), mPin(pin) {
   mPinIO->pinMode(pin, PinIOMode::Output);
 
   // Always turn the led off at the start.

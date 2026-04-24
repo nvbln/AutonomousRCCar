@@ -1,7 +1,5 @@
 #pragma once
 
-#include <memory>
-
 #include "ILed.h"
 #include "IPinIO.h"
 
@@ -16,7 +14,7 @@ public:
    *
    * @param pin The pin that the LED is corresponds to.
    */
-  ArduinoLed(std::shared_ptr<IPinIO> pinIO, uint8_t pin);
+  ArduinoLed(IPinIO *const pinIO, uint8_t pin);
 
   /**
    * @see ILED:turn()
@@ -34,7 +32,7 @@ public:
   void turnOff() override;
 
 private:
-  std::shared_ptr<IPinIO> mPinIO;
+  IPinIO *const mPinIO;
   bool mOn = false;
   uint8_t mPin;
 };

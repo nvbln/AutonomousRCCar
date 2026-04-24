@@ -53,7 +53,7 @@ void setup() {
     ;
   serial->println("Start");
 
-  led = std::make_shared<ArduinoLed>(pinIO, LED_BUILTIN);
+  led = std::make_shared<ArduinoLed>(pinIO.get(), LED_BUILTIN);
   accelerator =
       std::make_shared<ArduinoAccelerator>(serial.get(), IMUAccelerator.get(), arduinoClock.get());
   ultrasound = std::make_shared<ArduinoUltrasound>(ultrasoundSingleton);
