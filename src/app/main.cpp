@@ -30,8 +30,6 @@ std::shared_ptr<ArduinoIMUAccelerator> IMUAccelerator;
 std::shared_ptr<ArduinoClock> arduinoClock;
 ArduinoUltrasoundSingleton *ultrasoundSingleton;
 
-std::shared_ptr<RCCarWheel> leftWheel;
-std::shared_ptr<RCCarWheel> rightWheel;
 std::shared_ptr<RCCarMovement> rcCarMovement;
 
 std::shared_ptr<Core> core;
@@ -58,9 +56,9 @@ void setup() {
       std::make_shared<ArduinoAccelerator>(serial.get(), IMUAccelerator.get(), arduinoClock.get());
   ultrasound = std::make_shared<ArduinoUltrasound>(ultrasoundSingleton);
 
-  leftWheel = std::make_shared<RCCarWheel>(pinIO, LEFT_FORWARD_PIN, LEFT_BACKWARD_PIN);
-  rightWheel = std::make_shared<RCCarWheel>(pinIO, RIGHT_FORWARD_PIN, RIGHT_BACKWARD_PIN);
-  rcCarMovement = std::make_shared<RCCarMovement>(leftWheel, rightWheel);
+  auto leftWheel = RCCarWheel(pinIO, LEFT_FORWARD_PIN, LEFT_BACKWARD_PIN);
+  auto rightWheel = RCCarWheel(pinIO, RIGHT_FORWARD_PIN, RIGHT_BACKWARD_PIN);
+  rcCarMovement = std::make_shared<RCCarMovement>(&leftWheel, &rightWheel);
 
   if (!BLE.begin()) {
     serial->println("Starting Bluetooth BLE failed!");

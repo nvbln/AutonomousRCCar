@@ -4,14 +4,12 @@
 #include "IVehicleMovement.h"
 #include "IWheel.h"
 
-#include <memory>
-
 class RCCarMovement : public IVehicleMovement {
 public:
   /**
    * @brief Creates an easy-to-use controller of the car.
    */
-  RCCarMovement(std::shared_ptr<IWheel> leftWheel, std::shared_ptr<IWheel> rightWheel)
+  RCCarMovement(IWheel *leftWheel, IWheel *rightWheel)
       : mLeftWheel(leftWheel), mRightWheel(rightWheel) {}
 
   /**
@@ -46,7 +44,7 @@ public:
 
 private:
   MovementStatus mStatus = MovementStatus::Still;
-  const std::shared_ptr<IWheel> mLeftWheel, mRightWheel;
+  IWheel *const mLeftWheel, *const mRightWheel;
 
   Event<Callback, 5, MovementStatus> event;
 
