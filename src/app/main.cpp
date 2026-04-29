@@ -25,7 +25,6 @@ static constexpr uint8_t RIGHT_FORWARD_PIN = A2;
 static constexpr uint8_t RIGHT_BACKWARD_PIN = A3;
 
 std::shared_ptr<ArduinoSerial> serial;
-std::shared_ptr<ArduinoPinIO> pinIO;
 std::shared_ptr<ArduinoIMUAccelerator> IMUAccelerator;
 std::shared_ptr<ArduinoClock> arduinoClock;
 ArduinoUltrasoundSingleton *ultrasoundSingleton;
@@ -41,7 +40,7 @@ std::shared_ptr<ArduinoUltrasound> ultrasound;
 void setup() {
   auto bleDevice = ArduinoBLEDevice();
   serial = std::make_shared<ArduinoSerial>();
-  pinIO = std::make_shared<ArduinoPinIO>();
+  auto pinIO = ArduinoPinIO();
   IMUAccelerator = std::make_shared<ArduinoIMUAccelerator>();
   arduinoClock = std::make_shared<ArduinoClock>();
   ultrasoundSingleton = ArduinoUltrasoundSingleton::instance(TRIG_PIN, ECHO_PIN);
@@ -51,13 +50,13 @@ void setup() {
     ;
   serial->println("Start");
 
-  led = std::make_shared<ArduinoLed>(pinIO.get(), LED_BUILTIN);
+  led = std::make_shared<ArduinoLed>(&pinIO, LED_BUILTIN);
   accelerator =
       std::make_shared<ArduinoAccelerator>(serial.get(), IMUAccelerator.get(), arduinoClock.get());
   ultrasound = std::make_shared<ArduinoUltrasound>(ultrasoundSingleton);
 
-  auto leftWheel = RCCarWheel(pinIO, LEFT_FORWARD_PIN, LEFT_BACKWARD_PIN);
-  auto rightWheel = RCCarWheel(pinIO, RIGHT_FORWARD_PIN, RIGHT_BACKWARD_PIN);
+  auto leftWheel = RCCarWheel(&pinIO, LEFT_FORWARD_PIN, LEFT_BACKWARD_PIN);
+  auto rightWheel = RCCarWheel(&pinIO, RIGHT_FORWARD_PIN, RIGHT_BACKWARD_PIN);
   rcCarMovement = std::make_shared<RCCarMovement>(&leftWheel, &rightWheel);
 
   if (!BLE.begin()) {
