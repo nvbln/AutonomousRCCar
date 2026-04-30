@@ -45,7 +45,8 @@ Core::Core(std::shared_ptr<ISerial> serial, std::shared_ptr<IBluetooth> bluetoot
   mVehicleMovement->subscribe([movementChar](MovementStatus status) {
     movementChar->write(ValueBuffer{{static_cast<uint8_t>(status)}, 1});
   });
-  mCarController = std::make_shared<CarMovementController>(serial, ultrasound, mVehicleMovement);
+  mCarController = std::make_unique<CarMovementController>(serial.get(), ultrasound.get(),
+                                                           mVehicleMovement.get());
   motorChar->addCallback([this](ValueBuffer buffer) { mCarController->handle(buffer); });
 
   ultrasound->subscribe([serial](float distance) { serial->println(distance); });

@@ -5,8 +5,6 @@
 #include "IVehicleMovement.h"
 #include "ValueBuffer.h"
 
-#include <memory>
-
 /**
  * @class CarMovementController
  * @brief Controls the movement of the car, by integrating sensor/actuator data.
@@ -16,8 +14,7 @@ public:
   /**
    * @brief Creates an instance of the controller.
    */
-  CarMovementController(std::shared_ptr<ISerial> serial, std::shared_ptr<IUltrasound> ultrasound,
-                        std::shared_ptr<IVehicleMovement> carMovement)
+  CarMovementController(ISerial *serial, IUltrasound *ultrasound, IVehicleMovement *carMovement)
       : mSerial(serial), mCarMovement(carMovement) {
     ultrasound->subscribe([this](float distance) { this->mDistance = distance; });
   }
@@ -49,6 +46,6 @@ private:
   float mDistance = 0;
   bool mMotorsLocked = true;
 
-  std::shared_ptr<ISerial> mSerial;
-  std::shared_ptr<IVehicleMovement> mCarMovement;
+  ISerial *mSerial;
+  IVehicleMovement *mCarMovement;
 };

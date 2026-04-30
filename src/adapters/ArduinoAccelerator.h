@@ -7,7 +7,6 @@
 #include "ISerial.h"
 
 #include <cstdint>
-#include <memory>
 
 /**
  * @class ArduinoAccelerator

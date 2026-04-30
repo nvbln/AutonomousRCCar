@@ -32,37 +32,33 @@ public:
 
 class CarMovementControllerTest : public ::testing::Test {
 protected:
-  std::shared_ptr<NiceMock<MockSerial>> mockSerial;
-  std::shared_ptr<NiceMock<MockUltrasound>> mockUltrasound;
-  std::shared_ptr<NiceMock<MockVehicleMovement>> mockCarMovement;
+  NiceMock<MockSerial> mockSerial;
+  NiceMock<MockUltrasound> mockUltrasound;
+  NiceMock<MockVehicleMovement> mockCarMovement;
   MovementStatus status;
   IUltrasound::Callback callback;
 
   void SetUp() override {
-    mockSerial = std::make_shared<NiceMock<MockSerial>>();
-    mockUltrasound = std::make_shared<NiceMock<MockUltrasound>>();
-    mockCarMovement = std::make_shared<NiceMock<MockVehicleMovement>>();
-
-    ON_CALL(*mockUltrasound, subscribe)
+    ON_CALL(mockUltrasound, subscribe)
         .WillByDefault(::testing::DoAll(SaveArg<0>(&callback), Return(true)));
 
     status = MovementStatus::Still;
 
-    ON_CALL(*mockCarMovement, movementStatus).WillByDefault(Invoke([this]() { return status; }));
+    ON_CALL(mockCarMovement, movementStatus).WillByDefault(Invoke([this]() { return status; }));
 
-    ON_CALL(*mockCarMovement, forward).WillByDefault(Invoke([this]() {
+    ON_CALL(mockCarMovement, forward).WillByDefault(Invoke([this]() {
       status = MovementStatus::Forwards;
     }));
 
-    ON_CALL(*mockCarMovement, backward).WillByDefault(Invoke([this]() {
+    ON_CALL(mockCarMovement, backward).WillByDefault(Invoke([this]() {
       status = MovementStatus::Backwards;
     }));
 
-    ON_CALL(*mockCarMovement, turn).WillByDefault(Invoke([this]() {
+    ON_CALL(mockCarMovement, turn).WillByDefault(Invoke([this]() {
       status = MovementStatus::Turning;
     }));
 
-    ON_CALL(*mockCarMovement, stop).WillByDefault(Invoke([this]() {
+    ON_CALL(mockCarMovement, stop).WillByDefault(Invoke([this]() {
       status = MovementStatus::Still;
     }));
   }
@@ -70,7 +66,7 @@ protected:
 
 TEST_F(CarMovementControllerTest, shouldStopWhenTooCloseToObstacle) {
   std::unique_ptr<CarMovementController> controller =
-      std::make_unique<CarMovementController>(mockSerial, mockUltrasound, mockCarMovement);
+      std::make_unique<CarMovementController>(&mockSerial, &mockUltrasound, &mockCarMovement);
 
   controller->handle(ValueBuffer{{1}, 1});
 
@@ -85,7 +81,7 @@ TEST_F(CarMovementControllerTest, shouldStopWhenTooCloseToObstacle) {
 
 TEST_F(CarMovementControllerTest, shouldTurnWhenCloseToObstacle) {
   std::unique_ptr<CarMovementController> controller =
-      std::make_unique<CarMovementController>(mockSerial, mockUltrasound, mockCarMovement);
+      std::make_unique<CarMovementController>(&mockSerial, &mockUltrasound, &mockCarMovement);
 
   controller->handle(ValueBuffer{{1}, 1});
 

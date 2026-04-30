@@ -1,7 +1,5 @@
 #pragma once
 
-#include <memory>
-
 #include <ArduinoBLE.h>
 
 #include "IBLECharacteristic.h"

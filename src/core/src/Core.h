@@ -52,5 +52,5 @@ private:
   std::shared_ptr<MotionStatusEvaluator> mMotionEvaluator;
   std::shared_ptr<IUltrasound> mUltrasound;
   std::shared_ptr<IVehicleMovement> mVehicleMovement;
-  std::shared_ptr<CarMovementController> mCarController;
+  std::unique_ptr<CarMovementController> mCarController;
 };
