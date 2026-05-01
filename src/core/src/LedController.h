@@ -1,7 +1,5 @@
 #pragma once
 
-#include <memory>
-
 #include "ILed.h"
 #include "ValueBuffer.h"
 
@@ -21,7 +19,7 @@ public:
    * @param led ILed implementation that will be controlled by this
    *            object.
    */
-  LedController(std::shared_ptr<ILed> led) : mLed(led){};
+  LedController(ILed *led) : mLed(led){};
 
   /**
    * @brief Sets the LED state based on the given command.
@@ -35,5 +33,5 @@ public:
   void handle(ValueBuffer buffer);
 
 private:
-  std::shared_ptr<ILed> mLed;
+  ILed *mLed;
 };

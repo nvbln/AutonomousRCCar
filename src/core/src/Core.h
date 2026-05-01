@@ -7,6 +7,7 @@
 #include "ISerial.h"
 #include "IUltrasound.h"
 #include "IVehicleMovement.h"
+#include "LedController.h"
 
 #include "MotionStatusEvaluator.h"
 
@@ -53,4 +54,5 @@ private:
   std::shared_ptr<IUltrasound> mUltrasound;
   std::shared_ptr<IVehicleMovement> mVehicleMovement;
   std::unique_ptr<CarMovementController> mCarController;
+  std::unique_ptr<LedController> mLedController;
 };

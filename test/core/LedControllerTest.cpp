@@ -11,10 +11,10 @@ public:
 };
 
 TEST(LedControllerTests, byteNonZeroShouldTurnLedOn) {
-  std::shared_ptr<MockLed> led = std::make_shared<MockLed>();
-  EXPECT_CALL(*led, turnOn()).Times(2);
+  MockLed led = MockLed();
+  EXPECT_CALL(led, turnOn()).Times(2);
 
-  std::unique_ptr<LedController> controller = std::make_unique<LedController>(led);
+  std::unique_ptr<LedController> controller = std::make_unique<LedController>(&led);
   ValueBuffer buffer{};
 
   buffer.data[0] = 1;
@@ -26,10 +26,10 @@ TEST(LedControllerTests, byteNonZeroShouldTurnLedOn) {
 }
 
 TEST(LedControllerTests, byteZeroShouldTurnLedOff) {
-  std::shared_ptr<MockLed> led = std::make_shared<MockLed>();
-  EXPECT_CALL(*led, turnOff()).Times(1);
+  MockLed led = MockLed();
+  EXPECT_CALL(led, turnOff()).Times(1);
 
-  std::unique_ptr<LedController> controller = std::make_unique<LedController>(led);
+  std::unique_ptr<LedController> controller = std::make_unique<LedController>(&led);
   ValueBuffer buffer{};
 
   buffer.data[0] = 0;

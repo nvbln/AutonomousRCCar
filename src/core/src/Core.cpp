@@ -39,8 +39,9 @@ Core::Core(std::shared_ptr<ISerial> serial, std::shared_ptr<IBluetooth> bluetoot
     ultrasoundChar->write(ValueBuffer{{static_cast<uint8_t>(distanceCm)}, 1});
   });
 
-  std::shared_ptr<LedController> ledController = std::make_shared<LedController>(mLed);
-  motorChar->addCallback([ledController](ValueBuffer buffer) { ledController->handle(buffer); });
+  mLedController = std::make_unique<LedController>(mLed.get());
+  auto ledPtr = mLedController.get(); // Needed because func cannot be called in lambda capture list
+  motorChar->addCallback([ledPtr](ValueBuffer buffer) { ledPtr->handle(buffer); });
 
   mVehicleMovement->subscribe([movementChar](MovementStatus status) {
     movementChar->write(ValueBuffer{{static_cast<uint8_t>(status)}, 1});
