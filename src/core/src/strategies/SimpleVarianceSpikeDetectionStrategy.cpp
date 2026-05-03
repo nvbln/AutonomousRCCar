@@ -3,9 +3,8 @@
 #include <cmath>
 
 // TODO: Split this algorithm into more modular chunks with private member functions.
-bool SimpleVarianceSpikeDetectionStrategy::detectSpike(
-    const std::shared_ptr<CircularBuffer<float, 50>> bufferX,
-    const std::shared_ptr<CircularBuffer<float, 50>> bufferY) const {
+bool SimpleVarianceSpikeDetectionStrategy::detectSpike(CircularBuffer<float, 50> *bufferX,
+                                                       CircularBuffer<float, 50> *bufferY) const {
 
   // Does not function predictably without full buffers.
   if (!bufferX->isFull() || !bufferY->isFull()) {

@@ -7,8 +7,6 @@
 
 #include <CircularBuffer.hpp>
 
-#include <memory>
-
 /**
  * @Class MotionStatusEvaluator
  * @brief accumulates data and uses the strategies to update the motion status.
@@ -27,12 +25,9 @@ public:
    * @params spikeStrategy the strategy to use for detecting spikes.
    * @params motionStrategy the strategy to use for determining the new motion status.
    */
-  MotionStatusEvaluator(std::shared_ptr<IAccelerator> accelerator,
-                        std::shared_ptr<ISpikeDetectionStrategy> spikeStrategy,
-                        std::shared_ptr<IMotionEvaluationStrategy> motionStrategy)
+  MotionStatusEvaluator(IAccelerator *accelerator, ISpikeDetectionStrategy *spikeStrategy,
+                        IMotionEvaluationStrategy *motionStrategy)
       : mSpikeStrategy(spikeStrategy), mMotionStrategy(motionStrategy) {
-    mBufferX = std::make_shared<CircularBuffer<float, 50>>();
-    mBufferY = std::make_shared<CircularBuffer<float, 50>>();
     accelerator->addCallback([this](AccelerationData data) { this->updateData(data); });
   }
 
@@ -46,10 +41,10 @@ public:
 private:
   MotionStatus mCurrentStatus = MotionStatus::Still;
   bool mHasNewData = false;
-  std::shared_ptr<CircularBuffer<float, 50>> mBufferX;
-  std::shared_ptr<CircularBuffer<float, 50>> mBufferY;
-  std::shared_ptr<ISpikeDetectionStrategy> mSpikeStrategy;
-  std::shared_ptr<IMotionEvaluationStrategy> mMotionStrategy;
+  CircularBuffer<float, 50> mBufferX;
+  CircularBuffer<float, 50> mBufferY;
+  ISpikeDetectionStrategy *mSpikeStrategy;
+  IMotionEvaluationStrategy *mMotionStrategy;
 
   void updateData(AccelerationData data);
 };

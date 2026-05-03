@@ -5,7 +5,6 @@
 #include "strategies/ISpikeDetectionStrategy.h"
 
 #include <CircularBuffer.hpp>
-#include <memory>
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
@@ -22,8 +21,7 @@ public:
 class MockSpikeDetectionStrategy : public ISpikeDetectionStrategy {
 public:
   MOCK_METHOD(bool, detectSpike,
-              ((const std::shared_ptr<CircularBuffer<float, 50>> bufferX),
-               (const std::shared_ptr<CircularBuffer<float, 50>> bufferY)),
+              ((CircularBuffer<float, 50> * bufferX), (CircularBuffer<float, 50> * bufferY)),
               (const, override));
 };
 
@@ -38,32 +36,31 @@ MATCHER(BufferContainsOneItem, "CircularBuffer contains one item") {
 }
 
 TEST(MotionStatusEvaluatorTests, shouldUpdateInternalData) {
-  auto mockAccelerator = std::make_shared<NiceMock<MockAccelerator>>();
-  auto mockSpikeStrategy = std::make_shared<NiceMock<MockSpikeDetectionStrategy>>();
-  auto mockMotionStrategy = std::make_shared<NiceMock<MockMotionEvaluationStrategy>>();
+  auto mockAccelerator = NiceMock<MockAccelerator>();
+  auto mockSpikeStrategy = NiceMock<MockSpikeDetectionStrategy>();
+  auto mockMotionStrategy = NiceMock<MockMotionEvaluationStrategy>();
 
   IAccelerator::Callback callback;
 
   // Check if no data is there, and therefore the default motion is returned.
-  EXPECT_CALL(*mockAccelerator, addCallback)
+  EXPECT_CALL(mockAccelerator, addCallback)
       .WillOnce(::testing::DoAll(::testing::SaveArg<0>(&callback), Return(true)));
 
-  auto evaluator = std::make_shared<MotionStatusEvaluator>(mockAccelerator, mockSpikeStrategy,
-                                                           mockMotionStrategy);
+  auto evaluator = MotionStatusEvaluator(&mockAccelerator, &mockSpikeStrategy, &mockMotionStrategy);
 
-  EXPECT_EQ(MotionStatus::Still, evaluator->status());
+  EXPECT_EQ(MotionStatus::Still, evaluator.status());
 
   // Check if the first data arrived (and the default motion is still returned).
   AccelerationData data{1, 2, 3};
   callback(data);
 
-  EXPECT_CALL(*mockMotionStrategy, evaluateCurrentMotion)
+  EXPECT_CALL(mockMotionStrategy, evaluateCurrentMotion)
       .Times(1)
       .WillOnce(Return(MotionStatus::Still));
 
-  EXPECT_CALL(*mockSpikeStrategy, detectSpike(BufferContainsOneItem(), BufferContainsOneItem()))
+  EXPECT_CALL(mockSpikeStrategy, detectSpike(BufferContainsOneItem(), BufferContainsOneItem()))
       .Times(1)
       .WillOnce(Return(false));
 
-  EXPECT_EQ(MotionStatus::Still, evaluator->status());
+  EXPECT_EQ(MotionStatus::Still, evaluator.status());
 }

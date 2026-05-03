@@ -2,8 +2,6 @@
 
 #include <CircularBuffer.hpp>
 
-#include <memory>
-
 /**
  * @class ISpikeDetectionStrategy
  * @brief interface for the strategies that detect spikes in IMU data.
@@ -19,6 +17,6 @@ public:
    * @params bufferY The buffer with the most recent IMU data on the y-axis.
    * @return Whether a spike was detected or not in the data.
    */
-  virtual bool detectSpike(const std::shared_ptr<CircularBuffer<float, 50>> bufferX,
-                           const std::shared_ptr<CircularBuffer<float, 50>> bufferY) const = 0;
+  virtual bool detectSpike(CircularBuffer<float, 50> *bufferX,
+                           CircularBuffer<float, 50> *bufferY) const = 0;
 };

@@ -39,9 +39,8 @@ public:
    * NOTE: If the buffer is not filled, the function will always return false.
    * @see ISpikeDetectionStrategy::detectSpike()
    */
-  bool
-  detectSpike(const std::shared_ptr<CircularBuffer<float, BUFFER_SIZE>> bufferX,
-              const std::shared_ptr<CircularBuffer<float, BUFFER_SIZE>> bufferY) const override;
+  bool detectSpike(CircularBuffer<float, BUFFER_SIZE> *bufferX,
+                   CircularBuffer<float, BUFFER_SIZE> *bufferY) const override;
 
 private:
   uint8_t mBaselineSize;
